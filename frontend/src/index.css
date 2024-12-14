@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .black-btn{
+        @apply bg-black text-white rounded-full px-3 py-2 hover:bg-[#707072]
+    }
+    .section-heading{
+        @apply text-2xl font-bold tracking-tight mb-5
+    }
+    .section-title{
+        @apply uppercase font-extrabold text-3xl sm:text-4xl tracking-tighter md:text-6xl
+    }
+}
