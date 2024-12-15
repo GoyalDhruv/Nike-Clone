@@ -42,10 +42,12 @@ function HomeBody() {
                         }}
                         breakpoints={{
                             1200: {
-                                slidesPerView: 4
+                                slidesPerView: 4,
+                                spaceBetween: 20,
                             },
                             780: {
-                                slidesPerView: 3
+                                slidesPerView: 3,
+                                spaceBetween: 20,
                             },
                             600: {
                                 slidesPerView: 2,
