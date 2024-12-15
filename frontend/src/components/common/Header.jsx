@@ -31,6 +31,29 @@ function Header() {
                     <h2 className='section-heading'>Classics Spotlight</h2>
                     <Carousel
                         items={[{ image: Images?.Shoe1 }, { image: Images?.Shoe2 }, { image: Images?.Shoe3 }, { image: Images?.Shoe4 }, { image: Images?.Shoe5 }, { image: Images?.Shoe6 }]}
+                        slidesPerView={4}
+                        spaceBetween={20}
+                        loop={true}
+                        autoplay={{
+                            delay: 2500,
+                            disableOnInteraction: false,
+                        }}
+                        breakpoints={{
+                            1200: {
+                                slidesPerView: 4
+                            },
+                            780: {
+                                slidesPerView: 3
+                            },
+                            600: {
+                                slidesPerView: 2,
+                                spaceBetween: 10,
+                            },
+                            0: {
+                                slidesPerView: 1,
+                                spaceBetween: 0,
+                            },
+                        }}
                     />
                 </section>
                 <section className='trending-section mb-14'>
@@ -46,6 +69,27 @@ function Header() {
                         <p className='mt-1'>New prints. No rules. Set your fits apart in plaid that keeps you cozy from head to toe.</p>
                         <button className='black-btn mt-5'>Shop Now</button>
                     </div>
+                </section>
+                <section className='shop-by-sports'>
+                    <h2 className='section-heading'>Shop By Sport</h2>
+                    <Carousel
+                        items={[{ image: Images?.RunningImg, text: 'Running' }, { image: Images?.FootBallImg, text: 'Football' }, { image: Images?.BasketBallImg, text: 'Basketball' }, { image: Images?.GymTrainingImg, text: 'Training and Gym' }, { image: Images?.TennisImg, text: 'Tennis' }, { image: Images?.YogaImg, text: 'Yoga' }, { image: Images?.SkateBoardImg, text: 'Skateboarding' }, { image: Images?.DanceImg, text: 'Dance' }]}
+                        slidesPerView={3}
+                        spaceBetween={10}
+                        loop={false}
+                        autoplay={false}
+                        breakpoints={{
+                            1200: {
+                                slidesPerView: 3
+                            },
+                            780: {
+                                slidesPerView: 2
+                            },
+                            0: {
+                                slidesPerView: 1
+                            }
+                        }}
+                    />
                 </section>
             </div>
         </header>
