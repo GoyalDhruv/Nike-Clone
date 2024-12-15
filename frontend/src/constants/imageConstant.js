@@ -2,7 +2,6 @@ import TrendingImg from '../assets/images/trending1.jpg'
 import TrendingImgMobile from '../assets/images/trending2.jpg'
 import BannerImg from '../assets/images/bannerImg.jpg'
 import BannerImgMobile from '../assets/images/bannerImgMobile.png'
-
 import Shoe1 from '../assets/images/shoe1.png'
 import Shoe2 from '../assets/images/shoe2.png'
 import Shoe3 from '../assets/images/shoe3.jpg'
@@ -17,6 +16,10 @@ import TennisImg from '../assets/images/tennis.jpg'
 import YogaImg from '../assets/images/yoga.jpg'
 import SkateBoardImg from '../assets/images/skateboard.jpg'
 import DanceImg from '../assets/images/dance.jpg'
+import MensImg from '../assets/images/mens.jpg'
+import WomensImg from '../assets/images/womens.jpg'
+import KidsImg from '../assets/images/kids.png'
+
 
 const Images = {
     TrendingImg,
@@ -37,6 +40,9 @@ const Images = {
     YogaImg,
     SkateBoardImg,
     DanceImg,
+    MensImg,
+    WomensImg,
+    KidsImg,
 }
 
 export default Images;

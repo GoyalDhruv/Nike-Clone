@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import './Carousel.css'
 
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import TextOnImage from '../TextOnImage';
 
 function Carousel({ items, slidesPerView, spaceBetween, loop, autoplay, breakpoints }) {
 
@@ -40,16 +41,13 @@ function Carousel({ items, slidesPerView, spaceBetween, loop, autoplay, breakpoi
 
                 items?.map((item, index) => (
                     <SwiperSlide key={index}>
-                        <img src={item.image} alt="shoes" className='h-72 w-full cursor-pointer' loading="lazy" />
+                        <img src={item.image} alt="shoes" className='md:h-80 h-96 w-full cursor-pointer' loading="lazy" />
                     </SwiperSlide>
                 ))
                 :
                 items?.map((item, index) => (
                     <SwiperSlide key={index}>
-                        <div className='relative cursor-pointer'>
-                            <img src={item.image} alt="shoes" loading="lazy" />
-                            <p className='black-btn absolute z-100 bottom-6 left-6'>{item?.text}</p>
-                        </div>
+                        <TextOnImage item={item} />
                     </SwiperSlide>
                 ))
             }

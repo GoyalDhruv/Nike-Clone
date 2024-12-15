@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from '../components/common/Navbar'
-import Header from '../components/common/Header'
+import HomeBody from '../components/HomeBody/HomeBody'
 import Footer from '../components/common/Footer'
 function Home() {
     return (
         <>
             <Navbar />
-            <Header />
+            <HomeBody />
             <Footer />
         </>
     )
