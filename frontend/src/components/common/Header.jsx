@@ -1,16 +1,6 @@
 import React, { useEffect } from 'react'
-import BannerImg from '../../assets/images/bannerImg.jpg'
-import BannerImgMobile from '../../assets/images/bannerImgMobile.png'
 import Carousel from '../Carousel/Carousel';
-import Shoe1 from '../../assets/images/shoe1.png'
-import Shoe2 from '../../assets/images/shoe2.png'
-import Shoe3 from '../../assets/images/shoe3.jpg'
-import Shoe4 from '../../assets/images/shoe4.png'
-import Shoe5 from '../../assets/images/shoe5.png'
-import Shoe6 from '../../assets/images/shoe6.png'
-import TrendingImg from '../../assets/images/trending1.jpg'
-import TrendingImgMobile from '../../assets/images/trending2.jpg'
-
+import Images from '../../constants/imageConstant';
 
 function Header() {
 
@@ -28,8 +18,8 @@ function Header() {
                 <section className='banner-section mb-14'>
                     {
                         width > 600 ?
-                            <img src={BannerImg} alt="banner img" /> :
-                            <img src={BannerImgMobile} alt="banner img" />
+                            <img src={Images?.BannerImg} alt="banner img" /> :
+                            <img src={Images?.BannerImgMobile} alt="banner img" />
                     }
                     <div className='text-start sm:text-center mt-2'>
                         <h1 className='section-title'>Nike Tech Woven Suit</h1>
@@ -39,14 +29,16 @@ function Header() {
                 </section>
                 <section className='classics-section mb-14'>
                     <h2 className='section-heading'>Classics Spotlight</h2>
-                    <Carousel items={[Shoe1, Shoe2, Shoe3, Shoe4, Shoe5, Shoe6]} />
+                    <Carousel
+                        items={[{ image: Images?.Shoe1 }, { image: Images?.Shoe2 }, { image: Images?.Shoe3 }, { image: Images?.Shoe4 }, { image: Images?.Shoe5 }, { image: Images?.Shoe6 }]}
+                    />
                 </section>
                 <section className='trending-section mb-14'>
                     <h2 className='section-heading'>Trending</h2>
                     {
                         width > 600 ?
-                            <img src={TrendingImg} alt="trending img" /> :
-                            <img src={TrendingImgMobile} alt="trending img" />
+                            <img src={Images?.TrendingImg} alt="trending img" /> :
+                            <img src={Images?.TrendingImgMobile} alt="trending img" />
                     }
                     <div className='text-start sm:text-center mt-2'>
                         <p className='mt-1'>Women’s Jordan Plaid Pack</p>
