@@ -30,6 +30,7 @@ import Close from '../assets/icons/close.svg'
 import Help from '../assets/icons/Help.svg'
 import Orders from '../assets/icons/Orders.svg'
 import Store from '../assets/icons/Store.svg'
+import Location from '../assets/icons/Location.svg'
 
 
 const Images = {
@@ -65,6 +66,7 @@ const Images = {
     Help,
     Orders,
     Store,
+    Location
 }
 
 export default Images;
