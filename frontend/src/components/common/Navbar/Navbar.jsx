@@ -37,8 +37,8 @@ const Navbar = () => {
                     <Headroom
                         upTolerance={10}
                         downTolerance={10}
-                        scrolledClassName="transition-all ease-in duration-300 transform opacity-100"
-                        unscrolledClassName="transition-all ease-out duration-300 transform opacity-0 translate-y-[-100%]"
+                        scrolledclassname="transition-all ease-in duration-300 transform opacity-100"
+                        unscrolledclassname="transition-all ease-out duration-300 transform opacity-0 translate-y-[-100%]"
                         style={{ zIndex: '10' }}
                     >
                         <Header />
