@@ -4,7 +4,10 @@
 
 @layer components{
     .black-btn{
-        @apply bg-black text-white rounded-full px-3 py-2 hover:bg-[#707072]
+        @apply bg-black text-white font-medium rounded-full px-4 py-2 hover:bg-[#707072]
+    }
+    .white-btn{
+        @apply bg-white text-black font-medium rounded-full px-4 py-2 hover:bg-[#707072] border
     }
     .section-heading{
         @apply text-2xl font-bold tracking-tight mb-5
@@ -16,6 +19,6 @@
         @apply text-xs tracking-tight font-semibold hover:text-[#707072] cursor-pointer
     }
     .nav-list-items{
-        @apply hover:border-b-2 hover:border-black border-transparent border-b-2 cursor-pointer tracking-tight font-semibold whitespace-nowrap
+        @apply hover:border-b-2 hover:border-black border-transparent border-b-2 cursor-pointer tracking-tight font-semibold whitespace-nowrap transition-all delay-100 ease-linear
     }
 }

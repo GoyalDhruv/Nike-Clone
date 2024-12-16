@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/common/Navbar'
+import Navbar from '../components/common/Navbar/Navbar'
 import HomeBody from '../components/HomeBody/HomeBody'
 import Footer from '../components/common/Footer'
 function Home() {

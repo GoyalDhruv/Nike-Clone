@@ -19,14 +19,18 @@ import DanceImg from '../assets/images/dance.jpg'
 import MensImg from '../assets/images/mens.jpg'
 import WomensImg from '../assets/images/womens.jpg'
 import KidsImg from '../assets/images/kids.png'
-import JordanLogo from '../assets/icons/jordan.svg'
-import NikeLogo from '../assets/icons/nike.svg'
-import Person from '../assets/icons/person.svg'
-import Search from '../assets/icons/search.svg'
-import Favorite from '../assets/icons/favourite.svg'
-import Cart from '../assets/icons/cart.svg'
-import Menu from '../assets/icons/menu.svg'
+import JordanLogo from '../assets/icons/Jordan.svg'
+import NikeLogo from '../assets/icons/Nike.svg'
+import Person from '../assets/icons/Person.svg'
+import Search from '../assets/icons/Search.svg'
+import Favorite from '../assets/icons/Favourite.svg'
+import Cart from '../assets/icons/Cart.svg'
+import Menu from '../assets/icons/Menu.svg'
 import Close from '../assets/icons/close.svg'
+import Help from '../assets/icons/Help.svg'
+import Orders from '../assets/icons/Orders.svg'
+import Store from '../assets/icons/Store.svg'
+
 
 const Images = {
     TrendingImg,
@@ -57,7 +61,10 @@ const Images = {
     Favorite,
     Cart,
     Menu,
-    Close
+    Close,
+    Help,
+    Orders,
+    Store,
 }
 
 export default Images;
