@@ -6,29 +6,21 @@ import CategoryList from '../CategoryList';
 
 function HomeBody() {
 
-    const [width, setWidth] = React.useState(window.innerWidth);
-
-    useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
     return (
         <main>
             <div className='w-full md:px-10 px-6'>
                 <section className='banner-section mb-14'>
-                    {
-                        width > 600 ?
-                            <img src={Images?.BannerImg} alt="banner img" /> :
-                            <img src={Images?.BannerImgMobile} alt="banner img" />
-                    }
+
+                    <img src={Images?.BannerImg} alt="banner img" className='md:block hidden' />
+                    <img src={Images?.BannerImgMobile} alt="banner img" className='w-full md:hidden block' />
+
                     <div className='text-start sm:text-center mt-2'>
                         <h1 className='section-title'>Nike Tech Woven Suit</h1>
                         <p className='mt-1'>Engineered to unlock your range of motion.</p>
                         <button className='black-btn mt-5'>Shop Now</button>
                     </div>
                 </section>
+
                 <section className='classics-section mb-14'>
                     <h2 className='section-heading'>Classics Spotlight</h2>
                     <Carousel
@@ -60,21 +52,22 @@ function HomeBody() {
                         }}
                     />
                 </section>
+
                 <section className='essentials-section mb-14'>
                     <h2 className='section-heading'>The Essentials</h2>
                     <div className='grid grid-cols-1 gap-3 md:grid-cols-3'>
-                        <TextOnImage item={{ image: Images.MensImg, text: "Men's" }} />
-                        <TextOnImage item={{ image: Images.WomensImg, text: "Women's" }} />
-                        <TextOnImage item={{ image: Images.KidsImg, text: "Kid's" }} />
+                        <TextOnImage item={{ image: Images.MensImg, text: "Men's" }} ImgClass='w-full' />
+                        <TextOnImage item={{ image: Images.WomensImg, text: "Women's" }} ImgClass='w-full' />
+                        <TextOnImage item={{ image: Images.KidsImg, text: "Kid's" }} ImgClass='w-full' />
                     </div>
                 </section>
+
                 <section className='trending-section mb-14'>
                     <h2 className='section-heading'>Trending</h2>
-                    {
-                        width > 600 ?
-                            <img src={Images?.TrendingImg} alt="trending img" /> :
-                            <img src={Images?.TrendingImgMobile} alt="trending img" />
-                    }
+
+                    <img src={Images?.TrendingImg} alt="trending img" className='md:block hidden' />
+                    <img src={Images?.TrendingImgMobile} alt="trending img" className='w-full md:hidden block' />
+
                     <div className='text-start sm:text-center mt-2'>
                         <p className='mt-1'>Women’s Jordan Plaid Pack</p>
                         <h1 className='section-title'>FOR THE HOME TEAM</h1>
@@ -82,6 +75,7 @@ function HomeBody() {
                         <button className='black-btn mt-5'>Shop Now</button>
                     </div>
                 </section>
+
                 <section className='shop-by-sports mb-14'>
                     <h2 className='section-heading'>Shop By Sport</h2>
                     <Carousel
@@ -103,6 +97,7 @@ function HomeBody() {
                         }}
                     />
                 </section>
+
                 <section className='categories-section mb-14'>
                     <div className='grid grid-cols-1 gap-0 xl:px-60 lg:grid-cols-4 lg:gap-10 lg:px-24
                      md:grid-cols-4 md:gap-4'>

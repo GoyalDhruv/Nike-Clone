@@ -12,4 +12,10 @@
     .section-title{
         @apply uppercase font-extrabold text-3xl sm:text-4xl tracking-tighter md:text-6xl
     }
+    .nav-items{
+        @apply text-xs tracking-tight font-semibold hover:text-[#707072] cursor-pointer
+    }
+    .nav-list-items{
+        @apply hover:border-b-2 hover:border-black border-transparent border-b-2 cursor-pointer tracking-tight font-semibold whitespace-nowrap
+    }
 }

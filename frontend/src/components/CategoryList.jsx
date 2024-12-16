@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 
-
 function CategoryList({ title, items }) {
 
     const [isActive, setIsActive] = useState(false)
