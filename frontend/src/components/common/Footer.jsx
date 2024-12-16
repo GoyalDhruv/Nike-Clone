@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Images from '../../constants/imageConstant'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { FaAngleDown } from "react-icons/fa6";
@@ -22,14 +22,14 @@ function Footer() {
 
     return (
         <footer className='w-full md:px-10 px-6'>
-            <div className='border-b mb-14' />
+            <div className='border-b md:mb-14' />
             <div className="md:hidden">
                 {sections.map((section, index) => (
                     <Disclosure key={index}>
                         {({ open }) => (
                             <div className='border-b'>
                                 <DisclosureButton
-                                    className={`${open ? 'pt-7' : 'py-7'} w-full text-left  text-lg font-semibold text-gray-800 flex justify-between items-center`}
+                                    className={`${open ? 'pt-7' : 'py-7'} w-full text-left text-lg font-semibold text-gray-800 flex justify-between items-center`}
                                 >
                                     {section.title}
                                     <FaAngleDown className={`${open ? 'rotate-180' : ''} w-5 transition-transform`} />
@@ -39,7 +39,7 @@ function Footer() {
                                         {section.items.map((item, idx) => (
                                             <li
                                                 key={idx}
-                                                className=" py-[2px] text-sm font-bold text-[#707072] hover:text-black cursor-pointer"
+                                                className=" py-[2px] text-md font-semibold text-[#707072] hover:text-black cursor-pointer"
                                             >
                                                 {item}
                                             </li>
@@ -80,16 +80,16 @@ function Footer() {
             </div>
 
             <ul className='flex gap-3 sm:gap-7 py-12 flex-col sm:flex-row'>
-                <li className='text-sm sm:font-semibold font-bold text-[#707072]'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072]'>
                     <span className='text-sm sm:font-semibold font-bold'>©</span> {new Date().getFullYear()} Nike, Inc. All rights reserved
                 </li>
-                <li className='text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
                     Terms of Sale
                 </li>
-                <li className='text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
                     Terms of Use
                 </li>
-                <li className='text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
                     Nike Privacy Policy
                 </li>
             </ul>

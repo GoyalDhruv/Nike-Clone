@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Carousel from '../Carousel/Carousel';
 import Images from '../../constants/imageConstant';
 import TextOnImage from '../TextOnImage';
 import CategoryList from './CategoryList';
 
 function HomeBody() {
-
+    
     return (
         <main className='w-full md:px-10 px-6'>
             <section className='banner-section mb-14'>

@@ -41,7 +41,7 @@ function Carousel({ items, slidesPerView, spaceBetween, loop, autoplay, breakpoi
 
                 items?.map((item, index) => (
                     <SwiperSlide key={index}>
-                        <img src={item.image} alt="shoes" className='md:h-80 h-96 w-full cursor-pointer' loading="lazy" />
+                        <img src={item.image} alt="shoes" className='h-80 w-full cursor-pointer' loading="lazy" />
                     </SwiperSlide>
                 ))
                 :
