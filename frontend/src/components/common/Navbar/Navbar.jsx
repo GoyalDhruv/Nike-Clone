@@ -1,50 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Headroom from 'react-headroom'
 import TopNavBar from './TopNavBar';
 import Header from './Header';
+import { useMobileNavbar } from '../../../contexts/MobileNavbar';
 
 const Navbar = () => {
-    function useDebounce(value, delay) {
-        const [debouncedValue, setDebouncedValue] = useState(value);
-
-        useEffect(() => {
-            const handler = setTimeout(() => {
-                setDebouncedValue(value);
-            }, delay);
-
-            return () => {
-                clearTimeout(handler);
-            };
-        }, [value, delay]);
-
-        return debouncedValue;
-    }
-
-    const [width, setWidth] = React.useState(window.innerWidth);
-    const debouncedWidth = useDebounce(width, 300);
-
-    useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    const { isOpen } = useMobileNavbar();
 
     return (
         <>
             <TopNavBar />
             {
-                debouncedWidth > 780 ?
+                isOpen ? (
+                    <Header />
+                ) : (
                     <Headroom
-                        upTolerance={10}
+                        upTolerance={0}
                         downTolerance={10}
-                        scrolledclassname="transition-all ease-in duration-300 transform opacity-100"
-                        unscrolledclassname="transition-all ease-out duration-300 transform opacity-0 translate-y-[-100%]"
+                        scrolledclassname="opacity-100 transform translate-y-0 transition-all ease-in-out duration-500"
+                        unscrolledclassname="opacity-0 transform -translate-y-full transition-all ease-in-out duration-500"
                         style={{ zIndex: '10' }}
                     >
                         <Header />
                     </Headroom>
-                    :
-                    <Header />
+                )
             }
         </>
     );

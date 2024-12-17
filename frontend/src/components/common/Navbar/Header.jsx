@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Images from '../../../constants/imageConstant'
 import OffCanvas from './OffCanvas';
-
+import { useMobileNavbar } from '../../../contexts/MobileNavbar';
 
 function Header() {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, setIsOpen } = useMobileNavbar()
 
     return (
         <header className="md:px-12 px-6 py-1 grid grid-cols-12 items-center bg-white">
@@ -29,18 +29,18 @@ function Header() {
                     <div className='hover:bg-[#d5d5d5] rounded-full p-2 absolute'>
                         <img src={Images.Search} alt="search" className='w-6 h-6' />
                     </div>
-                    <input type="text" className='p-2 bg-[#f5f5f5] hover:bg-[#e5e5e5] rounded-full placeholder:font-medium ps-10 outline-none placeholder:text-[#707076]' placeholder='Search' />
+                    <input type="text" className=' bg-bgPrimary nav-icons placeholder:font-medium ps-10 outline-none placeholder:text-[#707076]' placeholder='Search' />
                 </div>
-                <div className='hover:bg-[#e5e5e5] rounded-full p-2'>
+                <div className='nav-icons'>
                     <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />
                 </div>
-                <div className='hover:bg-[#e5e5e5] rounded-full p-2'>
+                <div className='nav-icons'>
                     <img src={Images.Cart} alt="Cart" className='w-6 h-6' />
                 </div>
-                <div className='hover:bg-[#e5e5e5] rounded-full p-2 block md:hidden'>
+                <div className='nav-icons block md:hidden'>
                     <img src={Images.Menu} alt="Menu" className='w-6 h-6' onClick={() => setIsOpen(!isOpen)} />
                 </div>
-                <OffCanvas isOpen={isOpen} setIsOpen={setIsOpen} />
+                <OffCanvas />
             </div>
         </header>
     )

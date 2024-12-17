@@ -11,7 +11,7 @@ function CategoryList({ title, items }) {
                 } md:max-h-none`}
             >
                 {items.map((item, index) => (
-                    <li className='mb-3 text-md cursor-pointer font-medium text-[#707072] hover:text-black' key={index}>{item}</li>
+                    <li className='mb-3 text-md cursor-pointer font-medium text-textPrimary hover:text-black' key={index}>{item}</li>
                 ))}
             </ul>
         </div>

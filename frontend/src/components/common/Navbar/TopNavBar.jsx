@@ -7,7 +7,7 @@ function TopNavBar() {
     const user = true;
 
     return (
-        <nav className="bg-[#f5f5f5] px-12 py-1 justify-between items-center hidden md:flex">
+        <nav className="bg-bgPrimary px-12 py-1 justify-between items-center hidden md:flex">
             <img src={Images.JordanLogo} alt="Jordan Logo" className="w-6 h-6" />
 
             <div className="flex items-center">

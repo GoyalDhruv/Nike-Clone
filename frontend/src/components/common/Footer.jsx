@@ -39,7 +39,7 @@ function Footer() {
                                         {section.items.map((item, idx) => (
                                             <li
                                                 key={idx}
-                                                className=" py-[2px] text-md font-semibold text-[#707072] hover:text-black cursor-pointer"
+                                                className=" py-[2px] text-md font-semibold text-textPrimary hover:text-black cursor-pointer"
                                             >
                                                 {item}
                                             </li>
@@ -50,7 +50,7 @@ function Footer() {
                         )}
                     </Disclosure>
                 ))}
-                <div className="flex gap-1 items-center text-[#707072] py-5 border-b">
+                <div className="flex gap-1 items-center text-textPrimary py-5 border-b">
                     <img src={Images.Location} alt="location" className="w-5 h-5 mt-[2px]" />
                     <span className="text-md font-medium">India</span>
                 </div>
@@ -65,7 +65,7 @@ function Footer() {
                         {section.items.map((item, idx) => (
                             <li
                                 key={idx}
-                                className="mb-1 text-md cursor-pointer font-medium text-[#707072] hover:text-black"
+                                className="mb-1 text-md cursor-pointer font-medium text-textPrimary hover:text-black"
                             >
                                 {item}
                             </li>
@@ -73,23 +73,23 @@ function Footer() {
                     </ul>
                 ))}
 
-                <div className='flex gap-1 justify-end items-start text-[#707072]'>
+                <div className='flex gap-1 justify-end items-start text-textPrimary'>
                     <img src={Images.Location} alt="location" className='w-5 h-5 mt-[2px]' />
-                    <span className='text-md font-medium text-[#707072]'>India</span>
+                    <span className='text-md font-medium text-textPrimary'>India</span>
                 </div>
             </div>
 
             <ul className='flex gap-3 sm:gap-7 py-12 flex-col sm:flex-row'>
-                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072]'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-textPrimary'>
                     <span className='text-sm sm:font-semibold font-bold'>©</span> {new Date().getFullYear()} Nike, Inc. All rights reserved
                 </li>
-                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-textPrimary hover:text-black'>
                     Terms of Sale
                 </li>
-                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-textPrimary hover:text-black'>
                     Terms of Use
                 </li>
-                <li className='text-md sm:text-sm sm:font-semibold font-bold text-[#707072] hover:text-black'>
+                <li className='text-md sm:text-sm sm:font-semibold font-bold text-textPrimary hover:text-black'>
                     Nike Privacy Policy
                 </li>
             </ul>

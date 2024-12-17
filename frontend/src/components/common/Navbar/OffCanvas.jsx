@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import PropTypes from 'prop-types';
 import Images from '../../../constants/imageConstant';
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import { useMobileNavbar } from '../../../contexts/MobileNavbar';
 
-const OffCanvas = ({ isOpen, setIsOpen }) => {
+const OffCanvas = () => {
+    const { isOpen, setIsOpen } = useMobileNavbar()
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
@@ -20,10 +22,10 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
         <>
             <Transition
                 show={isOpen}
-                enter="transition-opacity duration-180"
+                enter="transition-opacity duration-300"
                 enterFrom="opacity-0"
                 enterTo="opacity-50"
-                leave="transition-opacity duration-180"
+                leave="transition-opacity duration-300"
                 leaveFrom="opacity-50"
                 leaveTo="opacity-0"
             >
@@ -35,10 +37,10 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
 
             <Transition
                 show={isOpen}
-                enter="transition-transform duration-180 ease-linear"
+                enter="transition-transform duration-300 ease-in-out"
                 enterFrom="translate-x-full"
                 enterTo="translate-x-0"
-                leave="transition-transform duration-180 ease-linear"
+                leave="transition-transform duration-300 ease-in-out"
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
             >
@@ -76,7 +78,7 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
                         </div>
                         {!user &&
                             <div className='pb-8 pt-2'>
-                                <div className='track-tighter font-semibold text-xl text-[#707072]'>
+                                <div className='track-tighter font-semibold text-xl text-textPrimary'>
                                     Become a Nike Member for the best products, inspiration and stories in sport.
                                     <span className='text-black'> Learn more</span>
                                 </div>
@@ -158,13 +160,13 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
                     <div className="px-9 py-6">
                         <ul>
                             <li className="nav-list-items py-3 text-[27px]">My Account</li>
-                            <li className="nav-list-items py-2 text-md font-semibold text-[#707072]">Profile</li>
-                            <li className="nav-list-items py-2 text-md font-semibold text-[#707072]">Orders</li>
-                            <li className="nav-list-items py-2 text-md font-semibold text-[#707072]">Favourites</li>
-                            <li className="nav-list-items py-2 text-md font-semibold text-[#707072]">Inbox</li>
-                            <li className="nav-list-items py-2 text-md font-semibold text-[#707072]">Experiences</li>
-                            <li className="nav-list-items py-2 text-md font-semibold text-[#707072]">Account Settings</li>
-                            <li className="nav-list-items py-2 text-md font-semibold text-[#707072]">Logout</li>
+                            <li className="nav-list-items py-2 text-md font-semibold text-textPrimary">Profile</li>
+                            <li className="nav-list-items py-2 text-md font-semibold text-textPrimary">Orders</li>
+                            <li className="nav-list-items py-2 text-md font-semibold text-textPrimary">Favourites</li>
+                            <li className="nav-list-items py-2 text-md font-semibold text-textPrimary">Inbox</li>
+                            <li className="nav-list-items py-2 text-md font-semibold text-textPrimary">Experiences</li>
+                            <li className="nav-list-items py-2 text-md font-semibold text-textPrimary">Account Settings</li>
+                            <li className="nav-list-items py-2 text-md font-semibold text-textPrimary">Logout</li>
                         </ul>
                     </div>
                 </div>
@@ -172,10 +174,5 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
         </>
     );
 };
-
-OffCanvas.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    setIsOpen: PropTypes.func.isRequired,
-}
 
 export default OffCanvas;

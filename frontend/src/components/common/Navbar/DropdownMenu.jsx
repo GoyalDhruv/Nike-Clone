@@ -13,7 +13,7 @@ const DropdownMenu = ({ menuTitle, subTitle, items }) => {
             >
                 <div className="py-1 px-5">
                     <MenuItem>
-                        <p className="pt-2 pb-3 font-semibold text-md text-black hover:text-[#707072]">
+                        <p className="pt-2 pb-3 font-semibold text-md text-black hover:text-textPrimary">
                             {subTitle}
                         </p>
                     </MenuItem>
@@ -22,7 +22,7 @@ const DropdownMenu = ({ menuTitle, subTitle, items }) => {
                             {({ active }) => (
                                 <a
                                     href={item.href || '#'}
-                                    className={`block pb-2 font-medium text-xs ${active ? 'text-black' : 'text-[#707072]'
+                                    className={`block pb-2 font-medium text-xs ${active ? 'text-black' : 'text-textPrimary'
                                         } hover:text-black`}
                                 >
                                     {item.label}

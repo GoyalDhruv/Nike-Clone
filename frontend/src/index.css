@@ -4,10 +4,10 @@
 
 @layer components{
     .black-btn{
-        @apply bg-black text-white font-medium rounded-full px-4 py-2 hover:bg-[#707072]
+        @apply bg-black text-white font-medium rounded-full px-4 py-2 hover:bg-textPrimary
     }
     .white-btn{
-        @apply bg-white text-black font-medium rounded-full px-4 py-2 hover:bg-[#707072] border
+        @apply bg-white text-black font-medium rounded-full px-4 py-2 hover:bg-textPrimary border
     }
     .section-heading{
         @apply text-2xl font-bold tracking-tight mb-5
@@ -16,7 +16,11 @@
         @apply uppercase font-extrabold text-3xl sm:text-4xl tracking-tighter md:text-6xl
     }
     .nav-items{
-        @apply text-xs tracking-tight font-semibold hover:text-[#707072] cursor-pointer
+        @apply text-xs tracking-tight font-semibold hover:text-textPrimary cursor-pointer
+    }
+
+    .nav-icons{
+        @apply hover:bg-[#e5e5e5] rounded-full p-2
     }
     .nav-list-items{
         @apply md:hover:border-b-2 md:hover:border-black md:border-transparent md:border-b-2 cursor-pointer tracking-tight font-semibold whitespace-nowrap transition-all delay-100 ease-linear
