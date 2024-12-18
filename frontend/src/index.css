@@ -20,7 +20,7 @@
     }
 
     .nav-icons{
-        @apply hover:bg-[#e5e5e5] rounded-full p-2
+        @apply hover:bg-[#e5e5e5] rounded-full p-2 cursor-pointer
     }
     .nav-list-items{
         @apply md:hover:border-b-2 md:hover:border-black md:border-transparent md:border-b-2 cursor-pointer tracking-tight font-semibold whitespace-nowrap transition-all delay-100 ease-linear

@@ -10,7 +10,7 @@ function Header() {
     return (
         <header className="md:px-12 px-6 py-1 grid grid-cols-12 items-center bg-white">
             <div className='md:col-span-3 col-span-6'>
-                <img src={Images.NikeLogo} alt="Jordan Logo" className="w-16 h-16" />
+                <img src={Images.NikeLogo} alt="Nike Logo" className="w-16 h-16 cursor-pointer" />
             </div>
             <ul className=' gap-5 col-span-5 hidden md:flex justify-center'>
                 <li className='nav-list-items'>New & Featured</li>
@@ -21,15 +21,15 @@ function Header() {
                 <li className='nav-list-items'>SNKRS</li>
             </ul>
             <div className='flex justify-end items-center md:col-span-4 col-span-6'>
-                <div className='hover:bg-[#d5d5d5] rounded-full p-2 block xl:hidden'>
+                <div className='hover:bg-[#d5d5d5] rounded-full p-2 block xl:hidden cursor-pointer'>
                     <img src={Images.Search} alt="search" className='w-6 h-6' />
                 </div>
 
                 <div className='relative pe-2 hidden xl:block'>
-                    <div className='hover:bg-[#d5d5d5] rounded-full p-2 absolute'>
+                    <div className='hover:bg-[#d5d5d5] rounded-full p-2 absolute cursor-pointer'>
                         <img src={Images.Search} alt="search" className='w-6 h-6' />
                     </div>
-                    <input type="text" className=' bg-bgPrimary nav-icons placeholder:font-medium ps-10 outline-none placeholder:text-[#707076]' placeholder='Search' />
+                    <input type="text" className=' bg-bgPrimary nav-icons cursor-auto placeholder:font-medium ps-10 outline-none placeholder:text-[#707076]' placeholder='Search' />
                 </div>
                 <div className='nav-icons'>
                     <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />

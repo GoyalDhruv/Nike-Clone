@@ -8,7 +8,7 @@ function TopNavBar() {
 
     return (
         <nav className="bg-bgPrimary px-12 py-1 justify-between items-center hidden md:flex">
-            <img src={Images.JordanLogo} alt="Jordan Logo" className="w-6 h-6" />
+            <img src={Images.JordanLogo} alt="Jordan Logo" className="w-6 h-6 cursor-pointer" />
 
             <div className="flex items-center">
                 <p className='nav-items'>Find a Store</p>
