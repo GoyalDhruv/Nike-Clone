@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Images from '../../../constants/imageConstant'
 import OffCanvas from './OffCanvas';
-import { useMobileNavbar } from '../../../contexts/MobileNavbar';
 
 function Header() {
 
-    const { isOpen, setIsOpen } = useMobileNavbar()
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
         <header className="md:px-12 px-6 py-1 grid grid-cols-12 items-center bg-white">
@@ -40,7 +39,7 @@ function Header() {
                 <div className='nav-icons block md:hidden'>
                     <img src={Images.Menu} alt="Menu" className='w-6 h-6' onClick={() => setIsOpen(!isOpen)} />
                 </div>
-                <OffCanvas />
+                <OffCanvas isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
         </header>
     )

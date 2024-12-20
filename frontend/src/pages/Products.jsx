@@ -76,10 +76,10 @@
 //     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
 //     return (
-//         <div className="bg-white">
+//         <div className="bg-white h-screen">
 //             <div>
 //                 {/* Mobile filter dialog */}
-//                 <Dialog open={mobileFiltersOpen} onClose={setMobileFiltersOpen} className="relative z-40 lg:hidden">
+//                 <Dialog open={mobileFiltersOpen} onClose={setMobileFiltersOpen} className="relative z-50 lg:hidden">
 //                     <DialogBackdrop
 //                         transition
 //                         className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
@@ -178,7 +178,7 @@
 //                     </div>
 //                 </Dialog>
 
-//                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+//                 <main className="md:px-12 px-6">
 //                     <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
 //                         <h1 className="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
 

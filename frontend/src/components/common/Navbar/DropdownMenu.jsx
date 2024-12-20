@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 const DropdownMenu = ({ menuTitle, subTitle, items }) => {
     return (
-        <Menu as="div" className={`relative z-50`}>
-            <MenuButton className={`focus:outline-none`}>
+        <Menu as="div" className='relative z-20'>
+            <MenuButton className='focus:outline-none'>
                 {menuTitle}
             </MenuButton>
             <MenuItems
