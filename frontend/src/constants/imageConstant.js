@@ -31,6 +31,7 @@ import Help from '../assets/icons/Help.svg'
 import Orders from '../assets/icons/Orders.svg'
 import Store from '../assets/icons/Store.svg'
 import Location from '../assets/icons/Location.svg'
+import Filter from '../assets/icons/Filter.svg'
 
 
 const Images = {
@@ -66,7 +67,8 @@ const Images = {
     Help,
     Orders,
     Store,
-    Location
+    Location,
+    Filter
 }
 
 export default Images;

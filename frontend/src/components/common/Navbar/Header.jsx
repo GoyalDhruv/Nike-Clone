@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import Images from '../../../constants/imageConstant'
 import OffCanvas from './OffCanvas';
+import CustomContainer from '../../../layouts/CustomContainer';
 
 function Header() {
 
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <header className="md:px-12 px-6 py-1 grid grid-cols-12 items-center bg-white">
+        <CustomContainer customClass={"py-1 grid grid-cols-12 items-center bg-white"}>
             <div className='md:col-span-3 col-span-6'>
                 <img src={Images.NikeLogo} alt="Nike Logo" className="w-16 h-16 cursor-pointer" />
             </div>
@@ -41,7 +42,7 @@ function Header() {
                 </div>
                 <OffCanvas isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
-        </header>
+        </CustomContainer>
     )
 }
 

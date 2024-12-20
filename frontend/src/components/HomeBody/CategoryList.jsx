@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 
-function CategoryList({ title, items }) {
+function CategoryList({ title, items, listClass }) {
 
     const [isActive, setIsActive] = useState(false)
     return (
         <div className={isActive ? "mb-3" : ""}>
             <h3 className='text-2xl font-bold tracking-tight cursor-default' onClick={() => { setIsActive(!isActive) }}>{title}</h3>
-            <ul className={`mt-6 overflow-hidden transition-[max-height] duration-300 ease-in-out ${isActive ? 'max-h-[500px]' : 'max-h-0'
+            <ul className={`${title ? "mt-6" : ""} overflow-hidden transition-[max-height] duration-300 ease-in-out ${isActive ? 'max-h-[500px]' : 'max-h-0'
                 } md:max-h-none`}
             >
                 {items.map((item, index) => (
-                    <li className='mb-3 text-md cursor-pointer font-medium text-textPrimary hover:text-black' key={index}>{item}</li>
+                    <li className={`${listClass ? listClass : "text-md font-medium text-textPrimary hover:text-black"} mb-3  cursor-pointer `} key={index}>{item}</li>
                 ))}
             </ul>
         </div>
@@ -19,8 +19,9 @@ function CategoryList({ title, items }) {
 }
 
 CategoryList.propTypes = {
-    title: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.string).isRequired
+    title: PropTypes.string,
+    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    listClass: PropTypes.string
 }
 
 export default CategoryList

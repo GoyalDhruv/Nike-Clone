@@ -27,6 +27,7 @@ function TopNavBar() {
                         { label: 'Terms of Use', href: '#' },
                         { label: 'Send us Feedback', href: '#' },
                     ]}
+                    isNavBar={true}
                 />
                 <VerticalLine />
                 {!user ? (
@@ -54,6 +55,7 @@ function TopNavBar() {
                                 { label: 'Account Settings', href: '#' },
                                 { label: 'Log Out', href: '#' },
                             ]}
+                            isNavBar={true}
                         />
                     </>
                 )}
