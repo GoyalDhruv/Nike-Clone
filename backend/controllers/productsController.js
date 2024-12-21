@@ -44,7 +44,16 @@ exports.getProductById = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        const { title, price, discount, stock, colorVariants } = req.body;
+        const {
+            title,
+            price,
+            discount,
+            stock,
+            category,
+            subCategory,
+            shoeDetails,
+            clothingDetails
+        } = req.body;
 
         const existingProduct = await Product.findOne({ title });
         if (existingProduct) {
@@ -61,21 +70,60 @@ exports.createProduct = async (req, res) => {
             });
         }
 
-        if (stock && colorVariants) {
-            if (!validateStock(stock, colorVariants)) {
+        const validSubCategories = {
+            Shoes: ['Running Shoes', 'Casual Shoes', 'Sneakers', 'Boots'],
+            Clothing: ['T-Shirts', 'Jackets', 'Pants', 'Shorts'],
+            Accessories: ['Bags', 'Hats', 'Socks', 'Watches'],
+            'Sports Gear': ['Equipment']
+        };
+
+        if (!Object.keys(validSubCategories).includes(category)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid category'
+            });
+        }
+
+        if (!validSubCategories[category].includes(subCategory)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid subCategory for the selected category'
+            });
+        }
+
+        if (stock && req.body.colorVariants) {
+            const totalColorVariantStock = req.body.colorVariants.reduce(
+                (total, variant) => total + (variant.stock || 0),
+                0
+            );
+            if (stock !== totalColorVariantStock) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Total stock cannot exceed the sum of stock in color variants'
+                    message: 'Total stock must match the sum of stock in color variants'
                 });
             }
         }
 
-
-        const newProduct = new Product(req.body);
-
-        if (price && discount) {
-            newProduct.discountedPrice = calculateDiscountedPrice(price, discount);
+        if (category === 'Shoes' && !shoeDetails) {
+            return res.status(400).json({
+                success: false,
+                message: 'Shoe details are required for Shoes category'
+            });
         }
+
+        if (category === 'Clothing' && !clothingDetails) {
+            return res.status(400).json({
+                success: false,
+                message: 'Clothing details are required for Clothing category'
+            });
+        }
+
+        const discountedPrice = price - (price * discount) / 100;
+
+        const newProduct = new Product({
+            ...req.body,
+            discountedPrice
+        });
 
         await newProduct.save();
 
@@ -93,9 +141,9 @@ exports.createProduct = async (req, res) => {
 
 exports.updateProductById = async (req, res) => {
     try {
-        const { id } = req.params
-        const product = await Product.findById({ _id: id });
+        const { id } = req.params;
 
+        const product = await Product.findById(id);
         if (!product) {
             return res.status(404).json({
                 success: false,
@@ -103,40 +151,109 @@ exports.updateProductById = async (req, res) => {
             });
         }
 
+        const {
+            title,
+            details,
+            price,
+            discount,
+            colorVariants,
+            category,
+            subCategory,
+            gender,
+            kids,
+            stock,
+            rating,
+            origin,
+            declaration,
+            marketedBy,
+            highlight,
+            shoeDetails,
+            clothingDetails
+        } = req.body;
+
+        const updateData = {};
+
         if (price && price <= 0) {
             return res.status(400).json({
                 success: false,
                 message: 'Price must be greater than 0'
             });
         }
+        if (price) updateData.price = price;
 
-        if (stock || colorVariants) {
-            if (!validateStock(updatedStock, updatedColorVariants)) {
+        const validSubCategories = {
+            Shoes: ['Running Shoes', 'Casual Shoes', 'Sneakers', 'Boots'],
+            Clothing: ['T-Shirts', 'Jackets', 'Pants', 'Shorts'],
+            Accessories: ['Bags', 'Hats', 'Socks', 'Watches'],
+            'Sports Gear': ['Equipment']
+        };
+
+        if (category) {
+            if (!Object.keys(validSubCategories).includes(category)) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Total stock cannot exceed the sum of stock in color variants'
+                    message: 'Invalid category'
+                });
+            }
+            updateData.category = category;
+        }
+
+        if (subCategory) {
+            if (!validSubCategories[category]?.includes(subCategory)) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Invalid subCategory for the selected category'
+                });
+            }
+            updateData.subCategory = subCategory;
+        }
+
+        if (stock && colorVariants) {
+            const totalColorVariantStock = colorVariants.reduce(
+                (total, variant) => total + (variant.stock || 0),
+                0
+            );
+            if (stock !== totalColorVariantStock) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Total stock must match the sum of stock in color variants'
                 });
             }
         }
 
-        const { title, details, price, discount, colorVariants, category, gender, kids, stock, rating, origin, declaration, marketedBy, highlight } = req.body
-        const updateData = {};
+        if (category === 'Shoes' && shoeDetails) {
+            updateData.shoeDetails = shoeDetails;
+        } else if (category === 'Shoes' && !shoeDetails) {
+            return res.status(400).json({
+                success: false,
+                message: 'Shoe details are required for Shoes category'
+            });
+        }
+
+        if (category === 'Clothing' && clothingDetails) {
+            updateData.clothingDetails = clothingDetails;
+        } else if (category === 'Clothing' && !clothingDetails) {
+            return res.status(400).json({
+                success: false,
+                message: 'Clothing details are required for Clothing category'
+            });
+        }
+
         if (title) updateData.title = title;
         if (details) updateData.details = details;
-        if (price) updateData.price = price;
         if (discount) updateData.discount = discount;
         if (colorVariants) updateData.colorVariants = colorVariants;
-        if (category) updateData.category = category;
         if (gender) updateData.gender = gender;
-        if (kids) updateData.kids = kids;
+        if (kids !== undefined) updateData.kids = kids;
         if (stock) updateData.stock = stock;
         if (rating) updateData.rating = rating;
         if (origin) updateData.origin = origin;
         if (declaration) updateData.declaration = declaration;
         if (marketedBy) updateData.marketedBy = marketedBy;
         if (highlight) updateData.highlight = highlight;
+
         if (price && discount) {
-            updateData.discountedPrice = calculateDiscountedPrice(price, discount);
+            updateData.discountedPrice = price - (price * discount) / 100;
         }
 
         const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
@@ -145,14 +262,13 @@ exports.updateProductById = async (req, res) => {
             success: true,
             data: updatedProduct
         });
-    }
-    catch (error) {
+    } catch (error) {
         res.status(500).json({
-            status: false,
+            success: false,
             message: error.message
-        })
+        });
     }
-}
+};
 
 exports.deleteProductById = async (req, res) => {
     const { id } = req.params;
