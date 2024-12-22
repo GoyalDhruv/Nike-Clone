@@ -85,13 +85,13 @@ export default function Product() {
                                     {/* Filters */}
                                     <div className={`transition-all lg:col-span-2 duration-500 ease-in-out transform ${showFilters ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
                                         {showFilters &&
-                                            <form className=" hidden lg:block">
+                                            <div className=" hidden lg:block">
                                                 <CategoryList items={['Totes', 'Backpacks', 'Travel Bags', 'Hip Bags', 'Laptop Sleeves']} listClass='font-semibold text-md tracking-tight' />
 
                                                 <div className='mt-8'>
                                                     <FilterSection />
                                                 </div>
-                                            </form>
+                                            </div>
                                         }
                                     </div>
                                     {/* Product grid */}

@@ -1,111 +1,183 @@
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
-
-const filters = [
-    {
-        id: 'color',
-        name: 'Color',
-        options: [
-            { value: 'white', label: 'White', checked: false },
-            { value: 'beige', label: 'Beige', checked: false },
-            { value: 'blue', label: 'Blue', checked: true },
-            { value: 'brown', label: 'Brown', checked: false },
-            { value: 'green', label: 'Green', checked: false },
-            { value: 'purple', label: 'Purple', checked: false },
-        ],
-    },
-    {
-        id: 'gender',
-        name: 'Gender',
-        options: [
-            { value: 'men', label: 'Men', checked: false },
-            { value: 'women', label: 'Women', checked: false },
-            { value: 'unisex', label: 'Unisex', checked: false },
-        ],
-    },
-    {
-        id: 'size',
-        name: 'Size',
-        options: [
-            { value: '2l', label: '2L', checked: false },
-            { value: '6l', label: '6L', checked: false },
-            { value: '12l', label: '12L', checked: false },
-            { value: '18l', label: '18L', checked: false },
-            { value: '20l', label: '20L', checked: false },
-            { value: '40l', label: '40L', checked: true },
-        ],
-    },
-    {
-        id: 'sports',
-        name: 'Sports',
-        options: [
-            { value: 'football', label: 'Football', checked: false },
-            { value: 'basketball', label: 'Basketball', checked: false },
-            { value: 'running', label: 'Running', checked: false },
-            { value: 'tennis', label: 'Tennis', checked: false },
-            { value: 'dance', label: 'Dance', checked: false },
-            { value: 'lifestyle', label: 'Lifestyle', checked: true },
-        ],
-    },
-];
+import { colorFilter, genderFilter, sizeFilter, sportsFilter } from '../../constants/filterData';
+import { useState } from 'react';
+import CustomDisclosure from '../Disclosure/CustomDisclosure';
 
 function FilterSection() {
+    const [selectedColors, setSelectedColors] = useState(
+        colorFilter.filter(option => option.checked).map(option => option.value)
+    );
+    const [selectedSizes, setSelectedSizes] = useState(
+        sizeFilter.filter(option => option.checked).map(option => option.value)
+    );
+    const [selectedGenders, setSelectedGenders] = useState(
+        genderFilter.filter(option => option.checked).map(option => option.value)
+    );
+    const [selectedSports, setSelectedSports] = useState(
+        sportsFilter.filter(option => option.checked).map(option => option.value)
+    );
+
+    const handleColorToggle = (color) => {
+        setSelectedColors((prevSelectedColors) => {
+            if (prevSelectedColors.includes(color)) {
+                return prevSelectedColors.filter((item) => item !== color);
+            } else {
+                return [...prevSelectedColors, color];
+            }
+        });
+    };
+
+    const handleSizeToggle = (size) => {
+        setSelectedSizes((prev) => {
+            if (prev.includes(size)) {
+                return prev.filter((s) => s !== size);
+            } else {
+                return [...prev, size];
+            }
+        });
+    };
+
+    const handleGenderToggle = (gender) => {
+        setSelectedGenders((prevSelectedGenders) => {
+            if (prevSelectedGenders.includes(gender)) {
+                return prevSelectedGenders.filter((item) => item !== gender);
+            } else {
+                return [...prevSelectedGenders, gender];
+            }
+        });
+    };
+
+    const handleSportsToggle = (sport) => {
+        setSelectedSports((prevSelectedSports) => {
+            if (prevSelectedSports.includes(sport)) {
+                return prevSelectedSports.filter((item) => item !== sport);
+            } else {
+                return [...prevSelectedSports, sport];
+            }
+        });
+    };
+
     return (
         <>
-            {filters.map((filter) => (
-                <Disclosure key={filter.id} as="div" className="border-t border-gray-200 py-3">
-                    <h3 className="-my-3 flow-root">
-                        <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                            <span className="text-black font-semibold text-lg tracking-tight">{filter.name}</span>
-                            <span className="flex items-center">
-                                <FaAngleDown aria-hidden="true" className="w-5 h-5 group-data-[open]:hidden text-black" />
-                                <FaAngleUp aria-hidden="true" className="w-5 h-5 text-black group-[&:not([data-open])]:hidden" />
-                            </span>
-                        </DisclosureButton>
-                    </h3>
-                    <DisclosurePanel className="py-3">
-                        <div className="grid grid-cols-2 gap-2">
-                            {filter.options.map((option, optionIdx) => (
-                                <div key={option.value} className="flex gap-4 items-center">
-                                    <div className="group grid grid-cols-1">
-                                        <input
-                                            defaultValue={option.value}
-                                            defaultChecked={option.checked}
-                                            id={`filter-${filter.id}-${optionIdx}`}
-                                            name={`${filter.id}[]`}
-                                            type="checkbox"
-                                            className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-black checked:bg-black indeterminate:border-black indeterminate:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto w-6 h-6"
-                                        />
-                                        <svg
-                                            fill="none"
-                                            viewBox="0 0 16 16"
-                                            className="pointer-events-none col-start-1 row-start-1 w-5 h-5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25"
-                                        >
-                                            <path
-                                                d="M3 8L6 11L11 3.5"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="opacity-0 group-has-[:checked]:opacity-100"
-                                            />
-                                            <path
-                                                d="M3 7H11"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="opacity-0 group-has-[:indeterminate]:opacity-100"
-                                            />
-                                        </svg>
+            {/* Color Filter */}
+            <CustomDisclosure
+                title={'Color'}
+                disclosureBody={
+                    <div className="grid grid-cols-3 gap-3">
+                        {colorFilter.map((option, optionIdx) => (
+                            <div key={option.value} className="flex items-center flex-col">
+                                <div className="group grid grid-cols-1">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedColors.includes(option.value)}
+                                        onChange={() => handleColorToggle(option.value)}
+                                        className="hidden"
+                                    />
+                                    <div
+                                        className={`w-6 h-6 rounded-full border cursor-pointer relative ${option.value === 'black' ? 'bg-black' : `bg-${option.value}-500`}`}
+                                        onClick={() => handleColorToggle(option.value)}
+                                    >
+                                        {selectedColors.includes(option.value) && (
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className={`w-4 h-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${option.value === 'white' ? 'text-black' : 'text-white'}`}
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M16.293 5.293a1 1 0 0 1 0 1.414L8 14.414 3.707 10.707a1 1 0 1 1 1.414-1.414L8 11.586l6.293-6.293a1 1 0 0 1 1.414 0z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        )}
                                     </div>
-                                    <label htmlFor={`filter-${filter.id}-${optionIdx}`} className="text-md font-medium hover:text-textPrimary">
-                                        {option.label}
-                                    </label>
                                 </div>
-                            ))}
-                        </div>
-                    </DisclosurePanel>
-                </Disclosure>
-            ))}
+                                <label
+                                    htmlFor={`filter-color-${optionIdx}`}
+                                    className="text-xs font-medium"
+                                >
+                                    {option.label}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                }
+            />
+
+            {/* Size Filter */}
+            <CustomDisclosure
+                title={'Size'}
+                disclosureBody={
+                    <div className="grid lg:grid-cols-3 sm:grid-cols-6 grid-cols-4 gap-3">
+                        {sizeFilter.map((option, optionIdx) => (
+                            <div
+                                key={option.value}
+                                className={`py-1 rounded-md text-center border ${selectedSizes.includes(option.value) ? 'border-black ' : 'border-[#E5E5E5]'} hover:border-black transition-all duration-300`}
+                                onClick={() => handleSizeToggle(option.value)}
+                            >
+                                <input
+                                    value={option.value}
+                                    checked={selectedSizes.includes(option.value)}
+                                    onChange={() => handleSizeToggle(option.value)}
+                                    id={`filter-size-${optionIdx}`}
+                                    type="checkbox"
+                                    className="hidden"
+                                />
+                                <label
+                                    htmlFor={`filter-size-${optionIdx}`}
+                                    className="text-md font-medium w-full"
+                                >
+                                    {option.label}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                }
+            />
+
+            {/* Gender Filter */}
+            <CustomDisclosure
+                title={'Gender'}
+                disclosureBody={
+                    <div className="grid grid-cols-1 gap-2">
+                        {genderFilter.map((option, optionIdx) => (
+                            <div key={option.value} className="flex gap-2 items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedGenders.includes(option.value)}
+                                    onChange={() => handleGenderToggle(option.value)}
+                                    className="w-5 h-5 rounded border-gray-300 checked:accent-black"
+                                />
+                                <label htmlFor={`filter-gender-${optionIdx}`} className="text-md font-medium">
+                                    {option.label}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                }
+            />
+
+            {/* Sports Filter */}
+            <CustomDisclosure
+                title={'Sports'}
+                disclosureBody={
+                    <div className="grid lg:grid-cols-1 grid-cols-2 gap-2">
+                        {sportsFilter.map((option, optionIdx) => (
+                            <div key={option.value} className="flex gap-2 items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedSports.includes(option.value)}
+                                    onChange={() => handleSportsToggle(option.value)}
+                                    className="w-5 h-5 rounded border-gray-300 checked:accent-black"
+                                />
+                                <label htmlFor={`filter-sports-${optionIdx}`} className="text-md font-medium">
+                                    {option.label}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                }
+            />
         </>
     );
 }

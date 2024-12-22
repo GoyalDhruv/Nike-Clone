@@ -37,7 +37,7 @@ function ProductsList({ showFilters, data }) {
 
 ProductsList.propTypes = {
     showFilters: PropTypes.bool,
-    data: PropTypes.array,
+    data: PropTypes.object,
     isLoading: PropTypes.bool,
 }
 
