@@ -3,21 +3,29 @@ import Carousel from '../Carousel/Carousel';
 import Images from '../../constants/imageConstant';
 import TextOnImage from '../TextOnImage';
 import CategoryList from './CategoryList';
+import { Link } from "react-router";
 
 function HomeBody() {
-    
+
     return (
         <main className='w-full md:px-10 px-6'>
-            <section className='banner-section mb-14'>
+            <section className='banner-section mb-14 cursor-pointer'>
 
-                <img src={Images?.BannerImg} alt="banner img" className='md:block hidden' />
-                <img src={Images?.BannerImgMobile} alt="banner img" className='w-full md:hidden block' />
+                <Link
+                    to={{
+                        pathname: "/products",
+                        search: "?sport=lifestyle",
+                    }}
+                >
+                    <img src={Images?.BannerImg} alt="banner img" className='md:block hidden' />
+                    <img src={Images?.BannerImgMobile} alt="banner img" className='w-full md:hidden block' />
 
-                <div className='text-start sm:text-center mt-2'>
-                    <h1 className='section-title'>Nike Tech Woven Suit</h1>
-                    <p className='mt-1'>Engineered to unlock your range of motion.</p>
-                    <button className='black-btn mt-5'>Shop Now</button>
-                </div>
+                    <div className='text-start sm:text-center mt-2'>
+                        <h1 className='section-title'>Nike Tech Woven Suit</h1>
+                        <p className='mt-1'>Engineered to unlock your range of motion.</p>
+                        <button className='black-btn mt-5'>Shop Now</button>
+                    </div>
+                </Link>
             </section>
 
             <section className='classics-section mb-14'>
@@ -55,24 +63,52 @@ function HomeBody() {
             <section className='essentials-section mb-14'>
                 <h2 className='section-heading'>The Essentials</h2>
                 <div className='grid grid-cols-1 gap-3 md:grid-cols-3'>
-                    <TextOnImage item={{ image: Images.MensImg, text: "Men's" }} ImgClass='w-full' />
-                    <TextOnImage item={{ image: Images.WomensImg, text: "Women's" }} ImgClass='w-full' />
-                    <TextOnImage item={{ image: Images.KidsImg, text: "Kid's" }} ImgClass='w-full' />
+                    <Link
+                        to={{
+                            pathname: "/products",
+                            search: "?gender=men",
+                        }}
+                    >
+                        <TextOnImage item={{ image: Images.MensImg, text: "Men's" }} ImgClass='w-full' />
+                    </Link>
+                    <Link
+                        to={{
+                            pathname: "/products",
+                            search: "?gender=women",
+                        }}
+                    >
+                        <TextOnImage item={{ image: Images.WomensImg, text: "Women's" }} ImgClass='w-full' />
+                    </Link>
+                    <Link
+                        to={{
+                            pathname: "/products",
+                            search: "?isKids=true",
+                        }}
+                    >
+                        <TextOnImage item={{ image: Images.KidsImg, text: "Kid's" }} ImgClass='w-full' />
+                    </Link>
                 </div>
             </section>
 
             <section className='trending-section mb-14'>
-                <h2 className='section-heading'>Trending</h2>
+                <Link
+                    to={{
+                        pathname: "/products",
+                        search: "?status=trending",
+                    }}
+                >
+                    <h2 className='section-heading'>Trending</h2>
 
-                <img src={Images?.TrendingImg} alt="trending img" className='md:block hidden' />
-                <img src={Images?.TrendingImgMobile} alt="trending img" className='w-full md:hidden block' />
+                    <img src={Images?.TrendingImg} alt="trending img" className='md:block hidden' />
+                    <img src={Images?.TrendingImgMobile} alt="trending img" className='w-full md:hidden block' />
 
-                <div className='text-start sm:text-center mt-2'>
-                    <p className='mt-1'>Women’s Jordan Plaid Pack</p>
-                    <h1 className='section-title'>FOR THE HOME TEAM</h1>
-                    <p className='mt-1'>New prints. No rules. Set your fits apart in plaid that keeps you cozy from head to toe.</p>
-                    <button className='black-btn mt-5'>Shop Now</button>
-                </div>
+                    <div className='text-start sm:text-center mt-2'>
+                        <p className='mt-1'>Women’s Jordan Plaid Pack</p>
+                        <h1 className='section-title'>FOR THE HOME TEAM</h1>
+                        <p className='mt-1'>New prints. No rules. Set your fits apart in plaid that keeps you cozy from head to toe.</p>
+                        <button className='black-btn mt-5'>Shop Now</button>
+                    </div>
+                </Link>
             </section>
 
             <section className='shop-by-sports mb-14'>

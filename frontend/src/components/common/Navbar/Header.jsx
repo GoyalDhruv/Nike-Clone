@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Images from '../../../constants/imageConstant'
 import OffCanvas from './OffCanvas';
 import CustomContainer from '../../../layouts/CustomContainer';
+import { Link } from "react-router";
 
 function Header() {
 
@@ -10,15 +11,41 @@ function Header() {
     return (
         <CustomContainer customClass={"py-1 grid grid-cols-12 items-center bg-white"}>
             <div className='md:col-span-3 col-span-6'>
-                <img src={Images.NikeLogo} alt="Nike Logo" className="w-16 h-16 cursor-pointer" />
+                <Link to={'/'}>
+                    <img src={Images.NikeLogo} alt="Nike Logo" className="w-16 h-16 cursor-pointer" />
+                </Link>
             </div>
             <ul className=' gap-5 col-span-5 hidden md:flex justify-center'>
-                <li className='nav-list-items'>New & Featured</li>
-                <li className='nav-list-items'>Men</li>
-                <li className='nav-list-items'>Women</li>
-                <li className='nav-list-items'>Kids</li>
-                <li className='nav-list-items'>Sale</li>
-                <li className='nav-list-items'>SNKRS</li>
+                <Link to={{
+                    pathname: "/products",
+                    search: "?status=new_arrival",
+                }}>
+                    <li className='nav-list-items'>New & Featured</li>
+                </Link>
+                <Link to={{
+                    pathname: "/products",
+                    search: "?gender=men",
+                }}>
+                    <li className='nav-list-items'>Men</li>
+                </Link>
+                <Link to={{
+                    pathname: "/products",
+                    search: "?gender=women",
+                }}>
+                    <li className='nav-list-items'>Women</li>
+                </Link>
+                <Link to={{
+                    pathname: "/products",
+                    search: "?isKids=true",
+                }}>
+                    <li className='nav-list-items'>Kids</li>
+                </Link>
+                <Link to={{
+                    pathname: "/products",
+                    search: "?status=discount",
+                }}>
+                    <li className='nav-list-items'>Sale</li>
+                </Link>
             </ul>
             <div className='flex justify-end items-center md:col-span-4 col-span-6'>
                 <div className='hover:bg-[#d5d5d5] rounded-full p-2 block xl:hidden cursor-pointer'>

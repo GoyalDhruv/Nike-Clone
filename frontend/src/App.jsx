@@ -24,7 +24,7 @@ function App() {
             </Suspense>
           }
           />
-          <Route path="/product" element={
+          <Route path="/products" element={
             <Suspense
               fallback={<Loader />}>
               <Products />

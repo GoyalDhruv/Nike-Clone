@@ -25,7 +25,15 @@ const productSchema = mongoose.Schema({
     stock: { type: Number, default: 0, min: 0 },
     gender: {
         type: String,
-        enum: ['Men', 'Women', 'Unisex', 'Kids']
+        enum: ['Men', 'Women', 'Unisex']
+    },
+    isKids: {
+        type: Boolean,
+        default: false
+    },
+    kids: {
+        type: String,
+        enum: ['Girls', 'Boys']
     },
     rating: { type: Number, min: 0, max: 5, default: 0 },
     sizeVariants: [{
@@ -48,7 +56,7 @@ const productSchema = mongoose.Schema({
     },
     sports: {
         type: [String],
-        enum: ['Running', 'Football', 'Basketball', 'Training and Gym', 'Tennis', 'Yoga', 'Skateboarding', 'Dance'],
+        enum: ['Running', 'Football', 'Basketball', 'Training and Gym', 'Tennis', 'Yoga', 'Skateboarding', 'Dance', 'Lifestyle'],
         default: []
     }
 }, { timestamps: true });

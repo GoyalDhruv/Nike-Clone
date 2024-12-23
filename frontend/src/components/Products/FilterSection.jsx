@@ -1,4 +1,4 @@
-import { colorFilter, genderFilter, sizeFilter, sportsFilter } from '../../constants/filterData';
+import { colorFilter, genderFilter, kidsFilter, sizeFilter, sportsFilter } from '../../constants/filterData';
 import { useState } from 'react';
 import CustomDisclosure from '../Disclosure/CustomDisclosure';
 
@@ -14,6 +14,10 @@ function FilterSection() {
     );
     const [selectedSports, setSelectedSports] = useState(
         sportsFilter.filter(option => option.checked).map(option => option.value)
+    );
+
+    const [selectedKidSection, setSelectedKidSection] = useState(
+        kidsFilter.filter(option => option.checked).map(option => option.value)
     );
 
     const handleColorToggle = (color) => {
@@ -56,6 +60,16 @@ function FilterSection() {
         });
     };
 
+    const handleKidsSection = (kid) => {
+        setSelectedKidSection((prevSelectedKidsSection) => {
+            if (prevSelectedKidsSection.includes(kid)) {
+                return prevSelectedKidsSection.filter((item) => item !== kid);
+            } else {
+                return [...prevSelectedKidsSection, kid];
+            }
+        });
+    }
+
     return (
         <>
             {/* Color Filter */}
@@ -63,7 +77,7 @@ function FilterSection() {
                 title={'Color'}
                 disclosureBody={
                     <div className="grid grid-cols-3 gap-3">
-                        {colorFilter.map((option, optionIdx) => (
+                        {colorFilter.map((option, index) => (
                             <div key={option.value} className="flex items-center flex-col">
                                 <div className="group grid grid-cols-1">
                                     <input
@@ -93,7 +107,7 @@ function FilterSection() {
                                     </div>
                                 </div>
                                 <label
-                                    htmlFor={`filter-color-${optionIdx}`}
+                                    htmlFor={`filter-color-${index}`}
                                     className="text-xs font-medium"
                                 >
                                     {option.label}
@@ -109,7 +123,7 @@ function FilterSection() {
                 title={'Size'}
                 disclosureBody={
                     <div className="grid lg:grid-cols-3 sm:grid-cols-6 grid-cols-4 gap-3">
-                        {sizeFilter.map((option, optionIdx) => (
+                        {sizeFilter.map((option, index) => (
                             <div
                                 key={option.value}
                                 className={`py-1 rounded-md text-center border ${selectedSizes.includes(option.value) ? 'border-black ' : 'border-[#E5E5E5]'} hover:border-black transition-all duration-300`}
@@ -119,12 +133,12 @@ function FilterSection() {
                                     value={option.value}
                                     checked={selectedSizes.includes(option.value)}
                                     onChange={() => handleSizeToggle(option.value)}
-                                    id={`filter-size-${optionIdx}`}
+                                    id={`filter-size-${index}`}
                                     type="checkbox"
                                     className="hidden"
                                 />
                                 <label
-                                    htmlFor={`filter-size-${optionIdx}`}
+                                    htmlFor={`filter-size-${index}`}
                                     className="text-md font-medium w-full"
                                 >
                                     {option.label}
@@ -140,7 +154,7 @@ function FilterSection() {
                 title={'Gender'}
                 disclosureBody={
                     <div className="grid grid-cols-1 gap-2">
-                        {genderFilter.map((option, optionIdx) => (
+                        {genderFilter.map((option, index) => (
                             <div key={option.value} className="flex gap-2 items-center">
                                 <input
                                     type="checkbox"
@@ -148,7 +162,7 @@ function FilterSection() {
                                     onChange={() => handleGenderToggle(option.value)}
                                     className="w-5 h-5 rounded border-gray-300 checked:accent-black"
                                 />
-                                <label htmlFor={`filter-gender-${optionIdx}`} className="text-md font-medium">
+                                <label htmlFor={`filter-gender-${index}`} className="text-md font-medium">
                                     {option.label}
                                 </label>
                             </div>
@@ -162,7 +176,7 @@ function FilterSection() {
                 title={'Sports'}
                 disclosureBody={
                     <div className="grid lg:grid-cols-1 grid-cols-2 gap-2">
-                        {sportsFilter.map((option, optionIdx) => (
+                        {sportsFilter.map((option, index) => (
                             <div key={option.value} className="flex gap-2 items-center">
                                 <input
                                     type="checkbox"
@@ -170,7 +184,29 @@ function FilterSection() {
                                     onChange={() => handleSportsToggle(option.value)}
                                     className="w-5 h-5 rounded border-gray-300 checked:accent-black"
                                 />
-                                <label htmlFor={`filter-sports-${optionIdx}`} className="text-md font-medium">
+                                <label htmlFor={`filter-sports-${index}`} className="text-md font-medium">
+                                    {option.label}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                }
+            />
+
+            {/* Kids Filter */}
+            <CustomDisclosure
+                title={'Kids'}
+                disclosureBody={
+                    <div className="grid lg:grid-cols-1 grid-cols-2 gap-2">
+                        {kidsFilter.map((option, index) => (
+                            <div key={option.value} className="flex gap-2 items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedKidSection.includes(option.value)}
+                                    onChange={() => handleKidsSection(option.value)}
+                                    className="w-5 h-5 rounded border-gray-300 checked:accent-black"
+                                />
+                                <label htmlFor={`filter-sports-${index}`} className="text-md font-medium">
                                     {option.label}
                                 </label>
                             </div>

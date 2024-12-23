@@ -18,11 +18,9 @@ export default function Product() {
 
     const [showFilters, setShowFilters] = useState(true);
 
-    const { isLoading, isError, error, data: productData } = useQuery({
+    const { isLoading, data: productData } = useQuery({
         queryKey: ['products'],
-        queryFn: getAllProducts,
-        retry: 3,
-        refetchOnWindowFocus: false,
+        queryFn: getAllProducts
     });
 
     return (
@@ -61,10 +59,10 @@ export default function Product() {
                                                 <FaAngleDown className="size-4" />
                                             </p>}
                                             items={[
-                                                { label: 'Featured', href: '#' },
-                                                { label: 'Newest', href: '#' },
-                                                { label: 'Price: Low to High', href: '#' },
-                                                { label: 'Price: High to Low', href: '#' },
+                                                { label: 'Featured', order: 'desc', sort: 'rating' },
+                                                { label: 'Newest', order: 'desc', sort: 'createdAt' },
+                                                { label: 'Price: Low to High', order: 'asc', sort: 'discountPrice' },
+                                                { label: 'Price: High to Low', order: 'desc', sort: 'discountPrice' },
                                             ]}
                                         />
                                     </div>
@@ -86,7 +84,7 @@ export default function Product() {
                                     <div className={`transition-all lg:col-span-2 duration-500 ease-in-out transform ${showFilters ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
                                         {showFilters &&
                                             <div className=" hidden lg:block">
-                                                <CategoryList items={['Totes', 'Backpacks', 'Travel Bags', 'Hip Bags', 'Laptop Sleeves']} listClass='font-semibold text-md tracking-tight' />
+                                                <CategoryList items={['Discount', 'Trending', 'New Arrival', 'Bestseller']} listClass='font-semibold text-md tracking-tight' />
 
                                                 <div className='mt-8'>
                                                     <FilterSection />

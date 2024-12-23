@@ -37,5 +37,10 @@ export const sportsFilter = [
     { value: 'running', label: 'Running', checked: false },
     { value: 'tennis', label: 'Tennis', checked: false },
     { value: 'dance', label: 'Dance', checked: false },
-    { value: 'lifestyle', label: 'Lifestyle', checked: true }
+    { value: 'lifestyle', label: 'Lifestyle', checked: false }
+];
+
+export const kidsFilter = [
+    { value: 'boys', label: 'Boys', checked: false },
+    { value: 'girls', label: 'Girls', checked: false }
 ];
