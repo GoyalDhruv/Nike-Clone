@@ -44,3 +44,8 @@ export const kidsFilter = [
     { value: 'boys', label: 'Boys', checked: false },
     { value: 'girls', label: 'Girls', checked: false }
 ];
+
+export const categoryFilter = [
+    { value: 'shoes', label: 'Shoes' },
+    { value: 'cloths', label: 'Cloths' }
+];

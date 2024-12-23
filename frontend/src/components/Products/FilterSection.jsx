@@ -1,24 +1,25 @@
-import { colorFilter, genderFilter, kidsFilter, sizeFilter, sportsFilter } from '../../constants/filterData';
+import { categoryFilter, colorFilter, genderFilter, kidsFilter, sizeFilter, sportsFilter } from '../../constants/filterData';
 import { useState } from 'react';
 import CustomDisclosure from '../Disclosure/CustomDisclosure';
+import PropTypes from 'prop-types';
 
-function FilterSection() {
-    const [selectedColors, setSelectedColors] = useState(
-        colorFilter.filter(option => option.checked).map(option => option.value)
-    );
-    const [selectedSizes, setSelectedSizes] = useState(
-        sizeFilter.filter(option => option.checked).map(option => option.value)
-    );
-    const [selectedGenders, setSelectedGenders] = useState(
-        genderFilter.filter(option => option.checked).map(option => option.value)
-    );
-    const [selectedSports, setSelectedSports] = useState(
-        sportsFilter.filter(option => option.checked).map(option => option.value)
-    );
+function FilterSection(
+    {
+        selectedColors,
+        setSelectedColors,
+        selectedSizes,
+        setSelectedSizes,
+        selectedGenders,
+        setSelectedGenders,
+        selectedSports,
+        setSelectedSports,
+        selectedKidSection,
+        setSelectedKidSection,
+        selectedCategory,
+        setSelectedCategory
+    }
+) {
 
-    const [selectedKidSection, setSelectedKidSection] = useState(
-        kidsFilter.filter(option => option.checked).map(option => option.value)
-    );
 
     const handleColorToggle = (color) => {
         setSelectedColors((prevSelectedColors) => {
@@ -81,13 +82,15 @@ function FilterSection() {
                             <div key={option.value} className="flex items-center flex-col">
                                 <div className="group grid grid-cols-1">
                                     <input
+                                        id={`filter-color-${index}`}
                                         type="checkbox"
                                         checked={selectedColors.includes(option.value)}
                                         onChange={() => handleColorToggle(option.value)}
                                         className="hidden"
                                     />
                                     <div
-                                        className={`w-6 h-6 rounded-full border cursor-pointer relative ${option.value === 'black' ? 'bg-black' : `bg-${option.value}-500`}`}
+                                        className={` w-6 h-6 rounded-full border cursor-pointer relative`}
+                                        style={{ backgroundColor: `${option.value}` }}
                                         onClick={() => handleColorToggle(option.value)}
                                     >
                                         {selectedColors.includes(option.value) && (
@@ -214,8 +217,45 @@ function FilterSection() {
                     </div>
                 }
             />
+
+            <CustomDisclosure
+                title={'Category'}
+                disclosureBody={
+                    <div className="grid lg:grid-cols-1 grid-cols-2 gap-2">
+                        {categoryFilter.map((option, index) => (
+                            <div key={option.value} className="flex gap-2 items-center">
+                                <input
+                                    type="radio"
+                                    name="category"
+                                    checked={selectedCategory === option.value}
+                                    onChange={() => setSelectedCategory(option.value)}
+                                    className="w-5 h-5 rounded border-gray-300 checked:accent-black"
+                                />
+                                <label htmlFor={`filter-sports-${index}`} className="text-md font-medium">
+                                    {option.label}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                }
+            />
         </>
     );
+}
+
+FilterSection.propTypes = {
+    selectedColors: PropTypes.array.isRequired,
+    setSelectedColors: PropTypes.func.isRequired,
+    selectedSizes: PropTypes.array.isRequired,
+    setSelectedSizes: PropTypes.func.isRequired,
+    selectedGenders: PropTypes.array.isRequired,
+    setSelectedGenders: PropTypes.func.isRequired,
+    selectedSports: PropTypes.array.isRequired,
+    setSelectedSports: PropTypes.func.isRequired,
+    selectedKidSection: PropTypes.array.isRequired,
+    setSelectedKidSection: PropTypes.func.isRequired,
+    selectedCategory: PropTypes.array.isRequired,
+    setSelectedCategory: PropTypes.func.isRequired,
 }
 
 export default FilterSection;

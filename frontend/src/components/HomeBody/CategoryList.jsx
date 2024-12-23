@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 
-function CategoryList({ title, items, listClass }) {
+function CategoryList({ title, items, listClass, setSelectedStatus }) {
 
     const [isActive, setIsActive] = useState(false)
     return (
@@ -11,7 +11,11 @@ function CategoryList({ title, items, listClass }) {
                 } md:max-h-none`}
             >
                 {items.map((item, index) => (
-                    <li className={`${listClass ? listClass : "text-md font-medium text-textPrimary hover:text-black"} mb-3  cursor-pointer `} key={index}>{item}</li>
+                    <li className={`${listClass ? listClass : "text-md font-medium text-textPrimary hover:text-black"} mb-3  cursor-pointer `} key={index}
+                        onClick={()=>setSelectedStatus(item)}
+                    >
+                        {item}
+                    </li>
                 ))}
             </ul>
         </div>
@@ -21,7 +25,8 @@ function CategoryList({ title, items, listClass }) {
 CategoryList.propTypes = {
     title: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.string).isRequired,
-    listClass: PropTypes.string
+    listClass: PropTypes.string,
+    setSelectedStatus: PropTypes.func
 }
 
 export default CategoryList

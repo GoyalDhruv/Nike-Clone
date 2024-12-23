@@ -2,7 +2,14 @@ import React from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
+const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar, setSelectedSort }) => {
+
+    const handleItemClick = (item) => {
+        if (setSelectedSort) {
+            setSelectedSort(item);
+        }
+    };
+
     return (
         <Menu as="div" className={`relative ${isNavBar && 'z-20'}`}>
             <MenuButton className='focus:outline-none'>
@@ -22,13 +29,14 @@ const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
                     {items.map((item, index) => (
                         <MenuItem key={index}>
                             {({ active }) => (
-                                <a
-                                    href={item.href || '#'}
+                                <div
+                                    // href={item.href || '#'}
                                     className={`block pb-2 font-medium text-xs ${active ? 'text-black' : 'text-textPrimary'
                                         } hover:text-black`}
+                                    onClick={() => handleItemClick(item)}
                                 >
                                     {item.label}
-                                </a>
+                                </div>
                             )}
                         </MenuItem>
                     ))}
@@ -42,7 +50,8 @@ DropdownMenu.propTypes = {
     menuTitle: PropTypes.object.isRequired,
     subTitle: PropTypes.string,
     items: PropTypes.array.isRequired,
-    isNavBar: PropTypes.bool
+    isNavBar: PropTypes.bool,
+    setSelectedSort: PropTypes.func,
 }
 
 export default DropdownMenu;

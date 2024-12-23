@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaAngleDown } from "react-icons/fa";
 import CustomContainer from '../layouts/CustomContainer'
 import DropdownMenu from '../components/common/Navbar/DropdownMenu'
@@ -10,18 +10,98 @@ import ProductsList from '../components/Products/ProductsList';
 import { useQuery } from '@tanstack/react-query';
 import { getAllProducts } from '../services/productApi';
 import Loader from '../components/Loader/Loader';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 export default function Product() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const [filtersReady, setFiltersReady] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('')
+    const [selectedColors, setSelectedColors] = useState([]);
+    const [selectedSizes, setSelectedSizes] = useState([]);
+    const [selectedGenders, setSelectedGenders] = useState([]);
+    const [selectedSports, setSelectedSports] = useState([]);
+    const [selectedKidSection, setSelectedKidSection] = useState([]);
+    const [selectedStatus, setSelectedStatus] = useState('')
+    const [selectedSort, setSelectedSort] = useState({
+        label: 'Featured',
+        order: 'desc',
+        sort: 'rating',
+    });
 
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
     const [showFilters, setShowFilters] = useState(true);
 
-    const { isLoading, data: productData } = useQuery({
-        queryKey: ['products'],
-        queryFn: getAllProducts
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+
+        const category = queryParams.get('category') || 'shoes';
+        const status = queryParams.get('status')
+        const colors = queryParams.get('colors')?.split(',') || [];
+        const sizes = queryParams.get('sizes')?.split(',') || [];
+        const genders = queryParams.get('genders')?.split(',') || [];
+        const sports = queryParams.get('sports')?.split(',') || [];
+
+        let kids = []
+        if (queryParams.get('isKids')) {
+            kids = ['girls', 'boys'];
+        }
+
+        const sort = queryParams.get('sort') || 'rating';
+        const order = queryParams.get('order') || 'desc';
+        const label = queryParams.get('label') || 'Featured';
+
+        setSelectedCategory(category);
+        setSelectedColors(colors);
+        setSelectedSizes(sizes);
+        setSelectedGenders(genders);
+        setSelectedSports(sports);
+        setSelectedKidSection(kids);
+        setSelectedStatus(status)
+        setSelectedSort({ label, order, sort });
+
+        setFiltersReady(true);
+    }, [location.search]);
+
+    const handleFilterChange = () => {
+        const params = new URLSearchParams();
+
+        if (selectedCategory) params.set('category', selectedCategory);
+        if (selectedColors.length) params.set('colors', selectedColors.join(','));
+        if (selectedSizes.length) params.set('sizes', selectedSizes.join(','));
+        if (selectedGenders.length) params.set('genders', selectedGenders.join(','));
+        if (selectedSports.length) params.set('sports', selectedSports.join(','));
+        if (selectedKidSection.length) params.set('isKids', true);
+        if (selectedStatus) params.set('status', selectedStatus);
+
+        navigate(`?${params.toString()}`);
+    };
+
+    useEffect(() => {
+        handleFilterChange();
+    }, [selectedCategory, selectedColors, selectedSizes, selectedGenders, selectedSports, selectedKidSection, selectedStatus, selectedSort]);
+
+    const { isLoading, error, data: productData } = useQuery({
+        queryKey: [
+            'products',
+            {
+                selectedCategory,
+                selectedColors,
+                selectedSizes,
+                selectedGenders,
+                selectedSports,
+                selectedKidSection,
+                selectedSort,
+                selectedStatus
+            },
+        ],
+        queryFn: getAllProducts,
+        enabled: filtersReady
     });
+
+    console.log(error)
 
     return (
         <>
@@ -30,7 +110,7 @@ export default function Product() {
                     <Loader /> :
                     <>
                         {/* Mobile filter dialog */}
-                        < MobileFilter mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} />
+                        <MobileFilter mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} />
 
                         <CustomContainer customClass={""}>
                             <div className="flex items-baseline justify-between border-b border-gray-200 py-12">
@@ -64,6 +144,7 @@ export default function Product() {
                                                 { label: 'Price: Low to High', order: 'asc', sort: 'discountPrice' },
                                                 { label: 'Price: High to Low', order: 'desc', sort: 'discountPrice' },
                                             ]}
+                                            setSelectedSort={setSelectedSort}
                                         />
                                     </div>
 
@@ -84,10 +165,24 @@ export default function Product() {
                                     <div className={`transition-all lg:col-span-2 duration-500 ease-in-out transform ${showFilters ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
                                         {showFilters &&
                                             <div className=" hidden lg:block">
-                                                <CategoryList items={['Discount', 'Trending', 'New Arrival', 'Bestseller']} listClass='font-semibold text-md tracking-tight' />
+                                                <CategoryList items={['Discount', 'Trending', 'New Arrival', 'Bestseller']} listClass='font-semibold text-md tracking-tight'
+                                                    setSelectedStatus={setSelectedStatus} />
 
                                                 <div className='mt-8'>
-                                                    <FilterSection />
+                                                    <FilterSection
+                                                        selectedColors={selectedColors}
+                                                        setSelectedColors={setSelectedColors}
+                                                        selectedSizes={selectedSizes}
+                                                        setSelectedSizes={setSelectedSizes}
+                                                        selectedGenders={selectedGenders}
+                                                        setSelectedGenders={setSelectedGenders}
+                                                        selectedSports={selectedSports}
+                                                        setSelectedSports={setSelectedSports}
+                                                        selectedKidSection={selectedKidSection}
+                                                        setSelectedKidSection={setSelectedKidSection}
+                                                        selectedCategory={selectedCategory}
+                                                        setSelectedCategory={setSelectedCategory}
+                                                    />
                                                 </div>
                                             </div>
                                         }
