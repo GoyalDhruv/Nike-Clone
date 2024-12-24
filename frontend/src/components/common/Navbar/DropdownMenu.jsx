@@ -1,14 +1,11 @@
 import React from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import PropTypes from 'prop-types';
+import { useFilterContext } from '../../../contexts/filterContext';
 
-const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar, setSelectedSort }) => {
+const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
 
-    const handleItemClick = (item) => {
-        if (setSelectedSort) {
-            setSelectedSort(item);
-        }
-    };
+    const { selectedSort, setSelectedSort } = useFilterContext()
 
     return (
         <Menu as="div" className={`relative ${isNavBar && 'z-20'}`}>
@@ -21,23 +18,20 @@ const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar, setSelectedSort })
                 <div className={`px-5 ${subTitle ? "py-1" : "py-3"}`}>
                     {subTitle &&
                         <MenuItem>
-                            <p className="pt-2 pb-3 font-semibold text-md text-black hover:text-textPrimary">
+                            <p className="pt-2 pb-3 font-semibold text-md text-black">
                                 {subTitle}
                             </p>
                         </MenuItem>
                     }
                     {items.map((item, index) => (
                         <MenuItem key={index}>
-                            {({ active }) => (
-                                <div
-                                    // href={item.href || '#'}
-                                    className={`block pb-2 font-medium text-xs ${active ? 'text-black' : 'text-textPrimary'
-                                        } hover:text-black`}
-                                    onClick={() => handleItemClick(item)}
-                                >
-                                    {item.label}
-                                </div>
-                            )}
+                            <div
+                                // href={item.href || '#'}
+                                className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
+                                onClick={() => setSelectedSort(item)}
+                            >
+                                {item.label}
+                            </div>
                         </MenuItem>
                     ))}
                 </div>
@@ -51,7 +45,6 @@ DropdownMenu.propTypes = {
     subTitle: PropTypes.string,
     items: PropTypes.array.isRequired,
     isNavBar: PropTypes.bool,
-    setSelectedSort: PropTypes.func,
 }
 
 export default DropdownMenu;

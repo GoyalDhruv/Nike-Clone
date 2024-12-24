@@ -2,24 +2,15 @@ import { categoryFilter, colorFilter, genderFilter, kidsFilter, sizeFilter, spor
 import { useState } from 'react';
 import CustomDisclosure from '../Disclosure/CustomDisclosure';
 import PropTypes from 'prop-types';
+import { useFilterContext } from '../../contexts/filterContext';
 
 function FilterSection(
-    {
-        selectedColors,
-        setSelectedColors,
-        selectedSizes,
-        setSelectedSizes,
-        selectedGenders,
-        setSelectedGenders,
-        selectedSports,
-        setSelectedSports,
-        selectedKidSection,
-        setSelectedKidSection,
-        selectedCategory,
-        setSelectedCategory
-    }
 ) {
 
+    const {
+        selectedCategory, setSelectedCategory, selectedColors, setSelectedColors, selectedSizes, setSelectedSizes,
+        selectedGenders, setSelectedGenders, selectedSports, setSelectedSports, selectedKidSection, setSelectedKidSection
+    } = useFilterContext();
 
     const handleColorToggle = (color) => {
         setSelectedColors((prevSelectedColors) => {
@@ -241,21 +232,6 @@ function FilterSection(
             />
         </>
     );
-}
-
-FilterSection.propTypes = {
-    selectedColors: PropTypes.array.isRequired,
-    setSelectedColors: PropTypes.func.isRequired,
-    selectedSizes: PropTypes.array.isRequired,
-    setSelectedSizes: PropTypes.func.isRequired,
-    selectedGenders: PropTypes.array.isRequired,
-    setSelectedGenders: PropTypes.func.isRequired,
-    selectedSports: PropTypes.array.isRequired,
-    setSelectedSports: PropTypes.func.isRequired,
-    selectedKidSection: PropTypes.array.isRequired,
-    setSelectedKidSection: PropTypes.func.isRequired,
-    selectedCategory: PropTypes.array.isRequired,
-    setSelectedCategory: PropTypes.func.isRequired,
 }
 
 export default FilterSection;

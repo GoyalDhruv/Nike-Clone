@@ -3,16 +3,15 @@ import CustomDialog from '../CustomDialog/Dialog'
 import Images from '../../constants/imageConstant';
 import FilterSection from './FilterSection';
 import PropTypes from 'prop-types'
+import { useFilterContext } from '../../contexts/filterContext';
 
 function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen }) {
     const toggleMobileFilter = () => {
         setMobileFiltersOpen(!mobileFiltersOpen)
     }
-    const [selectedOption, setSelectedOption] = useState('');
 
-    const handleRadioChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
+    const { selectedSort, setSelectedSort } = useFilterContext()
+
     return (
         <CustomDialog open={mobileFiltersOpen} toggle={toggleMobileFilter} bottom={true}>
             <div className='px-4 py-5'>
@@ -33,10 +32,10 @@ function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen }) {
                 </p>
                 <div className="space-y-3">
                     {[
-                        { label: 'Featured', value: 'Featured' },
-                        { label: 'Newest', value: 'Newest' },
-                        { label: 'Price: Low to High', value: 'Price: Low to High' },
-                        { label: 'Price: High to Low', value: 'Price: High to Low' },
+                        { label: 'Featured', order: 'desc', sort: 'rating' },
+                        { label: 'Newest', order: 'desc', sort: 'createdAt' },
+                        { label: 'Price: Low to High', order: 'asc', sort: 'discountPrice' },
+                        { label: 'Price: High to Low', order: 'desc', sort: 'discountPrice' },
                     ].map((option) => (
                         <div key={option.value} className="flex items-center space-x-2">
                             <input
@@ -44,8 +43,8 @@ function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen }) {
                                 id={option.value}
                                 name="filter"
                                 value={option.value}
-                                checked={selectedOption === option.value}
-                                onChange={handleRadioChange}
+                                checked={selectedSort === option.value}
+                                onChange={(e) => setSelectedSort(e.target.value)}
                                 className="h-4 w-4 text-black border-gray-300 focus:ring-black accent-black"
                             />
                             <label htmlFor={option.value} className="text-black text-md font-semibold tracking-tighter">

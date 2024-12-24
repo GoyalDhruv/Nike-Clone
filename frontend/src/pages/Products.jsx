@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllProducts } from '../services/productApi';
 import Loader from '../components/Loader/Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useFilterContext } from '../contexts/filterContext';
 
 
 export default function Product() {
@@ -18,18 +19,11 @@ export default function Product() {
     const navigate = useNavigate();
 
     const [filtersReady, setFiltersReady] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('')
-    const [selectedColors, setSelectedColors] = useState([]);
-    const [selectedSizes, setSelectedSizes] = useState([]);
-    const [selectedGenders, setSelectedGenders] = useState([]);
-    const [selectedSports, setSelectedSports] = useState([]);
-    const [selectedKidSection, setSelectedKidSection] = useState([]);
-    const [selectedStatus, setSelectedStatus] = useState('')
-    const [selectedSort, setSelectedSort] = useState({
-        label: 'Featured',
-        order: 'desc',
-        sort: 'rating',
-    });
+
+    const {
+        selectedCategory, setSelectedCategory, selectedColors, setSelectedColors, selectedSizes, setSelectedSizes,
+        selectedGenders, setSelectedGenders, selectedSports, setSelectedSports, selectedKidSection, setSelectedKidSection, selectedStatus, setSelectedStatus, selectedSort, setSelectedSort
+    } = useFilterContext();
 
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
     const [showFilters, setShowFilters] = useState(true);
@@ -144,7 +138,6 @@ export default function Product() {
                                                 { label: 'Price: Low to High', order: 'asc', sort: 'discountPrice' },
                                                 { label: 'Price: High to Low', order: 'desc', sort: 'discountPrice' },
                                             ]}
-                                            setSelectedSort={setSelectedSort}
                                         />
                                     </div>
 
@@ -169,20 +162,7 @@ export default function Product() {
                                                     setSelectedStatus={setSelectedStatus} />
 
                                                 <div className='mt-8'>
-                                                    <FilterSection
-                                                        selectedColors={selectedColors}
-                                                        setSelectedColors={setSelectedColors}
-                                                        selectedSizes={selectedSizes}
-                                                        setSelectedSizes={setSelectedSizes}
-                                                        selectedGenders={selectedGenders}
-                                                        setSelectedGenders={setSelectedGenders}
-                                                        selectedSports={selectedSports}
-                                                        setSelectedSports={setSelectedSports}
-                                                        selectedKidSection={selectedKidSection}
-                                                        setSelectedKidSection={setSelectedKidSection}
-                                                        selectedCategory={selectedCategory}
-                                                        setSelectedCategory={setSelectedCategory}
-                                                    />
+                                                    <FilterSection />
                                                 </div>
                                             </div>
                                         }
