@@ -5,15 +5,12 @@ import FilterSection from './FilterSection';
 import PropTypes from 'prop-types'
 import { useFilterContext } from '../../contexts/filterContext';
 
-function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen }) {
-    const toggleMobileFilter = () => {
-        setMobileFiltersOpen(!mobileFiltersOpen)
-    }
+function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen, handleApplyFilters, handleClearFilters }) {
 
-    const { selectedSort, setSelectedSort } = useFilterContext()
+    const { selectedSort, setSelectedSort } = useFilterContext();
 
     return (
-        <CustomDialog open={mobileFiltersOpen} toggle={toggleMobileFilter} bottom={true}>
+        <CustomDialog open={mobileFiltersOpen} toggle={() => setMobileFiltersOpen(false)} bottom={true}>
             <div className='px-4 py-5'>
                 <div className="flex items-center justify-between">
                     <h2 className="text-lg font-medium text-gray-900">Filter</h2>
@@ -37,17 +34,17 @@ function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen }) {
                         { label: 'Price: Low to High', order: 'asc', sort: 'discountPrice' },
                         { label: 'Price: High to Low', order: 'desc', sort: 'discountPrice' },
                     ].map((option) => (
-                        <div key={option.value} className="flex items-center space-x-2">
+                        <div key={option.label} className="flex items-center space-x-2">
                             <input
                                 type="radio"
-                                id={option.value}
+                                id={option.label}
                                 name="filter"
-                                value={option.value}
-                                checked={selectedSort === option.value}
-                                onChange={(e) => setSelectedSort(e.target.value)}
+                                value={option.label}
+                                checked={selectedSort.label === option.label}
+                                onChange={() => setSelectedSort(option)}
                                 className="h-4 w-4 text-black border-gray-300 focus:ring-black accent-black"
                             />
-                            <label htmlFor={option.value} className="text-black text-md font-semibold tracking-tighter">
+                            <label htmlFor={option.label} className="text-black text-md font-semibold tracking-tighter">
                                 {option.label}
                             </label>
                         </div>
@@ -59,8 +56,18 @@ function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen }) {
                     <FilterSection />
                 </form>
                 <div className='grid grid-cols-2 gap-2'>
-                    <button className='bg-white text-black font-medium rounded-full px-4 py-2 border'>Clear</button>
-                    <button className='black-btn'>Apply</button>
+                    <button
+                        className='bg-white text-black font-medium rounded-full px-4 py-2 border'
+                        onClick={handleClearFilters}
+                    >
+                        Clear
+                    </button>
+                    <button
+                        className='black-btn'
+                        onClick={handleApplyFilters}
+                    >
+                        Apply
+                    </button>
 
                 </div>
             </div>
@@ -71,6 +78,9 @@ function MobileFilter({ mobileFiltersOpen, setMobileFiltersOpen }) {
 MobileFilter.propTypes = {
     mobileFiltersOpen: PropTypes.bool.isRequired,
     setMobileFiltersOpen: PropTypes.func.isRequired,
+    handleApplyFilters: PropTypes.func,
+    handleClearFilters: PropTypes.func,
+    toggleMobileFilter: PropTypes.func
 }
 
 export default MobileFilter

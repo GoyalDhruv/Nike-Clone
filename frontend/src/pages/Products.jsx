@@ -17,18 +17,32 @@ import { useFilterContext } from '../contexts/filterContext';
 export default function Product() {
     const location = useLocation();
     const navigate = useNavigate();
-
-    const [filtersReady, setFiltersReady] = useState(false);
+    const [shouldFetch, setShouldFetch] = useState(true);
+    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+    const [showFilters, setShowFilters] = useState(true);
 
     const {
         selectedCategory, setSelectedCategory, selectedColors, setSelectedColors, selectedSizes, setSelectedSizes,
         selectedGenders, setSelectedGenders, selectedSports, setSelectedSports, selectedKidSection, setSelectedKidSection, selectedStatus, setSelectedStatus, selectedSort, setSelectedSort
     } = useFilterContext();
 
-    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-    const [showFilters, setShowFilters] = useState(true);
+    useEffect(() => {
+        if (mobileFiltersOpen) {
+            setShouldFetch(false);
+        }
+    }, [mobileFiltersOpen]);
 
     useEffect(() => {
+        changeParams()
+    }, [location.search]);
+
+    useEffect(() => {
+        handleFilterChange();
+    }, [selectedCategory, selectedColors, selectedSizes, selectedGenders, selectedSports, selectedKidSection, selectedStatus, selectedSort]);
+
+
+
+    const changeParams = () => {
         const queryParams = new URLSearchParams(location.search);
 
         const category = queryParams.get('category') || 'shoes';
@@ -55,9 +69,7 @@ export default function Product() {
         setSelectedKidSection(kids);
         setSelectedStatus(status)
         setSelectedSort({ label, order, sort });
-
-        setFiltersReady(true);
-    }, [location.search]);
+    }
 
     const handleFilterChange = () => {
         const params = new URLSearchParams();
@@ -73,11 +85,7 @@ export default function Product() {
         navigate(`?${params.toString()}`);
     };
 
-    useEffect(() => {
-        handleFilterChange();
-    }, [selectedCategory, selectedColors, selectedSizes, selectedGenders, selectedSports, selectedKidSection, selectedStatus, selectedSort]);
-
-    const { isLoading, error, data: productData } = useQuery({
+    const { isLoading, data: productData } = useQuery({
         queryKey: [
             'products',
             {
@@ -92,10 +100,24 @@ export default function Product() {
             },
         ],
         queryFn: getAllProducts,
-        enabled: filtersReady
+        enabled: shouldFetch
     });
 
-    console.log(error)
+    const handleApplyFilters = () => {
+        setShouldFetch(true);
+        setMobileFiltersOpen(!mobileFiltersOpen)
+    };
+
+    const handleClearFilters = () => {
+        setSelectedCategory('shoes');
+        setSelectedColors([]);
+        setSelectedSizes([]);
+        setSelectedGenders([]);
+        setSelectedSports([]);
+        setSelectedKidSection([]);
+        setSelectedStatus(null);
+        setSelectedSort({ label: 'Featured', order: 'desc', sort: 'rating' });
+    };
 
     return (
         <>
@@ -104,7 +126,7 @@ export default function Product() {
                     <Loader /> :
                     <>
                         {/* Mobile filter dialog */}
-                        <MobileFilter mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} />
+                        <MobileFilter mobileFiltersOpen={mobileFiltersOpen} setMobileFiltersOpen={setMobileFiltersOpen} handleApplyFilters={handleApplyFilters} handleClearFilters={handleClearFilters} />
 
                         <CustomContainer customClass={""}>
                             <div className="flex items-baseline justify-between border-b border-gray-200 py-12">

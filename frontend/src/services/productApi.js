@@ -3,7 +3,7 @@ import api from "./api";
 export const getAllProducts = async ({ queryKey }) => {
     const [, filters] = queryKey;
 
-    const response = await api.get('/api/products', {
+    const response = await api.get('/getProducts', {
         params: {
             category: filters.selectedCategory,
             color: filters.selectedColors.join(','),
