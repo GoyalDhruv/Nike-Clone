@@ -20,12 +20,12 @@ const productSchema = mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['Shoes', 'Clothing']
+        enum: ['shoes', 'clothes']
     },
     stock: { type: Number, default: 0, min: 0 },
     gender: {
         type: String,
-        enum: ['Men', 'Women', 'Unisex']
+        enum: ['nen', 'women', 'unisex']
     },
     isKids: {
         type: Boolean,
@@ -33,21 +33,18 @@ const productSchema = mongoose.Schema({
     },
     kids: {
         type: String,
-        enum: ['Girls', 'Boys']
+        enum: ['girls', 'boys']
     },
     rating: { type: Number, min: 0, max: 5, default: 0 },
-    sizeVariants: [{
+    variants: [{
         size: { type: String, required: true },
-        stock: { type: Number, default: 0 }
-    }],
-    colorVariants: [{
         color: { type: String, required: true },
+        stock: { type: Number, default: 0 },
         images: {
             type: [String],
             required: true,
             validate: [arr => arr.length > 0, 'At least one image is required']
-        },
-        stock: { type: Number, default: 0 }
+        }
     }],
     status: {
         type: [String],
@@ -56,11 +53,9 @@ const productSchema = mongoose.Schema({
     },
     sports: {
         type: [String],
-        enum: ['Running', 'Football', 'Basketball', 'Training and Gym', 'Tennis', 'Yoga', 'Skateboarding', 'Dance', 'Lifestyle'],
+        enum: ['running', 'football', 'basketball', 'training and gym', 'tennis', 'yoga', 'skateboarding', 'dance', 'lifestyle'],
         default: []
     }
 }, { timestamps: true });
-
-productSchema.index({ category: 1, status: 1 });
 
 module.exports = mongoose.model('Product', productSchema);

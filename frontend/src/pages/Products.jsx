@@ -12,14 +12,16 @@ import { getAllProducts } from '../services/productApi';
 import Loader from '../components/Loader/Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFilterContext } from '../contexts/filterContext';
+import { RiResetLeftLine } from "react-icons/ri";
 
 
 export default function Product() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [shouldFetch, setShouldFetch] = useState(true);
+    const [shouldFetch, setShouldFetch] = useState(false);
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
     const [showFilters, setShowFilters] = useState(true);
+    const queryParams = new URLSearchParams(location.search);
 
     const {
         selectedCategory, setSelectedCategory, selectedColors, setSelectedColors, selectedSizes, setSelectedSizes,
@@ -43,8 +45,6 @@ export default function Product() {
 
 
     const changeParams = () => {
-        const queryParams = new URLSearchParams(location.search);
-
         const category = queryParams.get('category') || 'shoes';
         const status = queryParams.get('status')
         const colors = queryParams.get('colors')?.split(',') || [];
@@ -69,11 +69,13 @@ export default function Product() {
         setSelectedKidSection(kids);
         setSelectedStatus(status)
         setSelectedSort({ label, order, sort });
+        if (!mobileFiltersOpen) {
+            setShouldFetch(true)
+        }
     }
 
     const handleFilterChange = () => {
         const params = new URLSearchParams();
-
         if (selectedCategory) params.set('category', selectedCategory);
         if (selectedColors.length) params.set('colors', selectedColors.join(','));
         if (selectedSizes.length) params.set('sizes', selectedSizes.join(','));
@@ -133,6 +135,18 @@ export default function Product() {
                                 <h1 className="page-heading">New Arrivals</h1>
 
                                 <div className="flex items-center gap-3">
+                                    {queryParams?.size > 1 &&
+                                        <button
+                                            type="button"
+                                            onClick={() => handleClearFilters()}
+                                            className="lg:flex py-2 gap-2 items-center hidden"
+                                        >
+                                            <span className='text-lg font-medium'>
+                                                Reset Filters
+                                            </span>
+                                            <RiResetLeftLine className='size-5' />
+                                        </button>
+                                    }
                                     <button
                                         type="button"
                                         onClick={() => setShowFilters(prev => !prev)}

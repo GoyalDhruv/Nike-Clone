@@ -10,7 +10,7 @@ export const colorFilter = [
     { label: "Yellow", value: "yellow", checked: false }
 ];
 
-export const sizeFilter = [
+export const shoeSizeFilter = [
     { label: "3", value: "3", checked: false },
     { label: "4", value: "4", checked: false },
     { label: "5", value: "5", checked: false },
@@ -24,6 +24,16 @@ export const sizeFilter = [
     { label: "13", value: "13", checked: false },
     { label: "14", value: "14", checked: false },
 ];
+
+export const clothesSizeFilter = [
+    { label: "XS", value: "XS", checked: false },
+    { label: "S", value: "S", checked: false },
+    { label: "M", value: "M", checked: false },
+    { label: "L", value: "L", checked: false },
+    { label: "XL", value: "XL", checked: false },
+    { label: "2XL", value: "2XL", checked: false }
+];
+
 
 export const genderFilter = [
     { value: 'men', label: 'Men', checked: false },
@@ -47,5 +57,5 @@ export const kidsFilter = [
 
 export const categoryFilter = [
     { value: 'shoes', label: 'Shoes' },
-    { value: 'cloths', label: 'Cloths' }
+    { value: 'clothes', label: 'Clothes' }
 ];

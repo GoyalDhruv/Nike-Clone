@@ -1,4 +1,4 @@
-import { categoryFilter, colorFilter, genderFilter, kidsFilter, sizeFilter, sportsFilter } from '../../constants/filterData';
+import { categoryFilter, clothesSizeFilter, colorFilter, genderFilter, kidsFilter, shoeSizeFilter, sportsFilter } from '../../constants/filterData';
 import { useState } from 'react';
 import CustomDisclosure from '../Disclosure/CustomDisclosure';
 import PropTypes from 'prop-types';
@@ -113,35 +113,68 @@ function FilterSection(
             />
 
             {/* Size Filter */}
-            <CustomDisclosure
-                title={'Size'}
-                disclosureBody={
-                    <div className="grid lg:grid-cols-3 sm:grid-cols-6 grid-cols-4 gap-3">
-                        {sizeFilter.map((option, index) => (
-                            <div
-                                key={option.value}
-                                className={`py-1 rounded-md text-center border ${selectedSizes.includes(option.value) ? 'border-black ' : 'border-[#E5E5E5]'} hover:border-black transition-all duration-300`}
-                                onClick={() => handleSizeToggle(option.value)}
-                            >
-                                <input
-                                    value={option.value}
-                                    checked={selectedSizes.includes(option.value)}
-                                    onChange={() => handleSizeToggle(option.value)}
-                                    id={`filter-size-${index}`}
-                                    type="checkbox"
-                                    className="hidden"
-                                />
-                                <label
-                                    htmlFor={`filter-size-${index}`}
-                                    className="text-md font-medium w-full"
-                                >
-                                    {option.label}
-                                </label>
+            {
+                selectedCategory === 'shoes' ?
+                    <CustomDisclosure
+                        title={'Size'}
+                        disclosureBody={
+                            <div className="grid lg:grid-cols-3 sm:grid-cols-6 grid-cols-4 gap-3">
+                                {shoeSizeFilter.map((option, index) => (
+                                    <div
+                                        key={option.value}
+                                        className={`py-1 rounded-md text-center border ${selectedSizes.includes(option.value) ? 'border-black ' : 'border-[#E5E5E5]'} hover:border-black transition-all duration-300`}
+                                        onClick={() => handleSizeToggle(option.value)}
+                                    >
+                                        <input
+                                            value={option.value}
+                                            checked={selectedSizes.includes(option.value)}
+                                            onChange={() => handleSizeToggle(option.value)}
+                                            id={`filter-size-${index}`}
+                                            type="checkbox"
+                                            className="hidden"
+                                        />
+                                        <label
+                                            htmlFor={`filter-size-${index}`}
+                                            className="text-md font-medium w-full"
+                                        >
+                                            {option.label}
+                                        </label>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                }
-            />
+                        }
+                    />
+                    :
+                    <CustomDisclosure
+                        title={'Size'}
+                        disclosureBody={
+                            <div className="grid lg:grid-cols-2 grid-cols-3 gap-3">
+                                {clothesSizeFilter.map((option, index) => (
+                                    <div
+                                        key={option.value}
+                                        className={`py-1 rounded-md text-center border ${selectedSizes.includes(option.value) ? 'border-black ' : 'border-[#E5E5E5]'} hover:border-black transition-all duration-300`}
+                                        onClick={() => handleSizeToggle(option.value)}
+                                    >
+                                        <input
+                                            value={option.value}
+                                            checked={selectedSizes.includes(option.value)}
+                                            onChange={() => handleSizeToggle(option.value)}
+                                            id={`filter-size-${index}`}
+                                            type="checkbox"
+                                            className="hidden"
+                                        />
+                                        <label
+                                            htmlFor={`filter-size-${index}`}
+                                            className="text-md font-medium w-full"
+                                        >
+                                            {option.label}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        }
+                    />
+            }
 
             {/* Gender Filter */}
             <CustomDisclosure

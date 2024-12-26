@@ -13,8 +13,38 @@ function validateStock(stock, colorVariants) {
 };
 
 exports.getAllProducts = async (req, res) => {
+    const { category, color, size, gender, sports, kids, status, sort, order } = req.query;
+
+    let query = {};
+    if (category) {
+        query.category = category;
+    }
+    if (color) {
+        query.colorVariants = { $elemMatch: { color: { $in: color.split(',') } } };
+    }
+    if (size) {
+        query.sizeVariants = { $elemMatch: { size: { $in: size.split(',') } } };
+    }
+    if (gender) {
+        query.gender = { $in: gender.split(',') };
+    }
+    if (sports) {
+        query.sports = { $in: sports.split(',') };
+    }
+    if (kids) {
+        query.kids = { $in: kids.split(',') };
+    }
+    if (status) {
+        query.status = status;
+    }
+
+    let sortOptions = {};
+    if (sort && order) {
+        sortOptions[sort] = order === 'asc' ? 1 : -1;
+    }
+
     try {
-        const products = await Product.find()
+        const products = await Product.find(query).sort(sortOptions);
         res.status(200).json({
             success: true,
             data: products
@@ -25,7 +55,7 @@ exports.getAllProducts = async (req, res) => {
             message: error.message
         });
     }
-}
+};
 
 exports.getProductById = async (req, res) => {
     try {
@@ -46,13 +76,15 @@ exports.createProduct = async (req, res) => {
     try {
         const {
             title,
+            details,
             price,
             discount,
-            stock,
             category,
-            subCategory,
-            shoeDetails,
-            clothingDetails
+            stock,
+            variants,
+            gender,
+            isKids,
+            kids
         } = req.body;
 
         const existingProduct = await Product.findOne({ title });
@@ -63,6 +95,20 @@ exports.createProduct = async (req, res) => {
             });
         }
 
+        if (!details || !category) {
+            return res.status(400).json({
+                success: false,
+                message: 'Details and category are required'
+            });
+        }
+
+        if (!['shoes', 'clothes'].includes(category)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid category'
+            });
+        }
+
         if (price <= 0) {
             return res.status(400).json({
                 success: false,
@@ -70,51 +116,47 @@ exports.createProduct = async (req, res) => {
             });
         }
 
-        const validSubCategories = {
-            Shoes: ['Running Shoes', 'Casual Shoes', 'Sneakers', 'Boots'],
-            Clothing: ['T-Shirts', 'Jackets', 'Pants', 'Shorts'],
-            Accessories: ['Bags', 'Hats', 'Socks', 'Watches'],
-            'Sports Gear': ['Equipment']
-        };
-
-        if (!Object.keys(validSubCategories).includes(category)) {
+        if (discount < 0 || discount > 100) {
             return res.status(400).json({
                 success: false,
-                message: 'Invalid category'
+                message: 'Discount must be between 0 and 100%'
             });
         }
 
-        if (!validSubCategories[category].includes(subCategory)) {
+        if (gender && !['men', 'women', 'unisex'].includes(gender)) {
             return res.status(400).json({
                 success: false,
-                message: 'Invalid subCategory for the selected category'
+                message: 'Invalid gender value'
             });
         }
 
-        if (stock && req.body.colorVariants) {
-            const totalColorVariantStock = req.body.colorVariants.reduce(
-                (total, variant) => total + (variant.stock || 0),
-                0
-            );
-            if (stock !== totalColorVariantStock) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Total stock must match the sum of stock in color variants'
-                });
+        if (isKids && (!kids || !['girls', 'boys'].includes(kids))) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid kids value'
+            });
+        }
+
+        if (variants.length > 0) {
+            for (let variant of variants) {
+                if (!variant.size || !variant.color || variant.stock < 0) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Each variant must have a valid size, color, and stock.'
+                    });
+                }
+                if (!variant.images || variant.images.length === 0) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Each variant must have at least one image'
+                    });
+                }
             }
-        }
-
-        if (category === 'Shoes' && !shoeDetails) {
+            req.body.stock = variants.reduce((total, variant) => total + (variant.stock || 0), 0);
+        } else if (stock <= 0) {
             return res.status(400).json({
                 success: false,
-                message: 'Shoe details are required for Shoes category'
-            });
-        }
-
-        if (category === 'Clothing' && !clothingDetails) {
-            return res.status(400).json({
-                success: false,
-                message: 'Clothing details are required for Clothing category'
+                message: 'Product must have stock or variants with stock.'
             });
         }
 
