@@ -1,4 +1,4 @@
-const Product = require('../models/products.model')
+import Product from '../models/products.model.js';
 
 function calculateDiscountedPrice(price, discount) {
     if (discount) {
@@ -12,7 +12,7 @@ function validateStock(stock, colorVariants) {
     return stock <= totalVariantStock;
 };
 
-exports.getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
     const { category, color, size, gender, sports, kids, status, sort, order } = req.query;
 
     let query = {};
@@ -57,7 +57,7 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
-exports.getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         res.status(200).json({
@@ -72,7 +72,7 @@ exports.getProductById = async (req, res) => {
     }
 }
 
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
     try {
         const {
             title,
@@ -181,7 +181,7 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-exports.updateProductById = async (req, res) => {
+export const updateProductById = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -312,7 +312,7 @@ exports.updateProductById = async (req, res) => {
     }
 };
 
-exports.deleteProductById = async (req, res) => {
+export const deleteProductById = async (req, res) => {
     const { id } = req.params;
     try {
         const product = await Product.findByIdAndDelete({ _id: id });
