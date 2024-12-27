@@ -25,7 +25,7 @@ const productSchema = mongoose.Schema({
     stock: { type: Number, default: 0, min: 0 },
     gender: {
         type: String,
-        enum: ['nen', 'women', 'unisex']
+        enum: ['men', 'women', 'unisex']
     },
     isKids: {
         type: Boolean,

@@ -1,7 +1,6 @@
 import { categoryFilter, clothesSizeFilter, colorFilter, genderFilter, kidsFilter, shoeSizeFilter, sportsFilter } from '../../constants/filterData';
 import { useState } from 'react';
 import CustomDisclosure from '../Disclosure/CustomDisclosure';
-import PropTypes from 'prop-types';
 import { useFilterContext } from '../../contexts/filterContext';
 
 function FilterSection(

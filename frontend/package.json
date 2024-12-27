@@ -26,7 +26,8 @@
     "react-spinners": "^0.15.0",
     "redux": "^5.0.1",
     "sweetalert2": "^11.15.0",
-    "swiper": "^11.1.15"
+    "swiper": "^11.1.15",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

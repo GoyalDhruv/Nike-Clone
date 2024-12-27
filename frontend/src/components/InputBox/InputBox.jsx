@@ -7,7 +7,7 @@ import { FaCheck } from "react-icons/fa6";
 function InputBox({
     type,
     value,
-    handleChange,
+    onChange,
     placeholder = '',
     label = '',
     autofocus = false,
@@ -24,28 +24,35 @@ function InputBox({
     helperText = '',
     options = [],
 }) {
-    const isSelect = type === 'select';
 
-    const inputClass = `px-2 py-3 text-md text-black tracking-tight font-semibold rounded-lg border focus-visible:outline-none peer ${error ? 'border-red-500' : 'border-gray-300'}`;
-    const buttonClass = `relative w-full border text-md font-semibold rounded-lg px-2 py-3 text-left focus:outline-none ${error ? 'border-red-500' : 'border-gray-300'}`;
+    const handleCheckboxChange = (optionValue) => {
+        const newValue = value.includes(optionValue)
+            ? value.filter(val => val !== optionValue)
+            : [...value, optionValue]; 
+        onChange({ target: { name, value: newValue } });
+    };
+
+    const handleRadioChange = (optionValue) => {
+        onChange({ target: { name, value: optionValue } });
+    };
 
     return (
         <>
-            {isSelect ? (
-                <div className="w-[211px] pt-2">
-                    <Listbox value={value} onChange={handleChange}>
-                        <ListboxButton className={buttonClass}>
-                            {options.find(item => item.value === value)?.label || <span className="text-gray-400">Select...</span>}
-                            <FaChevronDown
-                                className="group pointer-events-none absolute top-4 text-textPrimary right-3 size-4"
-                            />
+            {type === 'select' ? (
+                <Field className="w-100 mt-3">
+                    <Listbox value={value} onChange={onChange}>
+                        <ListboxButton className={`relative w-full border text-md font-semibold rounded-lg px-2 py-3 text-left focus:outline-none ${error ? 'border-red-500' : 'border-gray-300'}`}>
+                            {value ?
+                                options.find(option => option.value === value)?.label ||
+                                <span className="text-textPrimary font-normal">Select....</span>
+                                : <span className="text-textPrimary font-normal">Select...</span>
+                            }
+                            <FaChevronDown className="group pointer-events-none absolute top-4 text-textPrimary right-3 size-4" />
                         </ListboxButton>
                         <ListboxOptions
                             anchor="bottom"
                             transition
-                            className={
-                                'bg-white mt-2 w-[var(--button-width)] rounded-xl border p-1 focus:outline-none transition duration-150 ease-in data-[leave]:data-[closed]:opacity-0'
-                            }
+                            className='bg-white z-10 mt-2 w-[var(--button-width)] rounded-xl border p-1 focus:outline-none transition duration-150 ease-in data-[leave]:data-[closed]:opacity-0'
                         >
                             {options.map(({ label, value: optionValue }) => (
                                 <ListboxOption
@@ -59,17 +66,51 @@ function InputBox({
                             ))}
                         </ListboxOptions>
                     </Listbox>
+                </Field>
+            ) : type === 'checkbox' ? (
+                <div className='grid sm:grid-cols-4 grid-cols-2 gap-2'>
+                    {options.map((option, index) => (
+                        <Field key={option.value} className="flex gap-2 items-center">
+                            <Input
+                                type="checkbox"
+                                checked={value.includes(option.value)}
+                                onChange={() => handleCheckboxChange(option.value)}
+                                className="w-5 h-5 rounded border-gray-300 checked:accent-black cursor-pointer"
+                            />
+                            <Label htmlFor={`filter-${index}`} className="text-md font-medium">
+                                {option.label}
+                            </Label>
+                        </Field>
+                    ))}
+                </div>
+            ) : type === 'radio' ? (
+                <div className='grid sm:grid-cols-3 grid-cols-2 gap-2'>
+                    {options.map((option, index) => (
+                        <Field key={option.value} className="flex gap-2 items-center">
+                            <Input
+                                type="radio"
+                                checked={value === option.value}
+                                onChange={() => handleRadioChange(option.value)}
+                                name={name}
+                                id={`radio-${index}`}
+                                className="w-5 h-5 rounded border-gray-300 checked:accent-black cursor-pointer"
+                            />
+                            <Label htmlFor={`radio-${index}`} className="text-md font-medium">
+                                {option.label}
+                            </Label>
+                        </Field>
+                    ))}
                 </div>
             ) : (
-                <Field className="relative">
+                <Field className="relative mt-3">
                     <Input
                         type={type}
                         name={name}
                         id={id}
-                        className={inputClass}
+                        className={`block px-3 py-3 border w-full text-md tracking-tight font-semibold rounded-lg border-1 focus:outline-none focus:ring-0 peer ${error ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder={placeholder}
                         value={value}
-                        onChange={handleChange}
+                        onChange={onChange}
                         autoFocus={autofocus}
                         disabled={disabled}
                         maxLength={maxLength}
@@ -83,7 +124,7 @@ function InputBox({
                         <Label
                             htmlFor={id}
                             id={`${id}-label`}
-                            className="absolute text-sm text-textPrimary duration-300 transform origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-[47%] peer-focus:top-[6px] peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                            className="absolute text-sm text-textPrimary duration-300 transform -translate-y-4 scale-75 top-1.5 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1.5 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-auto"
                         >
                             {label}
                         </Label>
@@ -97,9 +138,9 @@ function InputBox({
 }
 
 InputBox.propTypes = {
-    type: PropTypes.oneOf(['text', 'number', 'email', 'password', 'select']).isRequired,
-    value: PropTypes.any.isRequired, // Can vary based on `type`
-    handleChange: PropTypes.func.isRequired,
+    type: PropTypes.oneOf(['text', 'number', 'email', 'password', 'select', 'checkbox']).isRequired,
+    value: PropTypes.any.isRequired,
+    onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     label: PropTypes.string,
     autofocus: PropTypes.bool,
@@ -114,12 +155,7 @@ InputBox.propTypes = {
     onBlur: PropTypes.func,
     error: PropTypes.string,
     helperText: PropTypes.string,
-    options: PropTypes.arrayOf(
-        PropTypes.shape({
-            label: PropTypes.string.isRequired,
-            value: PropTypes.any.isRequired,
-        })
-    ),
+    options: PropTypes.array
 };
 
 export default InputBox;
