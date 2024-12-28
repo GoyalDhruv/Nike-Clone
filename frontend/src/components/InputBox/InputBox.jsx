@@ -16,7 +16,6 @@ function InputBox({
     id = '',
     maxLength = undefined,
     minLength = undefined,
-    pattern = '',
     required = false,
     readOnly = false,
     onBlur = undefined,
@@ -28,7 +27,7 @@ function InputBox({
     const handleCheckboxChange = (optionValue) => {
         const newValue = value.includes(optionValue)
             ? value.filter(val => val !== optionValue)
-            : [...value, optionValue]; 
+            : [...value, optionValue];
         onChange({ target: { name, value: newValue } });
     };
 
@@ -115,7 +114,6 @@ function InputBox({
                         disabled={disabled}
                         maxLength={maxLength}
                         minLength={minLength}
-                        pattern={pattern}
                         required={required}
                         readOnly={readOnly}
                         onBlur={onBlur}
@@ -138,7 +136,7 @@ function InputBox({
 }
 
 InputBox.propTypes = {
-    type: PropTypes.oneOf(['text', 'number', 'email', 'password', 'select', 'checkbox']).isRequired,
+    type: PropTypes.oneOf(['text', 'number', 'email', 'password', 'select', 'checkbox', 'radio']).isRequired,
     value: PropTypes.any.isRequired,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
@@ -149,7 +147,6 @@ InputBox.propTypes = {
     id: PropTypes.string,
     maxLength: PropTypes.number,
     minLength: PropTypes.number,
-    pattern: PropTypes.string,
     required: PropTypes.bool,
     readOnly: PropTypes.bool,
     onBlur: PropTypes.func,

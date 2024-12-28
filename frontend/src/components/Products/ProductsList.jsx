@@ -11,7 +11,7 @@ function ProductsList({ showFilters, data }) {
                         <div key={item._id} className='cursor-pointer'>
                             {/* <a href={product.href}> */}
                             <img
-                                src={item?.colorVariants?.[0]?.images?.[0]}
+                                src={item?.variants?.[0]?.images?.[0]}
                                 alt='cover img'
                                 className="aspect-square w-full rounded-md bg-gray-200 object-cover lg:aspect-auto lg:h-80"
                             />
@@ -21,8 +21,10 @@ function ProductsList({ showFilters, data }) {
                                     <p className="text-md text-textPrimary font-semibold capitalize">{item?.category}</p>
                                 </h3>
                                 <p className="text-md font-semibold mt-2 flex justify-between">
-                                    <div className='text-dark'>${item?.discountedPrice}</div>
-                                    <div className=' text-textPrimary line-through'>MRP ${item?.price}</div>
+                                    <div className='text-dark'>₹{item?.discountedPrice}</div>
+                                    {item?.discount !== 0 &&
+                                        <div className=' text-textPrimary line-through'>MRP ₹{item?.price}</div>
+                                    }
                                 </p>
                             </div>
                             {/* </a> */}

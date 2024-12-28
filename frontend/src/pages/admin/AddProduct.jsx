@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InputBox from '../../components/InputBox/InputBox';
 import CustomContainer from '../../layouts/CustomContainer';
 import { FieldArray, Formik } from 'formik';
 import * as Yup from 'yup';
 import { FaPlusCircle } from 'react-icons/fa';
 import { TbCloudUpload } from "react-icons/tb";
-import { categoryFilter, clothesSizeFilter, colorFilter, genderFilter, kidsFilter, shoeSizeFilter } from '../../constants/filterData';
-import { Button, Field, Input, Label } from '@headlessui/react';
+import { categoryFilter, clothesSizeFilter, colorFilter, genderFilter, kidsFilter, shoeSizeFilter, sportsFilter } from '../../constants/filterData';
+import { useMutation } from '@tanstack/react-query';
+import { createProduct, uploadFile } from '../../services/productApi';
+import { MdDelete } from "react-icons/md";
 
 function AddProduct() {
+
+    const [uploadProgress, setUploadProgress] = useState(0);
+
     const initialValues = {
-        productName: '',
+        title: '',
         details: '',
         price: '',
         discount: '',
         category: '',
         gender: '',
+        sports: '',
         kids: '',
         variants: [
             {
@@ -27,20 +33,52 @@ function AddProduct() {
         ]
     };
     const validationSchema = Yup.object({
-        productName: Yup.string().required('Product name is required'),
+        title: Yup.string().required('Product name is required'),
         details: Yup.string().required('Product details are required'),
         price: Yup.number().required('Price is required').positive('Price must be a positive number'),
         discount: Yup.number().required('Discount is required').min(0, 'Discount cannot be negative'),
         category: Yup.string().required('Category is required'),
     });
 
+    const mutation = useMutation({
+        mutationFn: createProduct,
+        onSuccess: (data) => {
+            console.log('Data posted successfully', data);
+        },
+        onError: (error) => {
+            console.error('Error posting data', error);
+        },
+    });
+
     const onSubmit = (values, { resetForm }) => {
         console.log('Form data:', values);
+        mutation.mutate(values);
         resetForm();
     };
 
-    const handleReset = ({ resetForm }) => {
-        resetForm();
+    const handleFileUpload = async (e, index, imgHelpers) => {
+        const files = e.currentTarget.files;
+        if (files && files[0]) {
+            const file = files[0];
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await uploadFile(formData, (progressEvent) => {
+                    if (progressEvent.total) {
+                        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        setUploadProgress(progress);
+                    }
+                });
+                const uploadedImageUrl = response.fileUrl;
+                imgHelpers.replace(index, uploadedImageUrl);
+                setUploadProgress(0);
+            } catch (error) {
+                console.error('Error uploading the image:', error);
+                setUploadProgress(0);
+            }
+        }
     }
 
     return (
@@ -55,10 +93,11 @@ function AddProduct() {
                                 <InputBox
                                     label="Product Name"
                                     type="text"
-                                    name="productName"
-                                    value={values.productName}
+                                    name="title"
+                                    id="title"
+                                    value={values.title}
                                     onChange={handleChange}
-                                    error={errors.productName && touched.productName ? errors.productName : ''}
+                                    error={errors.title && touched.title ? errors.title : ''}
                                 />
                             </div>
                             <div className='col-span-12'>
@@ -133,6 +172,18 @@ function AddProduct() {
                                     options={categoryFilter}
                                 />
                             </div>
+                            <div className='md:col-span-6 col-span-12'>
+                                <h4 className='font-bold text-lg tracking-tight mb-3'>Type</h4>
+                                <InputBox
+                                    label="Size"
+                                    type="checkbox"
+                                    name="sports"
+                                    options={sportsFilter}
+                                    value={values.sports}
+                                    onChange={handleChange}
+                                    error={errors?.sports ? errors.sports : ''}
+                                />
+                            </div>
 
                             <div className='col-span-12 mt-4'>
                                 <h4 className='font-bold text-lg tracking-tight'>Choose Your Fit & Style </h4>
@@ -186,57 +237,69 @@ function AddProduct() {
                                                                     <div className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-3'>
                                                                         {values.variants[index].images.map((image, imgIndex) => (
                                                                             <div key={imgIndex}>
-                                                                                <Field className="flex items-center justify-center w-full">
-                                                                                    {!image ?
-                                                                                        <Label
-                                                                                            htmlFor="dropzone-file"
-                                                                                            className="flex flex-col items-center justify-center w-full h-40 lg:h-52 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100"
+                                                                                <div className="flex items-center justify-center w-full">
+                                                                                    {image ? (
+                                                                                        <div className='relative w-full'>
+                                                                                            <img
+                                                                                                src={image}
+                                                                                                alt="Preview"
+                                                                                                className="h-60 lg:h-72 w-full"
+                                                                                            />
+                                                                                            <div
+                                                                                                onClick={() => imgHelpers.remove(imgIndex)}
+                                                                                                className=" absolute top-2 right-2 cursor-pointer hover:text-red-500 p-2 border rounded-full hover:bg-bgPrimary"
+                                                                                            >
+                                                                                                <MdDelete />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    ) : (
+                                                                                        <label
+                                                                                            htmlFor={`dropzone-file-${imgIndex}`}
+                                                                                            className="flex flex-col items-center justify-center w-full h-60 lg:h-72 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
                                                                                         >
                                                                                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                                                                                 <TbCloudUpload size={36} />
                                                                                                 <p className="mb-2 text-sm text-gray-500">
-                                                                                                    <span className="font-semibold">Click to upload</span>
-                                                                                                    or drag and drop
+                                                                                                    <span className="font-semibold">Click to upload</span> or drag and drop
                                                                                                 </p>
-                                                                                                <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF</p>
+                                                                                                <p className="text-xs text-gray-500">SVG, PNG, JPG, or GIF</p>
                                                                                             </div>
-                                                                                            <Input
-                                                                                                id="dropzone-file"
+                                                                                            <input
+                                                                                                id={`dropzone-file-${imgIndex}`}
                                                                                                 type="file"
                                                                                                 className="hidden"
                                                                                                 name={`variants.${index}.images.${imgIndex}`}
-                                                                                                onChange={(event) => {
-                                                                                                    const files = event.currentTarget.files;
-                                                                                                    if (files && files[0]) {
-                                                                                                        const fileURL = URL.createObjectURL(files[0]);
-                                                                                                        imgHelpers.replace(imgIndex, fileURL);
-                                                                                                    }
+                                                                                                onChange={async (event) => {
+                                                                                                    await handleFileUpload(event, imgIndex, imgHelpers);
                                                                                                 }}
                                                                                             />
-                                                                                        </Label>
-                                                                                        :
-                                                                                        <img src={image} alt="Preview" className="h-40 lg:h-52 w-full" />
-                                                                                    }
-                                                                                </Field>
-                                                                                {image &&
-                                                                                    <Button
-                                                                                        type="button"
-                                                                                        onClick={() => imgHelpers.remove(imgIndex)}
-                                                                                        className="white-btn mt-2"
-                                                                                    >
-                                                                                        Remove
-                                                                                    </Button>
-                                                                                }
+                                                                                            {uploadProgress !== 0 &&
+                                                                                                <div className="space-y-2">
+                                                                                                    <progress
+                                                                                                        value={uploadProgress}
+                                                                                                        max="100"
+                                                                                                        className="w-full h-4 bg-bgPrimary rounded-full"
+                                                                                                    />
+                                                                                                    <div className="flex justify-between">
+                                                                                                        <span className="text-sm text-gray-500">Uploading...</span>
+                                                                                                        <span className="font-semibold text-sm text-gray-600 rounded-full">{uploadProgress}%</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            }
+                                                                                        </label>
+                                                                                    )}
+                                                                                </div>
                                                                             </div>
                                                                         ))}
                                                                     </div>
-                                                                    <Button
-                                                                        type="button"
+
+                                                                    <button
+                                                                        type='button'
                                                                         onClick={() => imgHelpers.push('')}
-                                                                        className="mt-4 black-btn"
+                                                                        className="mt-4 black-btn flex items-center gap-2"
                                                                     >
-                                                                        Add Image
-                                                                    </Button>
+                                                                        <FaPlusCircle /> Add Image
+                                                                    </button>
                                                                 </>
                                                             )}
                                                         />
@@ -258,7 +321,7 @@ function AddProduct() {
                             </div>
                         </div>
                         <div className='flex gap-3 justify-end mt-4'>
-                            <button type="reset" onClick={handleReset} className='white-btn mt-3 px-4'>Clear</button>
+                            <button type="reset" onClick={() => handleReset()} className='white-btn mt-3 px-4'>Clear</button>
                             <button type="submit" className='black-btn mt-3 px-5'>Add Product</button>
                         </div>
                     </form>

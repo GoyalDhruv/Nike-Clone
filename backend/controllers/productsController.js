@@ -80,12 +80,13 @@ export const createProduct = async (req, res) => {
             price,
             discount,
             category,
-            stock,
             variants,
-            gender,
-            isKids,
-            kids
+            sports
         } = req.body;
+
+        console.log(title, details, price, discount, category, sports, variants);
+
+        let totalStock = 0
 
         const existingProduct = await Product.findOne({ title });
         if (existingProduct) {
@@ -95,19 +96,19 @@ export const createProduct = async (req, res) => {
             });
         }
 
-        if (!details || !category) {
+        if (!details || !category || !sports) {
             return res.status(400).json({
                 success: false,
-                message: 'Details and category are required'
+                message: 'Details, Category and type are required'
             });
         }
 
-        if (!['shoes', 'clothes'].includes(category)) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid category'
-            });
-        }
+        // if (!['shoes', 'clothes'].includes(category)) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: 'Invalid category'
+        //     });
+        // }
 
         if (price <= 0) {
             return res.status(400).json({
@@ -123,19 +124,19 @@ export const createProduct = async (req, res) => {
             });
         }
 
-        if (gender && !['men', 'women', 'unisex'].includes(gender)) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid gender value'
-            });
-        }
+        // if (gender && !['men', 'women', 'unisex'].includes(gender)) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: 'Invalid gender value'
+        //     });
+        // }
 
-        if (isKids && (!kids || !['girls', 'boys'].includes(kids))) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid kids value'
-            });
-        }
+        // if ((!kids || !['girls', 'boys'].includes(kids))) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: 'Invalid kids value'
+        //     });
+        // }
 
         if (variants.length > 0) {
             for (let variant of variants) {
@@ -152,8 +153,8 @@ export const createProduct = async (req, res) => {
                     });
                 }
             }
-            req.body.stock = variants.reduce((total, variant) => total + (variant.stock || 0), 0);
-        } else if (stock <= 0) {
+            totalStock = variants.reduce((total, variant) => total + (variant.stock || 0), 0);
+        } else if (totalStock <= 0) {
             return res.status(400).json({
                 success: false,
                 message: 'Product must have stock or variants with stock.'
@@ -164,7 +165,8 @@ export const createProduct = async (req, res) => {
 
         const newProduct = new Product({
             ...req.body,
-            discountedPrice
+            discountedPrice,
+            totalStock
         });
 
         await newProduct.save();
