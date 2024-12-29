@@ -12,6 +12,7 @@ import { MdDelete } from "react-icons/md";
 
 function AddProduct() {
 
+    const [isForKids, setIsForKids] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
 
     const initialValues = {
@@ -136,30 +137,52 @@ function AddProduct() {
                                     error={errors.discount && touched.discount ? errors.discount : ''}
                                 />
                             </div>
-                            <div className='lg:col-span-4 md:col-span-6 col-span-12'>
-                                <h4 className='font-bold text-lg tracking-tight'>Gender</h4>
+                            <div className="lg:col-span-4 md:col-span-6 col-span-12">
+                                <h4 className="font-bold text-lg tracking-tight">Is this product for Kids?</h4>
                                 <InputBox
-                                    label="Gender"
+                                    label="For Kids"
                                     type="select"
-                                    name="gender"
-                                    value={values.gender || {}}
-                                    onChange={(selectedValue) => setFieldValue('gender', selectedValue)}
-                                    error={errors.gender && touched.gender ? errors.gender : ''}
-                                    options={genderFilter}
+                                    name="isForKids"
+                                    value={isForKids}
+                                    onChange={(value) => {
+                                        setIsForKids(value);
+                                        setFieldValue('kids', '');
+                                        setFieldValue('gender', '');
+                                    }}
+                                    options={[
+                                        { label: 'Yes', value: true },
+                                        { label: 'No', value: false },
+                                    ]}
                                 />
                             </div>
-                            <div className='lg:col-span-4 md:col-span-6 col-span-12'>
-                                <h4 className='font-bold text-lg tracking-tight'>Kids</h4>
-                                <InputBox
-                                    label="Kids"
-                                    type="select"
-                                    name="kids"
-                                    value={values.kids || {}}
-                                    onChange={(selectedValue) => setFieldValue('kids', selectedValue)}
-                                    error={errors.kids && touched.kids ? errors.kids : ''}
-                                    options={kidsFilter}
-                                />
-                            </div>
+                            {isForKids == true &&
+                                <div className='lg:col-span-4 md:col-span-6 col-span-12'>
+                                    <h4 className='font-bold text-lg tracking-tight'>Kids</h4>
+                                    <InputBox
+                                        label="Kids"
+                                        type="select"
+                                        name="kids"
+                                        value={values.kids || {}}
+                                        onChange={(selectedValue) => setFieldValue('kids', selectedValue)}
+                                        error={errors.kids && touched.kids ? errors.kids : ''}
+                                        options={kidsFilter}
+                                    />
+                                </div>
+                            }{
+                                isForKids == false &&
+                                <div className='lg:col-span-4 md:col-span-6 col-span-12'>
+                                    <h4 className='font-bold text-lg tracking-tight'>Gender</h4>
+                                    <InputBox
+                                        label="Gender"
+                                        type="select"
+                                        name="gender"
+                                        value={values.gender || {}}
+                                        onChange={(selectedValue) => setFieldValue('gender', selectedValue)}
+                                        error={errors.gender && touched.gender ? errors.gender : ''}
+                                        options={genderFilter}
+                                    />
+                                </div>
+                            }
                             <div className='lg:col-span-4 md:col-span-6 col-span-12'>
                                 <h4 className='font-bold text-lg tracking-tight'>Category</h4>
                                 <InputBox
@@ -205,7 +228,7 @@ function AddProduct() {
                                                             error={errors?.variants?.[index]?.color ? errors.variants[index].color : ''}
                                                         />
                                                     </div>
-                                                    <div className='lg:col-span-4 md:col-span-6 col-span-12'>
+                                                    {values.category && <div className='lg:col-span-4 md:col-span-6 col-span-12'>
                                                         <h4 className='font-bold text-lg tracking-tight my-2'>Size</h4>
                                                         <InputBox
                                                             label="Size"
@@ -216,7 +239,7 @@ function AddProduct() {
                                                             onChange={handleChange}
                                                             error={errors?.variants?.[index]?.size ? errors.variants[index].size : ''}
                                                         />
-                                                    </div>
+                                                    </div>}
                                                     <div className='lg:col-span-3 md:col-span-6 col-span-12'>
                                                         <h4 className='font-bold text-lg tracking-tight my-2'>Stock</h4>
                                                         <InputBox
@@ -327,7 +350,7 @@ function AddProduct() {
                     </form>
                 )}
             </Formik>
-        </CustomContainer>
+        </CustomContainer >
     );
 }
 
