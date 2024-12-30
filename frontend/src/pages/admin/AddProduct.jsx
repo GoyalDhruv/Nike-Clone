@@ -12,7 +12,7 @@ import { MdDelete } from "react-icons/md";
 
 function AddProduct() {
 
-    const [isForKids, setIsForKids] = useState(false);
+    const [isForKids, setIsForKids] = useState('');
     const [uploadProgress, setUploadProgress] = useState(0);
 
     const initialValues = {
@@ -157,12 +157,12 @@ function AddProduct() {
                                         setFieldValue('gender', '');
                                     }}
                                     options={[
-                                        { label: 'Yes', value: true },
-                                        { label: 'No', value: false },
+                                        { label: 'Yes', value: 'Yes' },
+                                        { label: 'No', value: 'No' },
                                     ]}
                                 />
                             </div>
-                            {isForKids == true &&
+                            {isForKids == 'Yes' &&
                                 <div className='lg:col-span-4 md:col-span-6 col-span-12'>
                                     <h4 className='font-bold text-lg tracking-tight'>Kids</h4>
                                     <InputBox
@@ -176,7 +176,7 @@ function AddProduct() {
                                     />
                                 </div>
                             }{
-                                isForKids == false &&
+                                isForKids == 'No' &&
                                 <div className='lg:col-span-4 md:col-span-6 col-span-12'>
                                     <h4 className='font-bold text-lg tracking-tight'>Gender</h4>
                                     <InputBox
