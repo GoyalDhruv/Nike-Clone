@@ -7,12 +7,12 @@ import { FaPlusCircle } from 'react-icons/fa';
 import { TbCloudUpload } from "react-icons/tb";
 import { categoryFilter, clothesSizeFilter, colorFilter, genderFilter, kidsFilter, shoeSizeFilter, sportsFilter } from '../../constants/filterData';
 import { useMutation } from '@tanstack/react-query';
-import { createProduct, uploadFile } from '../../services/productApi';
+import { createProduct, deleteFile, uploadFile } from '../../services/productApi';
 import { MdDelete } from "react-icons/md";
 
 function AddProduct() {
 
-    const [isForKids, setIsForKids] = useState(null);
+    const [isForKids, setIsForKids] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
 
     const initialValues = {
@@ -72,13 +72,20 @@ function AddProduct() {
                         setUploadProgress(progress);
                     }
                 });
-                const uploadedImageUrl = response.fileUrl;
+                const uploadedImageUrl = response;
                 imgHelpers.replace(index, uploadedImageUrl);
                 setUploadProgress(0);
             } catch (error) {
                 console.error('Error uploading the image:', error);
                 setUploadProgress(0);
             }
+        }
+    }
+
+    const handleDelete = async (image, imgIndex, imgHelpers) => {
+        const res = await deleteFile(image?.public_id)
+        if (res) {
+            imgHelpers.remove(imgIndex);
         }
     }
 
@@ -261,15 +268,17 @@ function AddProduct() {
                                                                         {values.variants[index].images.map((image, imgIndex) => (
                                                                             <div key={imgIndex}>
                                                                                 <div className="flex items-center justify-center w-full">
-                                                                                    {image ? (
+                                                                                    {image?.url ? (
                                                                                         <div className='relative w-full'>
                                                                                             <img
-                                                                                                src={image}
+                                                                                                src={image?.url}
                                                                                                 alt="Preview"
                                                                                                 className="h-60 lg:h-72 w-full"
                                                                                             />
                                                                                             <div
-                                                                                                onClick={() => imgHelpers.remove(imgIndex)}
+                                                                                                onClick={async () => {
+                                                                                                    await handleDelete(image, imgIndex, imgHelpers);
+                                                                                                }}
                                                                                                 className=" absolute top-2 right-2 cursor-pointer hover:text-red-500 p-2 border rounded-full hover:bg-bgPrimary"
                                                                                             >
                                                                                                 <MdDelete />
@@ -324,7 +333,8 @@ function AddProduct() {
                                                                         <FaPlusCircle /> Add Image
                                                                     </button>
                                                                 </>
-                                                            )}
+                                                            )
+                                                            }
                                                         />
                                                     </div>
                                                     <div className='w-100 text-end col-span-12'>

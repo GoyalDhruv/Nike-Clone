@@ -58,6 +58,16 @@ export const uploadFile = async (formData, onUploadProgress) => {
     }
 }
 
+export const deleteFile = async (public_id) => {
+    try {
+        const response = await api.delete('/deleteFile', { data: { public_id } });
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting the file:', error);
+        throw error;
+    }
+}
+
 export const getProductById = async ({ queryKey }) => {
     const [, { id }] = queryKey;
     try {
