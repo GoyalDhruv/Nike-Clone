@@ -6,6 +6,7 @@ import Loader from './components/Loader/Loader';
 const Layout = React.lazy(() => import('./layouts/Layout'));
 const Home = React.lazy(() => import('./pages/Home'));
 const Products = React.lazy(() => import('./pages/Products'));
+const ProductById = React.lazy(() => import('./pages/IndividualProduct'));
 const AddProduct = React.lazy(() => import('./pages/Admin/AddProduct'));
 const PageNotFound = React.lazy(() => import('./pages/PageNotFound'));
 
@@ -30,6 +31,13 @@ function App() {
             <Suspense
               fallback={<Loader />}>
               <Products />
+            </Suspense>
+          }
+          />
+          <Route path="/product/:id" element={
+            <Suspense
+              fallback={<Loader />}>
+              <ProductById />
             </Suspense>
           }
           />

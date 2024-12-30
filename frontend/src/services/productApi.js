@@ -43,7 +43,7 @@ export const createProduct = async (data) => {
     }
 }
 
-export const uploadFile = async (formData,onUploadProgress) => {
+export const uploadFile = async (formData, onUploadProgress) => {
     try {
         const response = await api.post('/uploadFile', formData, {
             headers: {
@@ -55,5 +55,15 @@ export const uploadFile = async (formData,onUploadProgress) => {
     } catch (error) {
         console.error('Error uploading the file:', error);
         throw error;
+    }
+}
+
+export const getProductById = async ({ queryKey }) => {
+    const [, { id }] = queryKey;
+    try {
+        const response = await api.get(`/getProduct/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in fetching details of the product:', error);
     }
 }

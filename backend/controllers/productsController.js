@@ -7,11 +7,6 @@ function calculateDiscountedPrice(price, discount) {
     return price;
 }
 
-function validateStock(stock, colorVariants) {
-    const totalVariantStock = colorVariants.reduce((acc, variant) => acc + variant.stock, 0);
-    return stock <= totalVariantStock;
-};
-
 export const getAllProducts = async (req, res) => {
     const { category, color, size, gender, sports, kids, status, sort, order } = req.query;
 
@@ -84,10 +79,6 @@ export const createProduct = async (req, res) => {
             sports
         } = req.body;
 
-        console.log(title, details, price, discount, category, sports, variants);
-
-        let totalStock = 0
-
         const existingProduct = await Product.findOne({ title });
         if (existingProduct) {
             return res.status(400).json({
@@ -103,13 +94,6 @@ export const createProduct = async (req, res) => {
             });
         }
 
-        // if (!['shoes', 'clothes'].includes(category)) {
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: 'Invalid category'
-        //     });
-        // }
-
         if (price <= 0) {
             return res.status(400).json({
                 success: false,
@@ -117,56 +101,37 @@ export const createProduct = async (req, res) => {
             });
         }
 
-        if (discount < 0 || discount > 100) {
+        if (discount && (discount < 0 || discount > 100)) {
             return res.status(400).json({
                 success: false,
                 message: 'Discount must be between 0 and 100%'
             });
         }
 
-        // if (gender && !['men', 'women', 'unisex'].includes(gender)) {
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: 'Invalid gender value'
-        //     });
-        // }
-
-        // if ((!kids || !['girls', 'boys'].includes(kids))) {
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: 'Invalid kids value'
-        //     });
-        // }
-
-        if (variants.length > 0) {
-            for (let variant of variants) {
-                if (!variant.size || !variant.color || variant.stock < 0) {
-                    return res.status(400).json({
-                        success: false,
-                        message: 'Each variant must have a valid size, color, and stock.'
-                    });
-                }
-                if (!variant.images || variant.images.length === 0) {
-                    return res.status(400).json({
-                        success: false,
-                        message: 'Each variant must have at least one image'
-                    });
-                }
+        const updatedVariants = variants.map(variant => {
+            if (!variant.size || !variant.color || variant.stock < 0) {
+                throw new Error('Each variant must have a valid size, color, and stock.');
             }
-            totalStock = variants.reduce((total, variant) => total + (variant.stock || 0), 0);
-        } else if (totalStock <= 0) {
-            return res.status(400).json({
-                success: false,
-                message: 'Product must have stock or variants with stock.'
-            });
+            if (!variant.images || variant.images.length === 0) {
+                throw new Error('Each variant must have at least one image');
+            }
+
+            variant.coverImg = variant.images[0];
+
+            return variant;
+        });
+        let status = []
+        if (discount > 0) {
+            status.push('discount')
         }
 
-        const discountedPrice = price - (price * discount) / 100;
+        const discountedPrice = calculateDiscountedPrice(price, discount)
 
         const newProduct = new Product({
             ...req.body,
             discountedPrice,
-            totalStock
+            variants: updatedVariants,
+            status
         });
 
         await newProduct.save();
@@ -182,6 +147,8 @@ export const createProduct = async (req, res) => {
         });
     }
 };
+
+// add status of bestselling and treading according to the sales of that product
 
 export const updateProductById = async (req, res) => {
     try {

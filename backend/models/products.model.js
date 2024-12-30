@@ -22,10 +22,9 @@ const productSchema = mongoose.Schema({
         required: true,
         enum: ['shoes', 'clothes']
     },
-    stock: { type: Number, default: 0, min: 0 },
     gender: {
         type: String,
-        enum: ['men', 'women', 'unisex','']
+        enum: ['men', 'women', 'unisex', '']
     },
     isKids: {
         type: Boolean,
@@ -33,7 +32,7 @@ const productSchema = mongoose.Schema({
     },
     kids: {
         type: String,
-        enum: ['girls', 'boys','']
+        enum: ['girls', 'boys', '']
     },
     rating: { type: Number, min: 0, max: 5, default: 0 },
     variants: [{
@@ -44,6 +43,10 @@ const productSchema = mongoose.Schema({
             type: [String],
             required: true,
             validate: [arr => arr.length > 0, 'At least one image is required']
+        },
+        coverImg: {
+            type: String,
+            default: '',
         }
     }],
     status: {

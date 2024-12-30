@@ -42,8 +42,6 @@ export default function Product() {
         handleFilterChange();
     }, [selectedCategory, selectedColors, selectedSizes, selectedGenders, selectedSports, selectedKidSection, selectedStatus, selectedSort]);
 
-
-
     const changeParams = () => {
         const category = queryParams.get('category') || 'shoes';
         const status = queryParams.get('status')
@@ -194,7 +192,7 @@ export default function Product() {
                                     <div className={`transition-all lg:col-span-2 duration-500 ease-in-out transform ${showFilters ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
                                         {showFilters &&
                                             <div className=" hidden lg:block">
-                                                <CategoryList items={['Discount', 'Trending', 'New Arrival', 'Bestseller']} listClass='font-semibold text-md tracking-tight'
+                                                <CategoryList items={['Discounted', 'Trending', 'New Arrival', 'Bestseller']} listClass='font-semibold text-md tracking-tight'
                                                     setSelectedStatus={setSelectedStatus} />
 
                                                 <div className='mt-8'>
