@@ -11,8 +11,6 @@ export const colorFilter = [
 ];
 
 export const shoeSizeFilter = [
-    { label: "3", value: "3", checked: false },
-    { label: "4", value: "4", checked: false },
     { label: "5", value: "5", checked: false },
     { label: "6", value: "6", checked: false },
     { label: "7", value: "7", checked: false },
@@ -21,8 +19,6 @@ export const shoeSizeFilter = [
     { label: "10", value: "10", checked: false },
     { label: "11", value: "11", checked: false },
     { label: "12", value: "12", checked: false },
-    { label: "13", value: "13", checked: false },
-    { label: "14", value: "14", checked: false },
 ];
 
 export const clothesSizeFilter = [

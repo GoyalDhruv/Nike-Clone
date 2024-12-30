@@ -22,7 +22,6 @@ function ProductDetails({ data }) {
                 <p>Inclusive of all taxes</p>
                 <p>(Also includes all applicable duties)</p>
             </div>
-            {/* Color Selection */}
         </>
     )
 }
