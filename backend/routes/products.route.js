@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { createProduct, deleteProductById, getAllProducts, getProductById, updateProductById } from '../controllers/productsController.js';
+import { createProduct, deleteProductById, getAllProducts, getProductById, updateProductById } from '../controllers/products.controller.js';
 import uploadMiddleware from '../middlewares/multer.js';
 import { deleteImageFromCloudinary } from '../config/deleteImg.js';
 const upload = uploadMiddleware();
