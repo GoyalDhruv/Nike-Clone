@@ -136,7 +136,7 @@ function InputBox({
 }
 
 InputBox.propTypes = {
-    type: PropTypes.oneOf(['text', 'number', 'email', 'password', 'select', 'checkbox', 'radio']).isRequired,
+    type: PropTypes.oneOf(['text', 'number', 'email', 'password', 'select', 'checkbox', 'radio', 'date']).isRequired,
     value: PropTypes.any.isRequired,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,

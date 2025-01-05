@@ -1,10 +1,11 @@
 import api from "./api";
+import { PRODUCT_API_END_POINT } from './constants';
 
 export const getAllProducts = async ({ queryKey }) => {
     try {
         const [, filters] = queryKey;
 
-        const response = await api.get('/getProducts', {
+        const response = await api.get(`${PRODUCT_API_END_POINT}/getProducts`, {
             params: {
                 category: filters.selectedCategory,
                 color: filters.selectedColors.join(','),
@@ -28,7 +29,7 @@ export const getAllProducts = async ({ queryKey }) => {
 
 export const createProduct = async (data) => {
     try {
-        const response = await api.post('/createProduct', data,
+        const response = await api.post(`${PRODUCT_API_END_POINT}/createProduct`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ export const createProduct = async (data) => {
 
 export const uploadFile = async (formData, onUploadProgress) => {
     try {
-        const response = await api.post('/uploadFile', formData, {
+        const response = await api.post(`${PRODUCT_API_END_POINT}/uploadFile`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -60,7 +61,7 @@ export const uploadFile = async (formData, onUploadProgress) => {
 
 export const deleteFile = async (public_id) => {
     try {
-        const response = await api.delete('/deleteFile', { data: { public_id } });
+        const response = await api.delete(`${PRODUCT_API_END_POINT}/deleteFile`, { data: { public_id } });
         return response.data;
     } catch (error) {
         console.error('Error deleting the file:', error);

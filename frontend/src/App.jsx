@@ -9,11 +9,27 @@ const Products = React.lazy(() => import('./pages/Products'));
 const ProductById = React.lazy(() => import('./pages/IndividualProduct'));
 const AddProduct = React.lazy(() => import('./pages/Admin/AddProduct'));
 const PageNotFound = React.lazy(() => import('./pages/PageNotFound'));
+const Login = React.lazy(() => import('./pages/Login'));
+const Signup = React.lazy(() => import('./pages/SignUp'));
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='sign-in' element={
+          <Suspense
+            fallback={<Loader />}>
+            <Login />
+          </Suspense>
+        }
+        />
+        <Route path='sign-up' element={
+          <Suspense
+            fallback={<Loader />}>
+            <Signup />
+          </Suspense>
+        }
+        />
         <Route path="/" element={
           <Suspense fallback={<Loader />}>
             <Layout />

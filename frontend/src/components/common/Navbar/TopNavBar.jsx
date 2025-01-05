@@ -1,10 +1,15 @@
 import React from 'react'
 import DropdownMenu from './DropdownMenu';
 import Images from '../../../constants/imageConstant';
+import { Link } from "react-router";
+import { useSelector } from 'react-redux';
+import { isLoggedIn } from '../../../services/utils';
 
 const VerticalLine = () => <div className="h-4 mx-2 border-black border-e-[1px]" />;
 function TopNavBar() {
-    const user = true;
+
+    const user = useSelector(state => state.user);
+    const loggedIn = isLoggedIn(user);
 
     return (
         <nav className="bg-bgPrimary px-12 py-1 justify-between items-center hidden md:flex">
@@ -30,18 +35,26 @@ function TopNavBar() {
                     isNavBar={true}
                 />
                 <VerticalLine />
-                {!user ? (
+                {!loggedIn ? (
                     <>
-                        <p className='nav-items'>Join Us</p>
+                        <Link to={{
+                            pathname: "/sign-up"
+                        }}>
+                            <p className='nav-items'>Join Us</p>
+                        </Link>
                         <VerticalLine />
-                        <p className='nav-items'>Sign In</p>
+                        <Link to={{
+                            pathname: "/sign-in"
+                        }}>
+                            <p className='nav-items'>Sign In</p>
+                        </Link>
                     </>
                 ) : (
                     <>
                         <DropdownMenu
                             menuTitle={
                                 <p className={'nav-items flex gap-3 items-center'}>
-                                    Hi, User
+                                    Hi, {user?.firstName}
                                     <img src={Images.Person} alt="Person Icon" className="w-6 h-6" />
                                 </p>
                             }

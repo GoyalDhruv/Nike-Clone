@@ -6,9 +6,9 @@ dotenv.config();
 
 export const registerUser = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, dateOfBirth, role, address } = req.body;
+        const { firstName, lastName, email, password, dateOfBirth, role } = req.body;
 
-        if (!firstName || !lastName || !email || !password || !dateOfBirth || !role || !address) {
+        if (!firstName || !lastName || !email || !password || !dateOfBirth || !role) {
             return res.status(400).json({ success: false, message: 'All fields are required' });
         }
 
@@ -26,8 +26,7 @@ export const registerUser = async (req, res) => {
             email,
             password: hashedPassword,
             dateOfBirth,
-            role,
-            address
+            role
         });
 
         await newUser.save();
@@ -65,7 +64,7 @@ export const loginUser = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Email and password are required' });
         }
 
-        const user = await User.find({ email });
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ success: false, message: 'User not found' });
         }
@@ -87,6 +86,7 @@ export const loginUser = async (req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
+                role: user.role,
                 dateOfBirth: user.dateOfBirth,
                 token,
             }

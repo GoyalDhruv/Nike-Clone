@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Images from '../../../constants/imageConstant';
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import CustomDialog from '../../CustomDialog/Dialog';
+import { useSelector } from 'react-redux';
+import { isLoggedIn } from '../../../services/utils';
 
 
 const OffCanvas = ({ isOpen, setIsOpen }) => {
@@ -15,7 +17,9 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
         setIsProfileOpen(!isProfileOpen);
     };
 
-    const user = true
+    const user = useSelector(state => state.user)
+    const loggedIn = isLoggedIn(user);
+
 
     return (
         <>
@@ -25,13 +29,13 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
                         <img src={Images.Close} alt="close" className='w-6 h-6' />
                     </div>
 
-                    {user &&
+                    {loggedIn &&
                         <div
                             className={'nav-list-items flex items-center py-6 justify-between'} onClick={toggleProfileSidebar}
                         >
                             <div className='flex gap-3 text-lg items-center'>
                                 <img src={Images.Person} alt="Person Icon" className="w-8 h-8" />
-                                Hi, User
+                                Hi, {user?.firstName}
                             </div>
                             <BsChevronRight size={22} />
                         </div>

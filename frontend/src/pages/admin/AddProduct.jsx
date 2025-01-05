@@ -33,6 +33,7 @@ function AddProduct() {
             }
         ]
     };
+
     const validationSchema = Yup.object({
         title: Yup.string().required('Product name is required'),
         details: Yup.string().required('Product details are required'),
@@ -52,7 +53,6 @@ function AddProduct() {
     });
 
     const onSubmit = (values, { resetForm }) => {
-        console.log('Form data:', values);
         mutation.mutate(values);
         resetForm();
     };
