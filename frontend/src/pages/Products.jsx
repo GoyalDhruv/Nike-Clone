@@ -47,7 +47,7 @@ export default function Product() {
         const status = queryParams.get('status')
         const colors = queryParams.get('colors')?.split(',') || [];
         const sizes = queryParams.get('sizes')?.split(',') || [];
-        const genders = queryParams.get('genders')?.split(',') || [];
+        const genders = queryParams.get('gender')?.split(',') || [];
         const sports = queryParams.get('sports')?.split(',') || [];
 
         let kids = []
@@ -77,11 +77,10 @@ export default function Product() {
         if (selectedCategory) params.set('category', selectedCategory);
         if (selectedColors.length) params.set('colors', selectedColors.join(','));
         if (selectedSizes.length) params.set('sizes', selectedSizes.join(','));
-        if (selectedGenders.length) params.set('genders', selectedGenders.join(','));
+        if (selectedGenders.length) params.set('gender', selectedGenders.join(','));
         if (selectedSports.length) params.set('sports', selectedSports.join(','));
         if (selectedKidSection.length) params.set('isKids', true);
         if (selectedStatus) params.set('status', selectedStatus);
-
         navigate(`?${params.toString()}`);
     };
 
