@@ -51,7 +51,7 @@ const productSchema = mongoose.Schema({
     }],
     status: {
         type: [String],
-        enum: ['discount', 'trending', 'new_arrival', 'bestseller'],
+        enum: ['discount', 'trending', 'new_arrival', 'bestseller','classics'],
         default: []
     },
     sports: {

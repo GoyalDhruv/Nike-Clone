@@ -191,7 +191,7 @@ export default function Product() {
                                     <div className={`transition-all lg:col-span-2 duration-500 ease-in-out transform ${showFilters ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
                                         {showFilters &&
                                             <div className=" hidden lg:block">
-                                                <CategoryList items={['Discounted', 'Trending', 'New Arrival', 'Bestseller']} listClass='font-semibold text-md tracking-tight'
+                                                <CategoryList items={['Discounted', 'Trending', 'Classics', 'Bestseller']} listClass='font-semibold text-md tracking-tight'
                                                     setSelectedStatus={setSelectedStatus} />
 
                                                 <div className='mt-8'>

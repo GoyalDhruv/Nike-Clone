@@ -42,7 +42,7 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
                     }
 
                     <ul>
-                        <li className='nav-list-items py-2 text-2xl'>New & Featured</li>
+                        <li className='nav-list-items py-2 text-2xl'>Classics</li>
                         <li className='nav-list-items py-2 text-2xl'>Men</li>
                         <li className='nav-list-items py-2 text-2xl'>Women</li>
                         <li className='nav-list-items py-2 text-2xl'>Kids</li>

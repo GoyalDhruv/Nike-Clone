@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { createProduct, deleteProductById, getAllProducts, getProductById, updateProductById } from '../controllers/products.controller.js';
+import { createProduct, deleteProductById, getAllProducts, getClassicProduct, getProductById, updateProductById } from '../controllers/products.controller.js';
 import uploadMiddleware from '../middlewares/multer.js';
 import { deleteImageFromCloudinary } from '../config/deleteImg.js';
 const upload = uploadMiddleware();
@@ -10,6 +10,7 @@ router.get('/getProduct/:id', getProductById)
 router.post('/createProduct', createProduct)
 router.patch('/updateProduct/:id', updateProductById)
 router.delete('/deleteProduct/:id', deleteProductById)
+router.get('/getClassicProducts', getClassicProduct)
 
 router.post("/uploadFile", upload.single("file"), (req, res) => {
     if (!req.file) {

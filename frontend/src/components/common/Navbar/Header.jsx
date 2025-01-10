@@ -18,9 +18,9 @@ function Header() {
             <ul className=' gap-5 col-span-5 hidden md:flex justify-center'>
                 <Link to={{
                     pathname: "/products",
-                    search: "?status=new_arrival",
+                    search: "?status=classics",
                 }}>
-                    <li className='nav-list-items'>New & Featured</li>
+                    <li className='nav-list-items'>Classics</li>
                 </Link>
                 <Link to={{
                     pathname: "/products",

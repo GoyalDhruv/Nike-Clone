@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './Carousel.css'
+import { Link } from "react-router-dom"
 
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import TextOnImage from '../TextOnImage';
@@ -41,7 +42,11 @@ function Carousel({ items, slidesPerView, spaceBetween, loop, autoplay, breakpoi
 
                 items?.map((item, index) => (
                     <SwiperSlide key={index}>
-                        <img src={item.image} alt="shoes" className='h-80 w-full cursor-pointer' loading="lazy" />
+                        <Link to={{
+                            pathname: `/product/${item?.data?._id}`,
+                        }}>
+                            <img src={item.image} alt="shoes" className='h-80 w-full cursor-pointer' loading="lazy" />
+                        </Link>
                     </SwiperSlide>
                 ))
                 :

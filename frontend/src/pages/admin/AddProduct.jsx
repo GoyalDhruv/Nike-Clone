@@ -73,7 +73,7 @@ function AddProduct() {
                     }
                 });
                 const uploadedImageUrl = response;
-                imgHelpers.replace(index, uploadedImageUrl);
+                imgHelpers.replace(index, uploadedImageUrl?.url);
                 setUploadProgress(0);
             } catch (error) {
                 console.error('Error uploading the image:', error);
@@ -268,10 +268,10 @@ function AddProduct() {
                                                                         {values.variants[index].images.map((image, imgIndex) => (
                                                                             <div key={imgIndex}>
                                                                                 <div className="flex items-center justify-center w-full">
-                                                                                    {image?.url ? (
+                                                                                    {image ? (
                                                                                         <div className='relative w-full'>
                                                                                             <img
-                                                                                                src={image?.url}
+                                                                                                src={image}
                                                                                                 alt="Preview"
                                                                                                 className="h-60 lg:h-72 w-full"
                                                                                             />

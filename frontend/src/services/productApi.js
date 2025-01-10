@@ -72,9 +72,19 @@ export const deleteFile = async (public_id) => {
 export const getProductById = async ({ queryKey }) => {
     const [, { id }] = queryKey;
     try {
-        const response = await api.get(`/getProduct/${id}`);
+        const response = await api.get(`${PRODUCT_API_END_POINT}/getProduct/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error in fetching details of the product:', error);
+    }
+}
+
+export const getClassicProducts = async () => {
+    try {
+        const response = await api.get(`${PRODUCT_API_END_POINT}/getClassicProducts`);
+        return response.data?.data;
+    } catch (error) {
+        console.error('Error in fetching classic products:', error);
+        throw error;
     }
 }

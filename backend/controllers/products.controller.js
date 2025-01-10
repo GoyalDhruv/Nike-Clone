@@ -11,28 +11,43 @@ export const getAllProducts = async (req, res) => {
     const { category, color, size, gender, sports, kids, status, sort, order } = req.query;
 
     let query = {};
+
+    // Filter by category
     if (category) {
         query.category = category;
     }
+
+    // Filter by color (variants.color)
     if (color) {
-        query.colorVariants = { $elemMatch: { color: { $in: color.split(',') } } };
+        query['variants.color'] = { $in: color.split(',') };
     }
+
+    // Filter by size (variants.size)
     if (size) {
-        query.sizeVariants = { $elemMatch: { size: { $in: size.split(',') } } };
+        query['variants.size'] = { $in: size.split(',') };
     }
+
+    // Filter by gender
     if (gender) {
         query.gender = { $in: gender.split(',') };
     }
+
+    // Filter by sports
     if (sports) {
         query.sports = { $in: sports.split(',') };
     }
+
+    // Filter by kids
     if (kids) {
         query.kids = { $in: kids.split(',') };
     }
+
+    // Filter by status
     if (status) {
-        query.status = status;
+        query.status = { $in: status.split(',') };
     }
 
+    // Sorting options
     let sortOptions = {};
     if (sort && order) {
         sortOptions[sort] = order === 'asc' ? 1 : -1;
@@ -42,15 +57,16 @@ export const getAllProducts = async (req, res) => {
         const products = await Product.find(query).sort(sortOptions);
         res.status(200).json({
             success: true,
-            data: products
+            data: products,
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message,
         });
     }
 };
+
 
 export const getProductById = async (req, res) => {
     try {
@@ -298,5 +314,20 @@ export const deleteProductById = async (req, res) => {
             status: false,
             message: error.message
         })
+    }
+}
+
+export const getClassicProduct = async (req, res) => {
+    try {
+        const classicProducts = await Product.find({status: 'classics' })
+        res.status(200).json({
+            success: true,
+            data: classicProducts
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
 }
