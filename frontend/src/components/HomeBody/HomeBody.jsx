@@ -22,8 +22,6 @@ function HomeBody() {
         queryFn: getClassicProducts
     })
 
-    console.log(classicProducts)
-
     useEffect(() => {
         if (classicProducts) {
             const filteredPegasus = classicProducts.find(product => product.title === "Nike Pegasus 41");

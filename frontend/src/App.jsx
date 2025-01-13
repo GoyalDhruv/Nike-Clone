@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Loader from './components/Loader/Loader';
+import ProtectedRoutes from './utils/ProtectedRoutes';
 
 const Layout = React.lazy(() => import('./layouts/Layout'));
 const Home = React.lazy(() => import('./pages/Home'));
@@ -58,9 +59,11 @@ function App() {
           }
           />
           <Route path='/admin/add-product' element={
-            <Suspense fallback={<Loader />}>
-              <AddProduct />
-            </Suspense>
+            <ProtectedRoutes isAdminRequired={true}>
+              <Suspense fallback={<Loader />}>
+                <AddProduct />
+              </Suspense>
+            </ProtectedRoutes>
           }
           />
           <Route path='*' element={
