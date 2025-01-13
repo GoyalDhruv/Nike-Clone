@@ -9,6 +9,7 @@ import ProductDetails from '../components/ProductById/ProductDetails';
 import { Field, Radio, RadioGroup } from '@headlessui/react';
 import { clothesSizeFilter, shoeSizeFilter } from '../constants/filterData';
 import CustomDisclosure from '../components/Disclosure/CustomDisclosure';
+import MainImage from '../components/ProductById/MainImage';
 
 function IndividualProduct() {
     const { id } = useParams();
@@ -66,11 +67,7 @@ function IndividualProduct() {
 
                         {/* Main Image */}
                         <div className='lg:col-span-5 col-span-12'>
-                            <img
-                                src={selectedVariant?.coverImg || selectedVariant?.images?.[0]}
-                                className='rounded-md'
-                                alt="Selected Variant"
-                            />
+                            <MainImage selectedVariant={selectedVariant} />
                         </div>
 
                         {/* Product Details */}
