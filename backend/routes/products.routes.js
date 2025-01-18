@@ -3,14 +3,15 @@ const router = express.Router()
 import { createProduct, deleteProductById, getAllProducts, getClassicProduct, getProductById, updateProductById } from '../controllers/products.controller.js';
 import uploadMiddleware from '../middlewares/multer.js';
 import { deleteImageFromCloudinary } from '../config/deleteImg.js';
+import { authAdminMiddleware } from '../middlewares/authenicateAdmin.js';
 const upload = uploadMiddleware();
 
 router.get('/getProducts', getAllProducts)
-router.get('/getProduct/:id', getProductById)
-router.post('/createProduct', createProduct)
-router.patch('/updateProduct/:id', updateProductById)
-router.delete('/deleteProduct/:id', deleteProductById)
 router.get('/getClassicProducts', getClassicProduct)
+router.get('/getProduct/:id', getProductById)
+router.post('/createProduct', authAdminMiddleware, createProduct)
+router.patch('/updateProduct/:id', authAdminMiddleware, updateProductById)
+router.delete('/deleteProduct/:id', authAdminMiddleware, deleteProductById)
 
 router.post("/uploadFile", upload.single("file"), (req, res) => {
     if (!req.file) {
