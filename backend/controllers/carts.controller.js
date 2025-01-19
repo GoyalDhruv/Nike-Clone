@@ -1,10 +1,11 @@
 import Product from '../models/products.model.js';
 import Cart from '../models/carts.model.js';
+import mongoose from 'mongoose';
 
 export const addToCart = async (req, res) => {
     try {
         const { quantity, size, color } = req.body;
-        const { id } = req.user;
+        const { userId } = req.user;
 
         const product = await Product.findById(req.params.id);
         if (!product) {
@@ -18,24 +19,24 @@ export const addToCart = async (req, res) => {
         if (!variant) {
             return res.status(404).json({
                 success: false,
-                message: 'Variant not found'
+                message: 'Product not found'
             });
         }
 
-        const totalPrice = product.price * quantity;
+        const totalPrice = product.price * Number(quantity);
         const discountedPrice = product.discountedPrice
-            ? product.discountedPrice * quantity
+            ? product.discountedPrice * Number(quantity)
             : totalPrice;
 
         let cartItem = await Cart.findOne({
-            user: id,
+            user: userId,
             product: product._id,
             size,
             color
         });
 
         if (cartItem) {
-            cartItem.quantity += quantity;
+            cartItem.quantity = Number(quantity);
             cartItem.totalPrice = product.price * cartItem.quantity;
             cartItem.discountedPrice = product.discountedPrice
                 ? product.discountedPrice * cartItem.quantity
@@ -44,7 +45,7 @@ export const addToCart = async (req, res) => {
             await cartItem.save();
         } else {
             cartItem = new Cart({
-                user: id,
+                user: userId,
                 product: product._id,
                 quantity,
                 size,
@@ -72,9 +73,55 @@ export const addToCart = async (req, res) => {
 
 export const getCart = async (req, res) => {
     try {
-        const { id } = req.user;
+        const { userId } = req.user;
 
-        const cartItems = await Cart.find({ user: id }).populate('product', 'title variants coverImg');
+        const objectIdUserId = new mongoose.Types.ObjectId(userId);
+        const cartItems = await Cart.aggregate([
+            {
+                $match: { user: objectIdUserId }
+            },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: 'product',
+                    foreignField: '_id',
+                    as: 'productDetails',
+                }
+            },
+            {
+                $unwind: "$productDetails"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    product: "$productDetails._id",
+                    title: "$productDetails.title",
+                    image: {
+                        $arrayElemAt: [
+                            {
+                                $map: {
+                                    input: {
+                                        $filter: {
+                                            input: "$productDetails.variants",
+                                            as: "variant",
+                                            cond: { $eq: ["$$variant.color", "$color"] },
+                                        },
+                                    },
+                                    as: "matchedVariant",
+                                    in: "$$matchedVariant.coverImg",
+                                },
+                            },
+                            0,
+                        ],
+                    },
+                    quantity: 1,
+                    size: 1,
+                    color: 1,
+                    totalPrice: 1,
+                    discountedPrice: 1,
+                },
+            }
+        ])
 
         if (!cartItems || cartItems.length === 0) {
             return res.status(404).json({
@@ -83,23 +130,9 @@ export const getCart = async (req, res) => {
             });
         }
 
-        const cartItemsWithImages = [];
-
-        for (const cartItem of cartItems) {
-            const product = cartItem.product;
-            const variant = product.variants.find(v => v.size.includes(cartItem.size) && v.color === cartItem.color);
-
-            const coverImg = variant?.coverImg;
-
-            cartItemsWithImages.push({
-                ...cartItem.toObject(),
-                coverImg
-            });
-        }
-
         res.status(200).json({
             success: true,
-            cartItems: cartItemsWithImages
+            cartItems: cartItems
         });
 
     } catch (error) {
@@ -112,10 +145,11 @@ export const getCart = async (req, res) => {
 
 export const deleteCartItem = async (req, res) => {
     try {
-        const { id } = req.user;
-        const { cartItemId } = req.params;
+        const { userId } = req.user;
+        const { id, color } = req.params;
 
-        const cartItem = await Cart.findOne({ _id: cartItemId, user: id });
+        const cartItem = await Cart.findOne({ _id: id, user: userId, color: color });
+        console.log(cartItem)
         if (!cartItem) {
             return res.status(404).json({
                 success: false,
@@ -123,7 +157,7 @@ export const deleteCartItem = async (req, res) => {
             });
         }
 
-        await cartItem.remove();
+        await Cart.deleteOne({ _id: id, user: userId, color: color });
 
         res.status(200).json({
             success: true,

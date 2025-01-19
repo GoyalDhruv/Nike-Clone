@@ -32,7 +32,9 @@ import Orders from '../assets/icons/Orders.svg'
 import Store from '../assets/icons/Store.svg'
 import Location from '../assets/icons/Location.svg'
 import Filter from '../assets/icons/Filter.svg'
-
+import Minus from '../assets/icons/Minus.svg'
+import Plus from '../assets/icons/Plus.svg'
+import Delete from '../assets/icons/Delete.svg'
 
 const Images = {
     TrendingImg,
@@ -68,7 +70,10 @@ const Images = {
     Orders,
     Store,
     Location,
-    Filter
+    Filter,
+    Minus,
+    Plus,
+    Delete
 }
 
 export default Images;

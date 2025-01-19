@@ -3,8 +3,8 @@ import { addToCart, deleteCartItem, getCart } from '../controllers/carts.control
 import { authMiddleware } from '../middlewares/authenticate.js';
 const router = express.Router()
 
-router.post('/addToCart', authMiddleware, addToCart)
+router.post('/addToCart/:id', authMiddleware, addToCart)
 router.get('/getCart', authMiddleware, getCart)
-router.delete('/deleteCartItem', authMiddleware, deleteCartItem)
+router.delete('/deleteCartItem/:id/:color', authMiddleware, deleteCartItem)
 
 export default router;
