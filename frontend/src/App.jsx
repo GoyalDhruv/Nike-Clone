@@ -12,6 +12,7 @@ const AddProduct = React.lazy(() => import('./pages/Admin/AddProduct'));
 const PageNotFound = React.lazy(() => import('./pages/PageNotFound'));
 const Login = React.lazy(() => import('./pages/Login'));
 const Signup = React.lazy(() => import('./pages/SignUp'));
+const Cart = React.lazy(() => import('./pages/Cart'))
 
 function App() {
   return (
@@ -62,6 +63,14 @@ function App() {
             <ProtectedRoutes isAdminRequired={true}>
               <Suspense fallback={<Loader />}>
                 <AddProduct />
+              </Suspense>
+            </ProtectedRoutes>
+          }
+          />
+          <Route path='/cart' element={
+            <ProtectedRoutes isAdminRequired={false}>
+              <Suspense fallback={<Loader />}>
+                <Cart />
               </Suspense>
             </ProtectedRoutes>
           }

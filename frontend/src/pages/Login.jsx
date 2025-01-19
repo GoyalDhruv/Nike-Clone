@@ -30,7 +30,6 @@ function Login() {
     const mutation = useMutation({
         mutationFn: loginUser,
         onSuccess: (data) => {
-            // localStorage.setItem('user', JSON.stringify(data?.data));
             dispatch(setUserCredentials(data?.data));
             navigate('/');
         },

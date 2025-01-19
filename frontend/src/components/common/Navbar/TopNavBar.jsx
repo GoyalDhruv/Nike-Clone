@@ -3,7 +3,7 @@ import DropdownMenu from './DropdownMenu';
 import Images from '../../../constants/imageConstant';
 import { Link } from "react-router";
 import { useSelector } from 'react-redux';
-import { isLoggedIn } from '../../../services/utils';
+import { isLoggedIn } from '../../../utils/utils';
 
 const VerticalLine = () => <div className="h-4 mx-2 border-black border-e-[1px]" />;
 function TopNavBar() {

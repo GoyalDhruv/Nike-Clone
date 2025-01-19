@@ -22,17 +22,17 @@ const userSlice = createSlice({
             state.role = userData.role;
             state.token = userData.token;
 
-            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('nike_user', JSON.stringify(userData));
         },
         clearUserCredentials: (state) => {
-            localStorage.removeItem('user');
+            localStorage.removeItem('nike_user');
             return initialState;
         },
     },
 });
 
 function loadUserFromLocalStorage() {
-    const savedUser = localStorage.getItem('user');
+    const savedUser = localStorage.getItem('nike_user');
     return savedUser ? JSON.parse(savedUser) : null;
 }
 

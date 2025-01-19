@@ -1,8 +1,5 @@
 import Product from '../models/products.model.js';
-import Cart from '../models/cart.model.js';
-
-import Product from '../models/products.model.js';
-import Cart from '../models/cart.model.js';
+import Cart from '../models/carts.model.js';
 
 export const addToCart = async (req, res) => {
     try {
@@ -73,7 +70,6 @@ export const addToCart = async (req, res) => {
     }
 };
 
-
 export const getCart = async (req, res) => {
     try {
         const { id } = req.user;
@@ -113,8 +109,6 @@ export const getCart = async (req, res) => {
         });
     }
 };
-
-import Cart from '../models/cart.model.js';
 
 export const deleteCartItem = async (req, res) => {
     try {

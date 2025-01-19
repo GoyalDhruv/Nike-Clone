@@ -4,7 +4,7 @@ import Images from '../../../constants/imageConstant';
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import CustomDialog from '../../CustomDialog/Dialog';
 import { useSelector } from 'react-redux';
-import { isLoggedIn } from '../../../services/utils';
+import { isLoggedIn } from '../../../utils/utils';
 
 
 const OffCanvas = ({ isOpen, setIsOpen }) => {
