@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getItemFromLocalStorage } from '../../utils/utils';
 
 const initialState = {
     dateOfBirth: null,
@@ -32,8 +33,7 @@ const userSlice = createSlice({
 });
 
 function loadUserFromLocalStorage() {
-    const savedUser = localStorage.getItem('nike_user');
-    return savedUser ? JSON.parse(savedUser) : null;
+    return getItemFromLocalStorage()
 }
 
 export const { setUserCredentials, clearUserCredentials } = userSlice.actions;

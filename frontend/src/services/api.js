@@ -1,9 +1,7 @@
 import axios from 'axios';
-// import { PRODUCT_API_END_POINT } from './constants';
 
 const api = axios.create({
     baseURL: "http://localhost:8000/v1/api",
-    // withCredentials: true,
 });
 
 api.interceptors.response.use(

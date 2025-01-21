@@ -76,6 +76,7 @@ export const getCart = async (req, res) => {
         const { userId } = req.user;
 
         const objectIdUserId = new mongoose.Types.ObjectId(userId);
+
         const cartItems = await Cart.aggregate([
             {
                 $match: { user: objectIdUserId }
@@ -114,6 +115,7 @@ export const getCart = async (req, res) => {
                             0,
                         ],
                     },
+                    _id: 1,
                     quantity: 1,
                     size: 1,
                     color: 1,
@@ -122,6 +124,8 @@ export const getCart = async (req, res) => {
                 },
             }
         ])
+
+        let grandTotalPrice = cartItems.reduce((sum, item) => sum + item?.discountedPrice, 0)
 
         if (!cartItems || cartItems.length === 0) {
             return res.status(404).json({
@@ -132,7 +136,7 @@ export const getCart = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            cartItems: cartItems
+            data: { cartItems, grandTotalPrice }
         });
 
     } catch (error) {
