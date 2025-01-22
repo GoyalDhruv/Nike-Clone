@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getProductById } from '../services/productApi';
 import { useParams } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
@@ -10,12 +10,16 @@ import { Field, Radio, RadioGroup } from '@headlessui/react';
 import { clothesSizeFilter, shoeSizeFilter } from '../constants/filterData';
 import CustomDisclosure from '../components/Disclosure/CustomDisclosure';
 import MainImage from '../components/ProductById/MainImage';
+import { isLoggedIn } from '../utils/utils';
+import toast from 'react-hot-toast'
+import { addToCart } from '../services/cartApi';
 
 function IndividualProduct() {
     const { id } = useParams();
     const [allSize, setAllSize] = useState([]);
     const [selectedVariant, setSelectedVariant] = useState(null);
-    const [selectedSize, setSelectedSize] = useState('')
+    const [selectedSize, setSelectedSize] = useState('');
+    const loggedIn = isLoggedIn()
 
     const { isLoading, data } = useQuery({
         queryKey: ['product', { id }],
@@ -40,6 +44,38 @@ function IndividualProduct() {
         setSelectedVariant(variant);
         setSelectedSize('')
     };
+
+    const addtoCartMutation = useMutation(
+        {
+            mutationFn: (params) => addToCart(params.id, params.data),
+            onSuccess: () => {
+                console.log('Cart Updated Successfully');
+            },
+            onError: (error) => {
+                console.error('Error updating cart:', error);
+                toast.error('Error adding item to cart')
+            }
+        }
+    );
+
+    const handleAddToCart = () => {
+        if (!selectedSize) {
+            toast.error('Please select a size')
+        }
+        else {
+            if (!loggedIn) {
+                toast.error('You must be logged in to add to cart')
+            }
+            else {
+                const data = {
+                    color: selectedVariant?.color,
+                    size: selectedSize,
+                    quantity: 1
+                };
+                addtoCartMutation.mutate({ id: selectedVariant?._id, data });
+            }
+        }
+    }
 
     return (
         <>
@@ -132,7 +168,7 @@ function IndividualProduct() {
                                     </RadioGroup>
                                 </Field>
                             </div>
-                            <button className='w-full py-5 btn black-btn mt-4'>Add to bag</button>
+                            <button className='w-full py-5 btn black-btn mt-4' onClick={handleAddToCart}>Add to bag</button>
                             <button className='w-full py-5 btn white-btn mt-4 flex justify-center items-center gap-1'>
                                 <span>Favourite</span>
                                 <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />

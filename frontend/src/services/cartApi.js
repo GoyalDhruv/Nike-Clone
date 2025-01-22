@@ -1,7 +1,7 @@
 import { getItemFromLocalStorage } from "../utils/utils";
 import api from "./api";
 import { CART_API_END_POINT } from "./constants";
-const token = getItemFromLocalStorage().token;
+const token = getItemFromLocalStorage()?.token;
 
 export const getCart = async () => {
     try {

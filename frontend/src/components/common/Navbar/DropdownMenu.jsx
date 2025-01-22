@@ -2,10 +2,19 @@ import React from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import PropTypes from 'prop-types';
 import { useFilterContext } from '../../../contexts/filterContext';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearUserCredentials } from '../../../store/slices/userSlice';
+import toast from 'react-hot-toast';
 
 const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
+    const dispatch = useDispatch()
+    const { selectedSort, setSelectedSort } = useFilterContext();
 
-    const { selectedSort, setSelectedSort } = useFilterContext()
+    const handleLogout = () => {
+        dispatch(clearUserCredentials())
+        toast.success("User logged out successfully")
+    }
 
     return (
         <Menu as="div" className={`relative ${isNavBar && 'z-20'}`}>
@@ -24,15 +33,30 @@ const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
                         </MenuItem>
                     }
                     {items.map((item, index) => (
-                        <MenuItem key={index}>
-                            <div
-                                // href={item.href || '#'}
-                                className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
-                                onClick={() => setSelectedSort(item)}
-                            >
-                                {item.label}
-                            </div>
-                        </MenuItem>
+                        item?.label != "Log Out" ?
+                            <MenuItem key={index}>
+                                <div
+                                    // href={item.href || '#'}
+                                    className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
+                                    onClick={() => setSelectedSort(item)}
+                                >
+                                    {item.label}
+                                </div>
+                            </MenuItem>
+                            :
+                            <MenuItem key={index}>
+                                <Link to={{
+                                    pathname: "/",
+                                }}
+                                    className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
+                                    onClick={() => {
+                                        handleLogout()
+                                        setSelectedSort(null)
+                                    }}
+                                >
+                                    {item.label}
+                                </Link>
+                            </MenuItem>
                     ))}
                 </div>
             </MenuItems>

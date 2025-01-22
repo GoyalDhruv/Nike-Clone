@@ -9,6 +9,7 @@ import { loginUser } from '../services/userApi'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setUserCredentials } from '../store/slices/userSlice'
+import toast from 'react-hot-toast'
 
 function Login() {
 
@@ -30,10 +31,12 @@ function Login() {
     const mutation = useMutation({
         mutationFn: loginUser,
         onSuccess: (data) => {
+            toast.success("User Logged in Successfully")
             dispatch(setUserCredentials(data?.data));
             navigate('/');
         },
         onError: (error) => {
+            toast.error(error?.response?.data?.message);
             console.error('Error posting data', error);
         },
     });

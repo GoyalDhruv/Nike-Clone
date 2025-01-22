@@ -4,6 +4,7 @@ import Images from '../constants/imageConstant'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { addToCart, deleteCartItem, getCart } from '../services/cartApi';
 import Loader from '../components/Loader/Loader';
+import toast from 'react-hot-toast';
 
 function Cart() {
     const queryClient = useQueryClient();
@@ -28,7 +29,7 @@ function Cart() {
         {
             mutationFn: (params) => addToCart(params.product, params.data),
             onSuccess: () => {
-                console.log('Cart Updated Successfully');
+                toast.success('Cart Updated Successfully');
                 queryClient.invalidateQueries(['cart']);
             },
             onError: (error) => {
@@ -75,7 +76,7 @@ function Cart() {
     )
 
     const handleRemove = (item) => {
-        const id=item?._id;
+        const id = item?._id;
         const product = item?.product;
         const color = item?.color;
         const productKey = `${product}-${color}`;

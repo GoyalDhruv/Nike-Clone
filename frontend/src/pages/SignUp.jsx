@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 import InputBox from '../components/InputBox/InputBox'
 import { registerUser } from '../services/userApi'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const roleOptions = [
     { value: 'User', label: 'User' },
@@ -45,9 +46,11 @@ function SignUp() {
     const mutation = useMutation({
         mutationFn: registerUser,
         onSuccess: () => {
+            toast.success("User registered successfully")
             navigate('/sign-in')
         },
         onError: (error) => {
+            toast.error(error?.response?.data?.message);
             console.error('Error posting data', error);
         },
     });

@@ -25,7 +25,7 @@ const userSlice = createSlice({
 
             localStorage.setItem('nike_user', JSON.stringify(userData));
         },
-        clearUserCredentials: (state) => {
+        clearUserCredentials: () => {
             localStorage.removeItem('nike_user');
             return initialState;
         },

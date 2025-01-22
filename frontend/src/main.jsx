@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { FilterProvider } from './contexts/filterContext.jsx';
 import { Provider } from 'react-redux';
 import store from './store/store.js';
+import { Toaster } from 'react-hot-toast';
 
 const queryClient = new QueryClient();
 
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')).render(
     <FilterProvider>
       <QueryClientProvider client={queryClient}>
         <App />
+        <Toaster />
       </QueryClientProvider>
     </FilterProvider>
   </Provider>

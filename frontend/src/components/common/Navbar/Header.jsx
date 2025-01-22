@@ -2,11 +2,32 @@ import React, { useState } from 'react'
 import Images from '../../../constants/imageConstant'
 import OffCanvas from './OffCanvas';
 import CustomContainer from '../../../layouts/CustomContainer';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { isLoggedIn } from '../../../utils/utils';
+import toast from 'react-hot-toast';
 
 function Header() {
-
+    const loggedIn = isLoggedIn();
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false)
+
+    const handleCart = () => {
+        if (loggedIn) {
+            navigate('/cart')
+        }
+        else {
+            toast.error('You must be logged in to view the cart')
+        }
+    }
+
+    const handleFavorite = () => {
+        if (loggedIn) {
+            navigate('/favorites')
+        }
+        else {
+            toast.error('You must be logged in to view your favorites')
+        }
+    }
 
     return (
         <CustomContainer customClass={"py-1 grid grid-cols-12 items-center bg-white"}>
@@ -59,10 +80,10 @@ function Header() {
                     <input type="text" className=' bg-bgPrimary nav-icons cursor-auto placeholder:font-medium ps-10 outline-none placeholder:text-[#707076]' placeholder='Search' />
                 </div>
                 <div className='nav-icons'>
-                    <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />
+                    <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' onClick={handleFavorite} />
                 </div>
                 <div className='nav-icons'>
-                    <img src={Images.Cart} alt="Cart" className='w-6 h-6' />
+                    <img src={Images.Cart} alt="Cart" className='w-6 h-6' onClick={handleCart} />
                 </div>
                 <div className='nav-icons block md:hidden'>
                     <img src={Images.Menu} alt="Menu" className='w-6 h-6' onClick={() => setIsOpen(!isOpen)} />
