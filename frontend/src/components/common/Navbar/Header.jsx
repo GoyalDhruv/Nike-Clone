@@ -5,9 +5,11 @@ import CustomContainer from '../../../layouts/CustomContainer';
 import { Link, useNavigate } from "react-router";
 import { isLoggedIn } from '../../../utils/utils';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 function Header() {
-    const loggedIn = isLoggedIn();
+    const user = useSelector(state => state.user);
+    const loggedIn = isLoggedIn(user);
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false)
 

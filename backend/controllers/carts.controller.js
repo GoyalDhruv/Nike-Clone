@@ -6,7 +6,6 @@ export const addToCart = async (req, res) => {
     try {
         const { quantity, size, color } = req.body;
         const { userId } = req.user;
-
         const product = await Product.findById(req.params.id);
         if (!product) {
             return res.status(404).json({
@@ -128,9 +127,10 @@ export const getCart = async (req, res) => {
         let grandTotalPrice = cartItems.reduce((sum, item) => sum + item?.discountedPrice, 0)
 
         if (!cartItems || cartItems.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'Cart is empty'
+            return res.status(200).json({
+                success: true,
+                message: 'Cart is empty',
+                data:{}
             });
         }
 
@@ -153,7 +153,7 @@ export const deleteCartItem = async (req, res) => {
         const { id, color } = req.params;
 
         const cartItem = await Cart.findOne({ _id: id, user: userId, color: color });
-        console.log(cartItem)
+
         if (!cartItem) {
             return res.status(404).json({
                 success: false,

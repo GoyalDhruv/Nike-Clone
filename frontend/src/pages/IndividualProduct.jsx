@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getProductById } from '../services/productApi';
 import { useParams } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
@@ -12,14 +12,31 @@ import CustomDisclosure from '../components/Disclosure/CustomDisclosure';
 import MainImage from '../components/ProductById/MainImage';
 import { isLoggedIn } from '../utils/utils';
 import toast from 'react-hot-toast'
-import { addToCart } from '../services/cartApi';
+import { addToCart, deleteCartItem, getCart } from '../services/cartApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCart } from '../store/slices/cartSlice';
 
 function IndividualProduct() {
     const { id } = useParams();
+    const queryClient = useQueryClient();
     const [allSize, setAllSize] = useState([]);
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [selectedSize, setSelectedSize] = useState('');
-    const loggedIn = isLoggedIn()
+    const user = useSelector(state => state.user);
+    const loggedIn = isLoggedIn(user);
+    const [isItemInCart, setIsItemInCart] = useState(false);
+    const dispatch = useDispatch();
+
+    const { data: cartData } = useQuery({
+        queryKey: ['cart'],
+        queryFn: getCart,
+    });
+
+    useEffect(() => {
+        if (cartData) {
+            dispatch(setCart(cartData?.cartItems));
+        }
+    }, [cartData, dispatch]);
 
     const { isLoading, data } = useQuery({
         queryKey: ['product', { id }],
@@ -48,8 +65,9 @@ function IndividualProduct() {
     const addtoCartMutation = useMutation(
         {
             mutationFn: (params) => addToCart(params.id, params.data),
-            onSuccess: () => {
-                console.log('Cart Updated Successfully');
+            onSuccess: async () => {
+                toast.success('Cart Updated Successfully');
+                await queryClient.invalidateQueries(['cart']);
             },
             onError: (error) => {
                 console.error('Error updating cart:', error);
@@ -57,6 +75,19 @@ function IndividualProduct() {
             }
         }
     );
+
+    const removeFromCartMutation = useMutation(
+        {
+            mutationFn: (params) => deleteCartItem(params.id, params.color),
+            onSuccess: async () => {
+                toast.success('Item Removed From Cart Successfully');
+                await queryClient.invalidateQueries(['cart']);
+            },
+            onError: (error) => {
+                console.error('Error updating cart:', error);
+            }
+        }
+    )
 
     const handleAddToCart = () => {
         if (!selectedSize) {
@@ -72,10 +103,25 @@ function IndividualProduct() {
                     size: selectedSize,
                     quantity: 1
                 };
-                addtoCartMutation.mutate({ id: selectedVariant?._id, data });
+                addtoCartMutation.mutate({ id: id, data });
             }
         }
     }
+
+    const handleDeleteFromCart = () => {
+        const color = selectedVariant?.color;
+        removeFromCartMutation.mutate({ id: isItemInCart?._id, color });
+    }
+
+    useEffect(() => {
+        if (cartData?.cartItems && Array.isArray(cartData?.cartItems) && cartData?.cartItems?.length > 0) {
+            setIsItemInCart(cartData?.cartItems?.find(item => item?.product === id && item?.color === selectedVariant?.color));
+        } else {
+            setIsItemInCart(false);
+        }
+    }, [selectedVariant, cartData]);
+
+    console.log(cartData)
 
     return (
         <>
@@ -168,7 +214,10 @@ function IndividualProduct() {
                                     </RadioGroup>
                                 </Field>
                             </div>
-                            <button className='w-full py-5 btn black-btn mt-4' onClick={handleAddToCart}>Add to bag</button>
+                            {isItemInCart ?
+                                <button className='w-full py-5 btn black-btn mt-4' onClick={handleDeleteFromCart}>Remove from bag</button> :
+                                <button className='w-full py-5 btn black-btn mt-4' onClick={handleAddToCart}>Add to bag</button>
+                            }
                             <button className='w-full py-5 btn white-btn mt-4 flex justify-center items-center gap-1'>
                                 <span>Favourite</span>
                                 <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />

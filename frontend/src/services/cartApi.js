@@ -3,12 +3,12 @@ import api from "./api";
 import { CART_API_END_POINT } from "./constants";
 const token = getItemFromLocalStorage()?.token;
 
-export const getCart = async () => {
+export const getCart = async (thisToken = "") => {
     try {
         const response = await api.get(`${CART_API_END_POINT}/getCart`,
             {
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${token||thisToken}`
                 }
             }
         );
@@ -36,7 +36,7 @@ export const addToCart = async (productId, data) => {
     }
 }
 
-export const deleteCartItem= async (productId, color) => {
+export const deleteCartItem = async (productId, color) => {
     try {
         const response = await api.delete(`${CART_API_END_POINT}/deleteCartItem/${productId}/${color}`,
             {

@@ -3,16 +3,19 @@ import CustomContainer from '../layouts/CustomContainer'
 import * as Yup from 'yup'
 import Images from '../constants/imageConstant'
 import { Formik } from 'formik'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import InputBox from '../components/InputBox/InputBox'
 import { loginUser } from '../services/userApi'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setUserCredentials } from '../store/slices/userSlice'
 import toast from 'react-hot-toast'
+import { getCart } from '../services/cartApi'
+import { setCart } from '../store/slices/cartSlice'
+import { waitForToken } from '../utils/utils'
 
 function Login() {
-
+    const queryClient = useQueryClient();
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
@@ -30,9 +33,24 @@ function Login() {
 
     const mutation = useMutation({
         mutationFn: loginUser,
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             toast.success("User Logged in Successfully")
             dispatch(setUserCredentials(data?.data));
+            try {
+                const token = await waitForToken();
+                console.log(token)
+                if (!token) {
+                    toast.error('Failed to load cart data');
+                }
+                else {
+                    const cartData = await getCart(token);
+                    dispatch(setCart(cartData?.cartItems));
+                    queryClient.setQueryData(['cart'], cartData);
+                }
+            } catch (error) {
+                console.error('Error fetching cart:', error);
+                toast.error('Failed to load cart data');
+            }
             navigate('/');
         },
         onError: (error) => {
