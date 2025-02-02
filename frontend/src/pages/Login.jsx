@@ -38,7 +38,6 @@ function Login() {
             dispatch(setUserCredentials(data?.data));
             try {
                 const token = await waitForToken();
-                console.log(token)
                 if (!token) {
                     toast.error('Failed to load cart data');
                 }

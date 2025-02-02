@@ -9,6 +9,7 @@ import { categoryFilter, clothesSizeFilter, colorFilter, genderFilter, kidsFilte
 import { useMutation } from '@tanstack/react-query';
 import { createProduct, deleteFile, uploadFile } from '../../services/productApi';
 import { MdDelete } from "react-icons/md";
+import toast from 'react-hot-toast';
 
 function AddProduct() {
 
@@ -44,11 +45,11 @@ function AddProduct() {
 
     const mutation = useMutation({
         mutationFn: createProduct,
-        onSuccess: (data) => {
-            console.log('Data posted successfully', data);
+        onSuccess: () => {
+            toast.success('Data added successfully');
         },
-        onError: (error) => {
-            console.error('Error posting data', error);
+        onError: () => {
+            toast.error('Error in posting data');
         },
     });
 

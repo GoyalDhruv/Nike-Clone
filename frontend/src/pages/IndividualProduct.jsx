@@ -121,8 +121,6 @@ function IndividualProduct() {
         }
     }, [selectedVariant, cartData]);
 
-    console.log(cartData)
-
     return (
         <>
             {isLoading ?
