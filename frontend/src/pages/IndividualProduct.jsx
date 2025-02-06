@@ -29,7 +29,8 @@ function IndividualProduct() {
 
     const { data: cartData } = useQuery({
         queryKey: ['cart'],
-        queryFn: getCart,
+        queryFn: loggedIn ? getCart : () => Promise.resolve({ cartItems: [] }),
+        enabled: loggedIn,
     });
 
     useEffect(() => {

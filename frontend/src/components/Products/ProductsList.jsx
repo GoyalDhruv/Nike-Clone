@@ -24,9 +24,9 @@ function ProductsList({ showFilters, data }) {
                                         <p className="text-md text-textPrimary font-semibold capitalize">{item?.category}</p>
                                     </h3>
                                     <p className="text-md font-semibold mt-2 flex justify-between">
-                                        <div className='text-dark'>₹{item?.discountedPrice}</div>
+                                        <span className='text-dark'>₹{item?.discountedPrice}</span>
                                         {item?.discount !== 0 &&
-                                            <div className=' text-textPrimary line-through'>MRP ₹{item?.price}</div>
+                                            <span className=' text-textPrimary line-through'>MRP ₹{item?.price}</span>
                                         }
                                     </p>
                                 </div>
