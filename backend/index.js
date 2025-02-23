@@ -6,6 +6,7 @@ import cors from 'cors'
 import productsRoute from './routes/products.routes.js';
 import usersRoute from './routes/users.routes.js';
 import cartsRoute from './routes/carts.routes.js';
+import favoritesRoute from './routes/favourites.routes.js'
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/v1/api/products', productsRoute);
 app.use('/v1/api/users', usersRoute);
 app.use('/v1/api/cart', cartsRoute);
+app.use('/v1/api/favourite', favoritesRoute)
 
 connectDB();
 
