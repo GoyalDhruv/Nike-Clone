@@ -84,7 +84,7 @@ export const getFavorites = async (req, res) => {
 export const removeFromFavorites = async (req, res) => {
     try {
         const { userId } = req.user;
-        const favorite = await Favorite.findOneAndDelete({ user: userId, product: req.params.id });
+        const favorite = await Favorite.findOneAndDelete({ user: userId, product: req.params.id, color: req.params.color });
         if (!favorite) {
             return res.status(404).json({
                 success: false,

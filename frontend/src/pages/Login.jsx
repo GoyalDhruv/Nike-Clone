@@ -13,6 +13,8 @@ import toast from 'react-hot-toast'
 import { getCart } from '../services/cartApi'
 import { setCart } from '../store/slices/cartSlice'
 import { waitForToken } from '../utils/utils'
+import { getAllFavorites } from '../services/favoriteApi'
+import { setFavorite } from '../store/slices/favoriteSlice'
 
 function Login() {
     const queryClient = useQueryClient();
@@ -43,7 +45,10 @@ function Login() {
                 }
                 else {
                     const cartData = await getCart(token);
+                    const favoriteData = await getAllFavorites(token);
                     dispatch(setCart(cartData?.cartItems));
+                    dispatch(setFavorite(favoriteData?.favorites))
+                    queryClient.setQueryData(['favorites'], favoriteData);
                     queryClient.setQueryData(['cart'], cartData);
                 }
             } catch (error) {

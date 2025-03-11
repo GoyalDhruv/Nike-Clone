@@ -15,6 +15,8 @@ import toast from 'react-hot-toast'
 import { addToCart, deleteCartItem, getCart } from '../services/cartApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCart } from '../store/slices/cartSlice';
+import { addToFavorites, deleteFavoriteItem, getAllFavorites } from '../services/favoriteApi';
+import { setFavorite } from '../store/slices/favoriteSlice';
 
 function IndividualProduct() {
     const { id } = useParams();
@@ -25,6 +27,7 @@ function IndividualProduct() {
     const user = useSelector(state => state.user);
     const loggedIn = isLoggedIn(user);
     const [isItemInCart, setIsItemInCart] = useState(false);
+    const [isItemFavorite, setIsItemFavorite] = useState(false);
     const dispatch = useDispatch();
 
     const { data: cartData } = useQuery({
@@ -38,6 +41,18 @@ function IndividualProduct() {
             dispatch(setCart(cartData?.cartItems));
         }
     }, [cartData, dispatch]);
+
+    const { data: favoriteData } = useQuery({
+        queryKey: ['favorites'],
+        queryFn: loggedIn ? getAllFavorites : () => Promise.resolve({ favorites: [] }),
+        enabled: loggedIn,
+    });
+
+    useEffect(() => {
+        if (favoriteData) {
+            dispatch(setFavorite(favoriteData?.favorites));
+        }
+    }, [favoriteData, dispatch]);
 
     const { isLoading, data } = useQuery({
         queryKey: ['product', { id }],
@@ -114,6 +129,51 @@ function IndividualProduct() {
         removeFromCartMutation.mutate({ id: isItemInCart?._id, color });
     }
 
+    const removeFromFavoriteMutation = useMutation(
+        {
+            mutationFn: (params) => deleteFavoriteItem(params.id, params.color),
+            onSuccess: async () => {
+                toast.success('Item Removed From Favorites Successfully');
+                await queryClient.invalidateQueries(['favorites']);
+            },
+            onError: (error) => {
+                console.error('Error updating favorites:', error);
+            }
+        }
+    )
+
+    const handleRemoveFromFavorites = () => {
+        const color = selectedVariant?.color;
+        removeFromFavoriteMutation.mutate({ id: isItemFavorite?.product?._id, color });
+    }
+
+    const addtoFavoritesMutation = useMutation(
+        {
+            mutationFn: (params) => addToFavorites(params.id, params.data),
+            onSuccess: async () => {
+                toast.success('Item added to Favorite Successfully');
+                await queryClient.invalidateQueries(['favorites']);
+            },
+            onError: (error) => {
+                console.error('Error adding item to favorites:', error);
+                toast.error('Error adding item to favorites:');
+            }
+        }
+    );
+
+    const handleAddToFavorite = () => {
+
+        if (!loggedIn) {
+            toast.error('You must be logged in to add to cart')
+        }
+        else {
+            const data = {
+                color: selectedVariant?.color,
+            };
+            addtoFavoritesMutation.mutate({ id: id, data });
+        }
+    }
+
     useEffect(() => {
         if (cartData?.cartItems && Array.isArray(cartData?.cartItems) && cartData?.cartItems?.length > 0) {
             setIsItemInCart(cartData?.cartItems?.find(item => item?.product === id && item?.color === selectedVariant?.color));
@@ -121,6 +181,16 @@ function IndividualProduct() {
             setIsItemInCart(false);
         }
     }, [selectedVariant, cartData]);
+
+    console.log(isItemFavorite)
+
+    useEffect(() => {
+        if (favoriteData?.favorites && Array.isArray(favoriteData?.favorites) && favoriteData?.favorites?.length > 0) {
+            setIsItemFavorite(favoriteData?.favorites?.find(item => item?.product?._id === id && item?.color === selectedVariant?.color));
+        } else {
+            setIsItemFavorite(false);
+        }
+    }, [selectedVariant, favoriteData]);
 
     return (
         <>
@@ -217,10 +287,17 @@ function IndividualProduct() {
                                 <button className='w-full py-5 btn black-btn mt-4' onClick={handleDeleteFromCart}>Remove from bag</button> :
                                 <button className='w-full py-5 btn black-btn mt-4' onClick={handleAddToCart}>Add to bag</button>
                             }
-                            <button className='w-full py-5 btn white-btn mt-4 flex justify-center items-center gap-1'>
-                                <span>Favourite</span>
-                                <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />
-                            </button>
+                            {
+                                isItemFavorite ?
+                                    <button className='w-full py-5 btn white-btn mt-4 flex justify-center items-center gap-1' onClick={handleRemoveFromFavorites}>
+                                        <span>Remove from Favorites</span>
+                                        <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />
+                                    </button> :
+                                    <button className='w-full py-5 btn white-btn mt-4 flex justify-center items-center gap-1' onClick={handleAddToFavorite}>
+                                        <span>Favourite</span>
+                                        <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />
+                                    </button>
+                            }
                             <div className='mt-8 font-semibold text-md'>{data?.data?.details}</div>
 
                             <div className='mt-5'>

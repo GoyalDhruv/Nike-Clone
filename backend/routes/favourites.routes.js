@@ -5,6 +5,6 @@ import { addToFavorites, getFavorites, removeFromFavorites } from '../controller
 
 router.post('/addFavorite/:id', authMiddleware, addToFavorites);
 router.get('/getFavorites', authMiddleware, getFavorites);
-router.delete('/deletefavorite/:id', authMiddleware, removeFromFavorites);
+router.delete('/deletefavorite/:id/:color', authMiddleware, removeFromFavorites);
 
 export default router
