@@ -118,6 +118,33 @@ export default function Product() {
         setSelectedSort({ label: 'Featured', order: 'desc', sort: 'rating' });
     };
 
+    const getHeading = (queryParams) => {
+        console.log(queryParams?.get('status'))
+        if (queryParams?.get('status')) {
+            switch (queryParams.get('status')) {
+                case 'discount':
+                case 'Discounted':
+                    return 'Discounted';
+                case 'Classics':
+                case 'classics':
+                    return 'Classics';
+                case 'Trending':
+                case 'trending':
+                    return 'Trending';
+                case 'Bestseller':
+                    return 'Best Selling';
+            }
+        }
+        else if (queryParams.get('category')) {
+            switch (queryParams.get('category')) {
+                case 'clothes':
+                    return 'Clothing';
+                case 'shoes':
+                    return 'Shoes';
+            }
+        }
+    }
+
     return (
         <>
             {
@@ -129,7 +156,8 @@ export default function Product() {
 
                         <CustomContainer customClass={""}>
                             <div className="flex items-baseline justify-between border-b border-gray-200 py-12">
-                                <h1 className="page-heading">New Arrivals</h1>
+                                <h1 className="page-heading">
+                                    {getHeading(queryParams)}</h1>
 
                                 <div className="flex items-center gap-3">
                                     {queryParams?.size > 1 &&
