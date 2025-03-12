@@ -14,6 +14,7 @@ const Login = React.lazy(() => import('./pages/Login'));
 const Signup = React.lazy(() => import('./pages/SignUp'));
 const Cart = React.lazy(() => import('./pages/Cart'));
 const Favorite = React.lazy(() => import('./pages/Favourites'));
+const PaymentSuccess = React.lazy(() => import('./pages/PaymentSuccess'));
 
 function App() {
   return (
@@ -80,6 +81,14 @@ function App() {
             <ProtectedRoutes isAdminRequired={false}>
               <Suspense fallback={<Loader />}>
                 <Favorite />
+              </Suspense>
+            </ProtectedRoutes>
+          }
+          />
+          <Route path='/success' element={
+            <ProtectedRoutes isAdminRequired={false}>
+              <Suspense fallback={<Loader />}>
+                <PaymentSuccess />
               </Suspense>
             </ProtectedRoutes>
           }

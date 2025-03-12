@@ -7,6 +7,7 @@ import productsRoute from './routes/products.routes.js';
 import usersRoute from './routes/users.routes.js';
 import cartsRoute from './routes/carts.routes.js';
 import favoritesRoute from './routes/favourites.routes.js'
+import paymentRoute from './routes/payment.routes.js';
 
 const app = express();
 
@@ -16,7 +17,12 @@ app.use(express.json());
 app.use('/v1/api/products', productsRoute);
 app.use('/v1/api/users', usersRoute);
 app.use('/v1/api/cart', cartsRoute);
-app.use('/v1/api/favourite', favoritesRoute)
+app.use('/v1/api/favourite', favoritesRoute);
+app.use('/v1/api/payment', paymentRoute);
+app.get('/success', (req, res) => {
+    const sessionId = req.query.session_id;
+    res.send(`<h1>Payment Successful!</h1><p>Session ID: ${sessionId}</p>`);
+});
 
 connectDB();
 

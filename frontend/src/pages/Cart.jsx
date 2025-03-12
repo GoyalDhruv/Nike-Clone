@@ -7,6 +7,8 @@ import Loader from '../components/Loader/Loader';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { setCart } from '../store/slices/cartSlice';
+import { useNavigate } from 'react-router-dom';
+import { createCheckoutSession } from '../services/stripeApi';
 
 function Cart() {
     const dispatch = useDispatch();
@@ -96,6 +98,20 @@ function Cart() {
         removeFromCartMutation.mutate({ id, color });
     }
 
+    const handleCheckout = async () => {
+        try {
+            const session = await createCheckoutSession(data?.cartItems);
+            if (session?.url) {
+                window.location.href = session.url;
+            } else {
+                toast.error("Invalid checkout URL");
+            }
+        } catch (error) {
+            toast.error("Failed to initiate checkout. Please try again.");
+            console.error("Checkout error:", error);
+        }
+    };
+
     return (
         <>
             {isLoading ?
@@ -182,7 +198,7 @@ function Cart() {
                                             <span className="font-medium text-lg ">Total</span>
                                             <span className="font-medium text-lg">₹ {data?.grandTotalPrice}</span>
                                         </div>
-                                        <button className="w-full py-3 black-btn">Proceed to Checkout</button>
+                                        <button className="w-full py-3 black-btn" onClick={handleCheckout}>Proceed to Checkout</button>
                                     </div>
                                 </div>
                         }

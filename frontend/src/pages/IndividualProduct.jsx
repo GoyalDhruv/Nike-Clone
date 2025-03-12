@@ -182,8 +182,6 @@ function IndividualProduct() {
         }
     }, [selectedVariant, cartData]);
 
-    console.log(isItemFavorite)
-
     useEffect(() => {
         if (favoriteData?.favorites && Array.isArray(favoriteData?.favorites) && favoriteData?.favorites?.length > 0) {
             setIsItemFavorite(favoriteData?.favorites?.find(item => item?.product?._id === id && item?.color === selectedVariant?.color));

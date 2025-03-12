@@ -124,7 +124,7 @@ export const getCart = async (req, res) => {
             }
         ])
 
-        let grandTotalPrice = cartItems.reduce((sum, item) => sum + item?.discountedPrice, 0)
+        let grandTotalPrice = cartItems.reduce((sum, item) => sum + item?.discountedPrice*item?.quantity, 0)
 
         if (!cartItems || cartItems.length === 0) {
             return res.status(200).json({

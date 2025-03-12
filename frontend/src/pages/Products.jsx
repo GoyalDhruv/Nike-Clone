@@ -119,7 +119,6 @@ export default function Product() {
     };
 
     const getHeading = (queryParams) => {
-        console.log(queryParams?.get('status'))
         if (queryParams?.get('status')) {
             switch (queryParams.get('status')) {
                 case 'discount':
