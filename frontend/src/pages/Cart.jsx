@@ -26,6 +26,12 @@ function Cart() {
     }, [data, dispatch]);
 
     useEffect(() => {
+        if (data?.cartItems) {
+            sessionStorage.setItem('cart_items', JSON.stringify(data.cartItems));
+        }
+        if (data?.grandTotalPrice) {
+            sessionStorage.setItem('cart_total_price', JSON.stringify(data.grandTotalPrice));
+        }
         if (data) {
             const initialQuantities = data?.cartItems?.reduce((acc, item) => {
                 const productKey = `${item.product}-${item.color}`;

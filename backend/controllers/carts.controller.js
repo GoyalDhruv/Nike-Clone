@@ -124,13 +124,13 @@ export const getCart = async (req, res) => {
             }
         ])
 
-        let grandTotalPrice = cartItems.reduce((sum, item) => sum + item?.discountedPrice*item?.quantity, 0)
+        let grandTotalPrice = cartItems.reduce((sum, item) => sum + item?.discountedPrice * item?.quantity, 0)
 
         if (!cartItems || cartItems.length === 0) {
             return res.status(200).json({
                 success: true,
                 message: 'Cart is empty',
-                data:{}
+                data: {}
             });
         }
 
@@ -176,3 +176,14 @@ export const deleteCartItem = async (req, res) => {
     }
 };
 
+export const clearCart = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        await Cart.deleteMany({ user: userId });
+
+        res.status(200).json({ message: "Cart cleared successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to clear cart", error });
+    }
+};

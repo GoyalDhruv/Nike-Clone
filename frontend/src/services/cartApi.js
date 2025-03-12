@@ -8,7 +8,7 @@ export const getCart = async (thisToken = "") => {
         const response = await api.get(`${CART_API_END_POINT}/getCart`,
             {
                 headers: {
-                    "Authorization": `Bearer ${token||thisToken}`
+                    "Authorization": `Bearer ${token || thisToken}`
                 }
             }
         );
@@ -51,3 +51,13 @@ export const deleteCartItem = async (productId, color) => {
         throw error;
     }
 }
+
+export const clearCart = async () => {
+    return await api.delete(`${CART_API_END_POINT}/clearCart`,
+        {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+};
