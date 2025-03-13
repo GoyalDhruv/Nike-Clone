@@ -55,7 +55,6 @@ const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
                                     className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
                                     onClick={() => {
                                         handleLogout()
-                                        setSelectedSort(null)
                                     }}
                                 >
                                     {item.label}
