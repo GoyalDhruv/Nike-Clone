@@ -7,8 +7,9 @@ import Loader from '../components/Loader/Loader';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { setCart } from '../store/slices/cartSlice';
-import { useNavigate } from 'react-router-dom';
 import { createCheckoutSession } from '../services/stripeApi';
+
+// Add and remove from favorites in cart page pending
 
 function Cart() {
     const dispatch = useDispatch();

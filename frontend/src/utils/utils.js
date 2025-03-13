@@ -7,6 +7,11 @@ export const getItemFromLocalStorage = () => {
     return savedItem ? JSON.parse(savedItem) : null;
 }
 
+export const getTokenFromLocalStorage = () => {
+    const savedItem = localStorage.getItem('nike_user');
+    return savedItem ? JSON.parse(savedItem)?.token : null;
+}
+
 export const waitForToken = async () => {
     const tokenCheck = () =>
         new Promise((resolve, reject) => {

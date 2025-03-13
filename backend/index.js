@@ -9,6 +9,7 @@ import cartsRoute from './routes/carts.routes.js';
 import favoritesRoute from './routes/favourites.routes.js'
 import paymentRoute from './routes/payment.routes.js';
 import orderRoutes from './routes/orders.routes.js';
+import { sendOrderConfirmationEmail } from './config/sendgrid.js';
 
 const app = express();
 

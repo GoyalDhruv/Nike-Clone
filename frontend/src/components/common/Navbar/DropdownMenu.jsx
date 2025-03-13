@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearUserCredentials } from '../../../store/slices/userSlice';
 import toast from 'react-hot-toast';
+import { setCart } from '../../../store/slices/cartSlice';
+import { setFavorite } from '../../../store/slices/favoriteSlice';
 
 const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
     const dispatch = useDispatch()
@@ -13,6 +15,8 @@ const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
 
     const handleLogout = () => {
         dispatch(clearUserCredentials())
+        dispatch(setCart([]));
+        dispatch(setFavorite([]));
         toast.success("User logged out successfully")
     }
 

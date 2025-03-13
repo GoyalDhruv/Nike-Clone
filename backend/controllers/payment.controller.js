@@ -7,7 +7,6 @@ function capitalizeFirstLetter(val) {
 export const createCheckoutSession = async (req, res) => {
     try {
         const { products } = req.body;
-        console.log(products)
         const lineItems = products.map((product) => ({
             price_data: {
                 currency: "inr",

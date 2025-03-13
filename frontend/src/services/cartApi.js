@@ -1,14 +1,13 @@
-import { getItemFromLocalStorage } from "../utils/utils";
+import { getTokenFromLocalStorage } from "../utils/utils";
 import api from "./api";
 import { CART_API_END_POINT } from "./constants";
-const token = getItemFromLocalStorage()?.token;
 
 export const getCart = async (thisToken = "") => {
     try {
         const response = await api.get(`${CART_API_END_POINT}/getCart`,
             {
                 headers: {
-                    "Authorization": `Bearer ${token || thisToken}`
+                    "Authorization": `Bearer ${getTokenFromLocalStorage() || thisToken}`
                 }
             }
         );
@@ -24,7 +23,7 @@ export const addToCart = async (productId, data) => {
         const response = await api.post(`${CART_API_END_POINT}/addToCart/${productId}`, data,
             {
                 headers: {
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${getTokenFromLocalStorage()}`,
                     "Content-Type": "application/json"
                 }
             }
@@ -41,7 +40,7 @@ export const deleteCartItem = async (productId, color) => {
         const response = await api.delete(`${CART_API_END_POINT}/deleteCartItem/${productId}/${color}`,
             {
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${getTokenFromLocalStorage()}`
                 }
             }
         );
@@ -56,7 +55,7 @@ export const clearCart = async () => {
     return await api.delete(`${CART_API_END_POINT}/clearCart`,
         {
             headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${getTokenFromLocalStorage()}`
             }
         }
     );

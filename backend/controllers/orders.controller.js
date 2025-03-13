@@ -1,8 +1,8 @@
+import { sendOrderConfirmationEmail } from "../config/sendgrid.js";
 import Order from "../models/orders.model.js";
 
 export const createOrder = async (req, res) => {
     try {
-        console.log(req.user)
         const { products, totalAmount } = req.body;
 
         if (!products || products.length === 0) {
@@ -17,6 +17,9 @@ export const createOrder = async (req, res) => {
         });
 
         await order.save();
+
+        await sendOrderConfirmationEmail(req.user.email, order);
+
         res.status(201).json({ message: "Order placed successfully", order });
     } catch (error) {
         res.status(500).json({ message: "Failed to create order", error });

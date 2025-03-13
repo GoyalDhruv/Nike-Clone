@@ -1,14 +1,14 @@
-import { getItemFromLocalStorage } from "../utils/utils";
+
+import { getTokenFromLocalStorage } from "../utils/utils";
 import api from "./api";
 import { FAVORITE_API_END_POINT } from './constants';
-const token = getItemFromLocalStorage()?.token;
 
 export const getAllFavorites = async (thisToken = "") => {
     try {
 
         const response = await api.get(`${FAVORITE_API_END_POINT}/getFavorites`, {
             headers: {
-                "Authorization": `Bearer ${token || thisToken}`
+                "Authorization": `Bearer ${getTokenFromLocalStorage() || thisToken}`
             }
         });
 
@@ -25,7 +25,7 @@ export const deleteFavoriteItem = async (id, color) => {
         const response = await api.delete(`${FAVORITE_API_END_POINT}/deletefavorite/${id}/${color}`,
             {
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${getTokenFromLocalStorage()}`
                 }
             }
         );
@@ -41,7 +41,7 @@ export const addToFavorites = async (productId, data) => {
         const response = await api.post(`${FAVORITE_API_END_POINT}/addFavorite/${productId}`, data,
             {
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${getTokenFromLocalStorage()}`
                 }
             }
         );
