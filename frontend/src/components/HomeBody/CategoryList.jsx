@@ -12,7 +12,7 @@ function CategoryList({ title, items, listClass, setSelectedStatus }) {
             >
                 {items.map((item, index) => (
                     <li className={`${listClass ? listClass : "text-md font-medium text-textPrimary hover:text-black"} mb-3  cursor-pointer `} key={index}
-                        onClick={()=>setSelectedStatus(item)}
+                        onClick={() => setSelectedStatus ? setSelectedStatus(item) : ""}
                     >
                         {item}
                     </li>

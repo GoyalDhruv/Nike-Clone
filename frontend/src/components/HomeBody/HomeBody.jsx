@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Carousel from '../Carousel/Carousel';
 import Images from '../../constants/imageConstant';
 import TextOnImage from '../TextOnImage';
@@ -10,35 +10,10 @@ import Loader from '../Loader/Loader';
 
 function HomeBody() {
 
-    const [pegasus, setPegasus] = useState([]);
-    const [airJordan, setAirJordan] = useState([]);
-    const [airForce, setAirForce] = useState([]);
-    const [dunks, setDunks] = useState([]);
-    const [vaporFly, setVaporFly] = useState([]);
-    const [vomero, setVomero] = useState([]);
-
     const { isLoading, data: classicProducts } = useQuery({
         queryKey: ['classicPoducts'],
         queryFn: getClassicProducts
     })
-
-    useEffect(() => {
-        if (classicProducts) {
-            const filteredPegasus = classicProducts.find(product => product.title === "Nike Pegasus 41");
-            setPegasus(filteredPegasus);
-            const filterAirJordans = classicProducts.find(product => product.title === 'Air Jordan 1 Low');
-            setAirJordan(filterAirJordans);
-            const filteredAirForce = classicProducts.find(product => product.title === "Nike Air Force 1 '07");
-            setAirForce(filteredAirForce);
-            const filterDunks = classicProducts.find(product => product.title === 'Nike Dunk Low Retro');
-            setDunks(filterDunks);
-            const filterVaporFly = classicProducts.find(product => product.title === 'Nike Vaporfly 3');
-            setVaporFly(filterVaporFly);
-            const filterVomero = classicProducts.find(product => product.title === 'Nike Zoom Vomero');
-            setVomero(filterVomero);
-        }
-    }, [classicProducts])
-
 
     return (
         <>
@@ -69,7 +44,14 @@ function HomeBody() {
                         <section className='classics-section mb-14'>
                             <h2 className='section-heading'>Classics Spotlight</h2>
                             <Carousel
-                                items={[{ data: pegasus, image: Images?.Shoe1 }, { data: airJordan, image: Images?.Shoe2 }, { data: airForce, image: Images?.Shoe3 }, { data: dunks, image: Images?.Shoe4 }, { data: vaporFly, image: Images?.Shoe5 }, { data: vomero, image: Images?.Shoe6 }]}
+                                items={[
+                                    { data: classicProducts?.find(product => product.title === "Nike Pegasus 41"), image: Images?.Shoe1 },
+                                    { data: classicProducts?.find(product => product.title === 'Air Jordan 1 Low'), image: Images?.Shoe2 },
+                                    { data: classicProducts?.find(product => product.title === "Nike Air Force 1 '07"), image: Images?.Shoe3 },
+                                    { data: classicProducts?.find(product => product.title === 'Nike Dunk Low Retro'), image: Images?.Shoe4 },
+                                    { data: classicProducts?.find(product => product.title === 'Nike Vaporfly 3'), image: Images?.Shoe5 },
+                                    { data: classicProducts?.find(product => product.title === 'Nike Zoom Vomero'), image: Images?.Shoe6 }
+                                ]}
                                 slidesPerView={4}
                                 spaceBetween={20}
                                 loop={true}
@@ -152,7 +134,16 @@ function HomeBody() {
                         <section className='shop-by-sports mb-14'>
                             <h2 className='section-heading'>Shop By Sport</h2>
                             <Carousel
-                                items={[{ image: Images?.RunningImg, text: 'Running' }, { image: Images?.FootBallImg, text: 'Football' }, { image: Images?.BasketBallImg, text: 'Basketball' }, { image: Images?.GymTrainingImg, text: 'Training and Gym' }, { image: Images?.TennisImg, text: 'Tennis' }, { image: Images?.YogaImg, text: 'Yoga' }, { image: Images?.SkateBoardImg, text: 'Skateboarding' }, { image: Images?.DanceImg, text: 'Dance' }]}
+                                items={[
+                                    { image: Images?.RunningImg, text: 'Running' },
+                                    { image: Images?.FootBallImg, text: 'Football' },
+                                    { image: Images?.BasketBallImg, text: 'Basketball' },
+                                    { image: Images?.GymTrainingImg, text: 'Training and Gym' },
+                                    { image: Images?.TennisImg, text: 'Tennis' },
+                                    { image: Images?.YogaImg, text: 'Yoga' },
+                                    { image: Images?.SkateBoardImg, text: 'Skateboarding' },
+                                    { image: Images?.DanceImg, text: 'Dance' }
+                                ]}
                                 slidesPerView={3}
                                 spaceBetween={10}
                                 loop={false}
