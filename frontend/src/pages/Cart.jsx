@@ -5,20 +5,35 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { addToCart, deleteCartItem, getCart } from '../services/cartApi';
 import Loader from '../components/Loader/Loader';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCart } from '../store/slices/cartSlice';
 import { createCheckoutSession } from '../services/stripeApi';
-
-// Add and remove from favorites in cart page pending
+import { isLoggedIn } from '../utils/utils';
+import { addToFavorites, deleteFavoriteItem, getAllFavorites } from '../services/favoriteApi';
+import { setFavorite } from '../store/slices/favoriteSlice';
 
 function Cart() {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
+    const user = useSelector(state => state.user);
+    const loggedIn = isLoggedIn(user);
     const [quantities, setQuantities] = useState({});
     const { isLoading, data } = useQuery({
         queryKey: ['cart'],
         queryFn: getCart,
     });
+
+    const { data: favoriteData } = useQuery({
+        queryKey: ['favorites'],
+        queryFn: loggedIn ? getAllFavorites : () => Promise.resolve({ favorites: [] }),
+        enabled: loggedIn,
+    });
+
+    useEffect(() => {
+        if (favoriteData) {
+            dispatch(setFavorite(favoriteData?.favorites));
+        }
+    }, [favoriteData, dispatch]);
 
     useEffect(() => {
         if (data) {
@@ -119,6 +134,44 @@ function Cart() {
         }
     };
 
+    const removeFromFavoriteMutation = useMutation(
+        {
+            mutationFn: (params) => deleteFavoriteItem(params.id, params.color),
+            onSuccess: async () => {
+                toast.success('Item Removed From Favorites Successfully');
+                await queryClient.invalidateQueries(['favorites']);
+            },
+            onError: (error) => {
+                console.error('Error updating favorites:', error);
+            }
+        }
+    )
+
+    const handleRemoveFromFavorites = (color, product) => {
+        removeFromFavoriteMutation.mutate({ id: product, color });
+    }
+
+    const addtoFavoritesMutation = useMutation(
+        {
+            mutationFn: (params) => addToFavorites(params.id, params.data),
+            onSuccess: async () => {
+                toast.success('Item added to Favorite Successfully');
+                await queryClient.invalidateQueries(['favorites']);
+            },
+            onError: (error) => {
+                console.error('Error adding item to favorites:', error);
+                toast.error('Error adding item to favorites:');
+            }
+        }
+    );
+
+    const handleAddToFavorite = (color, product) => {
+        const data = {
+            color
+        }
+        addtoFavoritesMutation.mutate({ id: product, data });
+    }
+
     return (
         <>
             {isLoading ?
@@ -139,6 +192,7 @@ function Cart() {
                                         {data?.cartItems?.map((item, index) => {
                                             const productKey = `${item.product}-${item.color}`;
                                             const itemQuantity = quantities[productKey] || item.quantity;
+                                            const isFavorite = !!favoriteData?.favorites?.find(i => i?.product?._id === item?.product && i?.color === item?.color);
                                             return (
                                                 <div className='card mt-3' key={index}>
                                                     <div className='flex justify-between'>
@@ -192,8 +246,15 @@ function Cart() {
                                                                 <img src={Images.Plus} alt="Plus" className='w-16' />
                                                             </button>
                                                         </div>
+                                                        {isFavorite ?
+                                                            <img src={Images.ColoredFavorite} alt="Favorite" className='size-10 border rounded-full p-2 cursor-pointer'
+                                                                onClick={() => handleRemoveFromFavorites(item?.color, item?.product)}
+                                                            /> :
+                                                            <img src={Images.Favorite} alt="Favorite" className='size-10 border rounded-full p-2 cursor-pointer'
+                                                                onClick={() => handleAddToFavorite(item?.color, item?.product)}
+                                                            />
 
-                                                        <img src={Images.Favorite} alt="Favorite" className='size-10 border rounded-full p-2' />
+                                                        }
                                                     </div>
                                                 </div>
                                             )
@@ -210,7 +271,7 @@ function Cart() {
                                 </div>
                         }
                     </div>
-                </CustomContainer>
+                </CustomContainer >
             }
         </>
     )

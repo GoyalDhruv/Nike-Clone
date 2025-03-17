@@ -289,7 +289,7 @@ function IndividualProduct() {
                                 isItemFavorite ?
                                     <button className='w-full py-5 btn white-btn mt-4 flex justify-center items-center gap-1' onClick={handleRemoveFromFavorites}>
                                         <span>Remove from Favorites</span>
-                                        <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />
+                                        <img src={Images.ColoredFavorite} alt="Favorite" className='w-6 h-6' />
                                     </button> :
                                     <button className='w-full py-5 btn white-btn mt-4 flex justify-center items-center gap-1' onClick={handleAddToFavorite}>
                                         <span>Favourite</span>

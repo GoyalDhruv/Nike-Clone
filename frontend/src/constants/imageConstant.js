@@ -35,6 +35,7 @@ import Filter from '../assets/icons/Filter.svg'
 import Minus from '../assets/icons/Minus.svg'
 import Plus from '../assets/icons/Plus.svg'
 import Delete from '../assets/icons/Delete.svg'
+import ColoredFavorite from '../assets/icons/ColoredFav.svg'
 
 const Images = {
     TrendingImg,
@@ -73,7 +74,8 @@ const Images = {
     Filter,
     Minus,
     Plus,
-    Delete
+    Delete,
+    ColoredFavorite
 }
 
 export default Images;
