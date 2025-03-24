@@ -16,7 +16,9 @@ function TopNavBar() {
             <img src={Images.JordanLogo} alt="Jordan Logo" className="w-6 h-6 cursor-pointer" />
 
             <div className="flex items-center">
-                <p className='nav-items'>Find a Store</p>
+                <Link to='locate-store'>
+                    <p className='nav-items'>Find a Store</p>
+                </Link>
                 <VerticalLine />
 
                 <DropdownMenu

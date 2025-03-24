@@ -2,6 +2,7 @@ import React from 'react'
 import Images from '../../constants/imageConstant'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { FaAngleDown } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 
 function Footer() {
 
@@ -41,7 +42,13 @@ function Footer() {
                                                 key={idx}
                                                 className=" py-[2px] text-md font-semibold text-textPrimary hover:text-black cursor-pointer"
                                             >
-                                                {item}
+                                                {item === 'Find a Store' ? (
+                                                    <Link to='/locate-store'>{item}</Link>
+                                                ) : item === 'Become a Member' ? (
+                                                    <Link to='/sign-in'>{item}</Link>
+                                                ) : (
+                                                    item
+                                                )}
                                             </li>
                                         ))}
                                     </ul>
@@ -67,7 +74,13 @@ function Footer() {
                                 key={idx}
                                 className="mb-1 text-md cursor-pointer font-medium text-textPrimary hover:text-black"
                             >
-                                {item}
+                                {item === 'Find a Store' ? (
+                                    <Link to='/locate-store'>{item}</Link>
+                                ) : item === 'Become a Member' ? (
+                                    <Link to='/sign-in'>{item}</Link>
+                                ) : (
+                                    item
+                                )}
                             </li>
                         ))}
                     </ul>

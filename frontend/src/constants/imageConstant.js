@@ -36,6 +36,8 @@ import Minus from '../assets/icons/Minus.svg'
 import Plus from '../assets/icons/Plus.svg'
 import Delete from '../assets/icons/Delete.svg'
 import ColoredFavorite from '../assets/icons/ColoredFav.svg'
+import CurrentLocation from '../assets/icons/CurrentLocation.svg'
+import NikeLocation from '../assets/icons/NikeLocation.svg';
 
 const Images = {
     TrendingImg,
@@ -75,7 +77,9 @@ const Images = {
     Minus,
     Plus,
     Delete,
-    ColoredFavorite
+    ColoredFavorite,
+    CurrentLocation,
+    NikeLocation
 }
 
 export default Images;

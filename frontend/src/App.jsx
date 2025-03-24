@@ -15,6 +15,7 @@ const Signup = React.lazy(() => import('./pages/SignUp'));
 const Cart = React.lazy(() => import('./pages/Cart'));
 const Favorite = React.lazy(() => import('./pages/Favourites'));
 const PaymentSuccess = React.lazy(() => import('./pages/PaymentSuccess'));
+const StoreLocation = React.lazy(() => import('./pages/StoreLocation'));
 
 function App() {
   return (
@@ -93,6 +94,12 @@ function App() {
             </ProtectedRoutes>
           }
           />
+          <Route path='/locate-store' element={
+            <Suspense
+              fallback={<Loader />}>
+              <StoreLocation />
+            </Suspense>
+          } />
           <Route path='*' element={
             <Suspense fallback={<Loader />}>
               <PageNotFound />
