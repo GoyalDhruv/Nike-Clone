@@ -6,7 +6,7 @@ function capitalizeFirstLetter(val) {
 
 export const createCheckoutSession = async (req, res) => {
     try {
-        const { products } = req.body;
+        const { products, email } = req.body;
         const lineItems = products.map((product) => ({
             price_data: {
                 currency: "inr",
@@ -23,6 +23,7 @@ export const createCheckoutSession = async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
+            customer_email: email,
             line_items: lineItems,
             success_url: 'http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: 'http://localhost:5173/cart',

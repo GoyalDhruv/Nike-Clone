@@ -122,7 +122,7 @@ function Cart() {
 
     const handleCheckout = async () => {
         try {
-            const session = await createCheckoutSession(data?.cartItems);
+            const session = await createCheckoutSession(data?.cartItems, user?.email);
             if (session?.url) {
                 window.location.href = session.url;
             } else {
