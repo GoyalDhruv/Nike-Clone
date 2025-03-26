@@ -31,3 +31,32 @@ export const waitForToken = async () => {
 
     return await tokenCheck();
 };
+
+export function getDate(string) {
+    const date = new Date(string);
+    const options = { timeZone: 'Asia/Kolkata' };
+    const istDate = new Date(date.toLocaleString('en-US', options));
+
+    const day = istDate.getDate();
+    const month = istDate.toLocaleString('default', { month: 'long' });
+    const year = istDate.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+}
+
+export function getTimeInIST(string) {
+    const date = new Date(string);
+
+    const options = {
+        timeZone: 'Asia/Kolkata',
+        hour12: true,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+
+    const timeString = date.toLocaleTimeString('en-US', options);
+
+    return timeString;
+}
+

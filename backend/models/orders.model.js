@@ -2,6 +2,16 @@ import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema(
     {
+        orderId: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        paymentId: {
+            type: String,
+            required: true,
+            unique: true,
+        },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
@@ -20,6 +30,7 @@ const OrderSchema = new mongoose.Schema(
                 size: { type: String },
                 color: { type: String },
                 totalPrice: { type: Number, required: true },
+                discountedPrice: { type: Number, required: true }
             },
         ],
         totalAmount: {

@@ -21,7 +21,10 @@ function TopNavBar() {
                 </Link>
                 <VerticalLine />
 
-                <DropdownMenu
+                <Link to='orders'>
+                    <p className='nav-items'>Orders</p>
+                </Link>
+                {/* <DropdownMenu
                     menuTitle={<p className='-mt-[22px] nav-items'>Help</p>}
                     subTitle='Help'
                     items={[
@@ -35,7 +38,7 @@ function TopNavBar() {
                         { label: 'Send us Feedback', href: '#' },
                     ]}
                     isNavBar={true}
-                />
+                /> */}
                 <VerticalLine />
                 {!loggedIn ? (
                     <>

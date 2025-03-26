@@ -10,7 +10,7 @@ function CustomContainer({ children, customClass }) {
 }
 
 CustomContainer.propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     customClass: PropTypes.string,
 }
 

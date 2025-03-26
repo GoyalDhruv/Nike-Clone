@@ -9,16 +9,28 @@ export const sendOrderConfirmationEmail = async (userEmail, orderDetails) => {
         from: "goyal.dhruv.2016729@gmail.com",
         subject: "Order Confirmation - Nike Store",
         html: `
-            <h2>Thank you for your order!</h2>
-            <p>Your order has been placed successfully.</p>
-            <p><strong>Order Summary:</strong></p>
-            <ul>
-                ${orderDetails.products.map(
-            (item) => `<li>${item.quantity}x ${item.title} - ₹${item.totalPrice}</li>`
+            <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f4f4f4; max-width: 600px; margin: 0 auto; border-radius: 8px; border: 1px solid #e2e2e2;">
+                <div style="text-align: center; background-color: #f7f7f7; padding: 20px; border-radius: 8px 8px 0 0;">
+                    <h2 style="font-size: 24px; color: #333; margin: 0;">Thank You for Your Order!</h2>
+                    <p style="font-size: 16px; color: #555; margin: 0;">We’ve received your order and it's being processed.</p>
+                </div>
+                <div style="background-color: #fff; padding: 20px; border-radius: 0 0 8px 8px;">
+                    <p style="font-size: 16px; color: #333;">Your order has been successfully placed. Here’s a summary of your order:</p>
+                    <p style="font-size: 16px; font-weight: bold; color: #333;">Order Summary:</p>
+                    <ul style="font-size: 16px; color: #555; padding-left: 20px;">
+                        ${orderDetails.products.map(
+            (item) => `<li>${item.quantity}x ${item.title} - <strong>₹${item.discountedPrice}</strong></li>`
         ).join("")}
-            </ul>
-            <p>Total Amount: <strong>₹${orderDetails.totalAmount}</strong></p>
-            <p>We appreciate your business!</p>
+                    </ul>
+                    <p style="font-size: 16px; font-weight: bold; color: #333;">Total Amount: <strong>₹${orderDetails.totalAmount}</strong></p>
+                    <p style="font-size: 16px; color: #333;">Your Order ID: <strong>${orderDetails.orderId}</strong></p>
+                    <p style="font-size: 16px; color: #333;">Your Payment ID: <strong>${orderDetails.paymentId}</strong></p>
+                    <p style="font-size: 16px; color: #333;">We appreciate your business and look forward to serving you again!</p>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p style="font-size: 14px; color: #888;">&copy; ${new Date().getFullYear()} Nike Store</p>
+                </div>
+            </div>
         `,
     };
 

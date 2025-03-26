@@ -72,7 +72,7 @@ function Favourites() {
                                                     alt='cover img'
                                                     className="aspect-square w-full rounded-md bg-gray-200 object-cover lg:aspect-auto lg:h-80"
                                                 />
-                                                <img src={Images.Favorite} alt="store" className='w-8 h-8 absolute top-2 right-2 border-2 p-1 rounded-full cursor-pointer' onClick={(e) => handleRemoveFavorite(e, item)} />
+                                                <img src={Images.ColoredFavorite} alt="store" className='w-8 h-8 absolute top-2 right-2 border-2 p-1 rounded-full cursor-pointer' onClick={(e) => handleRemoveFavorite(e, item)} />
                                                 <div className="mt-4 flex items-center justify-between">
                                                     <h3 className="text-md font-semibold tracking-tight">
                                                         {item?.product?.title}

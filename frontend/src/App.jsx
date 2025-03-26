@@ -16,6 +16,8 @@ const Cart = React.lazy(() => import('./pages/Cart'));
 const Favorite = React.lazy(() => import('./pages/Favourites'));
 const PaymentSuccess = React.lazy(() => import('./pages/PaymentSuccess'));
 const StoreLocation = React.lazy(() => import('./pages/StoreLocation'));
+const Orders = React.lazy(() => import('./pages/Orders'));
+const IndividualOrders = React.lazy(() => import('./pages/IndividualOrder'));
 
 function App() {
   return (
@@ -99,7 +101,22 @@ function App() {
               fallback={<Loader />}>
               <StoreLocation />
             </Suspense>
-          } />
+          }
+          />
+          <Route path='/orders' element={
+            <Suspense
+              fallback={<Loader />}>
+              <Orders />
+            </Suspense>
+          }
+          />
+          <Route path='/orders/:orderId' element={
+            <Suspense
+              fallback={<Loader />}>
+              <IndividualOrders />
+            </Suspense>
+          }
+          />
           <Route path='*' element={
             <Suspense fallback={<Loader />}>
               <PageNotFound />
