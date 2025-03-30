@@ -20,13 +20,13 @@ import MensImg from '../assets/images/mens.jpg'
 import WomensImg from '../assets/images/womens.jpg'
 import KidsImg from '../assets/images/kids.png'
 import Jordan from '../assets/icons/Jordan.svg'
-import NikeLogo from '../assets/icons/Nike.svg'
+import Nike from '../assets/icons/Nike.svg'
 import Person from '../assets/icons/Person.svg'
 import Search from '../assets/icons/Search.svg'
 import Favorite from '../assets/icons/Favourite.svg'
 import Cart from '../assets/icons/Cart.svg'
 import Menu from '../assets/icons/Menu.svg'
-import Close from '../assets/icons/close.svg'
+import Close from '../assets/icons/Close.svg'
 import Help from '../assets/icons/Help.svg'
 import Orders from '../assets/icons/Orders.svg'
 import Store from '../assets/icons/Store.svg'
@@ -35,7 +35,7 @@ import Filter from '../assets/icons/Filter.svg'
 import Minus from '../assets/icons/Minus.svg'
 import Plus from '../assets/icons/Plus.svg'
 import Delete from '../assets/icons/Delete.svg'
-import ColoredFavorite from '../assets/icons/ColoredFav.svg'
+import ColoredFav from '../assets/icons/ColoredFav.svg'
 import CurrentLocation from '../assets/icons/CurrentLocation.svg'
 import NikeLocation from '../assets/icons/NikeLocation.svg';
 
@@ -62,7 +62,7 @@ const Images = {
     WomensImg,
     KidsImg,
     Jordan,
-    NikeLogo,
+    Nike,
     Person,
     Search,
     Favorite,
@@ -77,7 +77,7 @@ const Images = {
     Minus,
     Plus,
     Delete,
-    ColoredFavorite,
+    ColoredFav,
     CurrentLocation,
     NikeLocation
 }

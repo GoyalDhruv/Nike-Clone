@@ -31,7 +31,7 @@ function SignUp() {
     return (
         <CustomContainer customClass="sm:mx-auto sm:max-w-[550px] h-screen py-16">
             <div className='flex'>
-                <img src={Images.NikeLogo} alt="NikeLogo" className='w-12' />
+                <img src={Images.Nike} alt="NikeLogo" className='w-12' />
                 <img src={Images.Jordan} alt="JordanLogo" className='w-12' />
             </div>
             <p className='text-3xl tracking-tight'>Now let&apos;s make you a Nike Member.</p>

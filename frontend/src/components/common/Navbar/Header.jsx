@@ -36,7 +36,7 @@ function Header() {
         <CustomContainer customClass={"py-1 grid grid-cols-12 items-center bg-white"}>
             <div className='md:col-span-3 col-span-6'>
                 <Link to={'/'}>
-                    <img src={Images.NikeLogo} alt="Nike Logo" className="w-16 h-16 cursor-pointer" />
+                    <img src={Images.Nike} alt="Nike Logo" className="w-16 h-16 cursor-pointer" />
                 </Link>
             </div>
             <ul className=' gap-5 col-span-5 hidden md:flex justify-center'>

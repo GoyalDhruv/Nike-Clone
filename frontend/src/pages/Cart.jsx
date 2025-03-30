@@ -247,7 +247,7 @@ function Cart() {
                                                             </button>
                                                         </div>
                                                         {isFavorite ?
-                                                            <img src={Images.ColoredFavorite} alt="Favorite" className='size-10 border rounded-full p-2 cursor-pointer'
+                                                            <img src={Images.ColoredFav} alt="Favorite" className='size-10 border rounded-full p-2 cursor-pointer'
                                                                 onClick={() => handleRemoveFromFavorites(item?.color, item?.product)}
                                                             /> :
                                                             <img src={Images.Favorite} alt="Favorite" className='size-10 border rounded-full p-2 cursor-pointer'
