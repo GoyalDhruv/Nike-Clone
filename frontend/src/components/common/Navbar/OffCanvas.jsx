@@ -104,7 +104,7 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
                         </Link>
                     </ul>
                     <div className='py-6 flex gap-4 items-center'>
-                        <img src={Images.JordanLogo} alt='jordan' className='w-8 h-8' />
+                        <img src={Images.Jordan} alt='jordan' className='w-8 h-8' />
                         <span className='font-bold'>Jordan</span>
                     </div>
                     {!loggedIn &&

@@ -19,7 +19,7 @@ import DanceImg from '../assets/images/dance.jpg'
 import MensImg from '../assets/images/mens.jpg'
 import WomensImg from '../assets/images/womens.jpg'
 import KidsImg from '../assets/images/kids.png'
-import JordanLogo from '../assets/icons/Jordan.svg'
+import Jordan from '../assets/icons/Jordan.svg'
 import NikeLogo from '../assets/icons/Nike.svg'
 import Person from '../assets/icons/Person.svg'
 import Search from '../assets/icons/Search.svg'
@@ -61,7 +61,7 @@ const Images = {
     MensImg,
     WomensImg,
     KidsImg,
-    JordanLogo,
+    Jordan,
     NikeLogo,
     Person,
     Search,
