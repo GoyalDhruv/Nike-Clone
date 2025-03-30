@@ -8,7 +8,7 @@ const Layout = React.lazy(() => import('./layouts/Layout'));
 const Home = React.lazy(() => import('./pages/Home'));
 const Products = React.lazy(() => import('./pages/Products'));
 const ProductById = React.lazy(() => import('./pages/IndividualProduct'));
-const AddProduct = React.lazy(() => import('./pages/Admin/AddProduct'));
+const AddProduct = React.lazy(() => import('./pages/admin/AddProduct'));
 const PageNotFound = React.lazy(() => import('./pages/PageNotFound'));
 const Login = React.lazy(() => import('./pages/Login'));
 const Signup = React.lazy(() => import('./pages/SignUp'));
