@@ -4,11 +4,6 @@ import * as Yup from 'yup'
 import InputBox from '../InputBox/InputBox'
 import PropTypes from 'prop-types';
 
-const roleOptions = [
-    { value: 'User', label: 'User' },
-    { value: 'Admin', label: 'Admin' }
-]
-
 const SignUpForm = ({ onSubmit }) => {
 
     const initialValues = {
@@ -17,7 +12,6 @@ const SignUpForm = ({ onSubmit }) => {
         lastName: '',
         password: '',
         dateOfBirth: '',
-        role: 'User'
     };
 
     const validationSchema = Yup.object({
@@ -95,18 +89,6 @@ const SignUpForm = ({ onSubmit }) => {
                                 value={values.dateOfBirth}
                                 onChange={handleChange}
                                 error={errors.dateOfBirth && touched.dateOfBirth ? errors.dateOfBirth : ''}
-                            />
-                        </div>
-                        <div className='col-span-12 my-5'>
-                            <h4 className='font-semibold text-lg tracking-tight mb-3'>Role</h4>
-                            <InputBox
-                                label="Role"
-                                type="radio"
-                                name="role"
-                                options={roleOptions}
-                                value={values.role}
-                                onChange={handleChange}
-                                error={errors?.role ? errors.role : ''}
                             />
                         </div>
                         <div className='col-span-12 text-end'>

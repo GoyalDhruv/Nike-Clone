@@ -25,8 +25,8 @@ export const createCheckoutSession = async (req, res) => {
             mode: 'payment',
             customer_email: email,
             line_items: lineItems,
-            success_url: 'http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: 'http://localhost:5173/cart',
+            success_url: 'https://turbotrek.netlify.app/success?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: 'https://turbotrek.netlify.app/cart',
         });
 
         res.json({ url: session.url });
