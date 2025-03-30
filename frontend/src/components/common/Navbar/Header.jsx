@@ -6,12 +6,13 @@ import { Link, useNavigate } from "react-router";
 import { isLoggedIn } from '../../../utils/utils';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import HeaderLinks from './HeaderLinks';
 
 function Header() {
     const user = useSelector(state => state.user);
     const loggedIn = isLoggedIn(user);
     const navigate = useNavigate();
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleCart = () => {
         if (loggedIn) {
@@ -39,36 +40,7 @@ function Header() {
                 </Link>
             </div>
             <ul className=' gap-5 col-span-5 hidden md:flex justify-center'>
-                <Link to={{
-                    pathname: "/products",
-                    search: "?status=classics",
-                }}>
-                    <li className='nav-list-items'>Classics</li>
-                </Link>
-                <Link to={{
-                    pathname: "/products",
-                    search: "?gender=men",
-                }}>
-                    <li className='nav-list-items'>Men</li>
-                </Link>
-                <Link to={{
-                    pathname: "/products",
-                    search: "?gender=women",
-                }}>
-                    <li className='nav-list-items'>Women</li>
-                </Link>
-                <Link to={{
-                    pathname: "/products",
-                    search: "?isKids=true",
-                }}>
-                    <li className='nav-list-items'>Kids</li>
-                </Link>
-                <Link to={{
-                    pathname: "/products",
-                    search: "?status=discount",
-                }}>
-                    <li className='nav-list-items'>Sale</li>
-                </Link>
+                <HeaderLinks />
             </ul>
             <div className='flex justify-end items-center md:col-span-4 col-span-6'>
                 <div className='hover:bg-[#d5d5d5] rounded-full p-2 block xl:hidden cursor-pointer'>

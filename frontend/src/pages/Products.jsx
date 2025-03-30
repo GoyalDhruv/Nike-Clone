@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import CustomContainer from '../layouts/CustomContainer'
 import DropdownMenu from '../components/common/Navbar/DropdownMenu'
 import Images from '../constants/imageConstant'
-import CategoryList from '../components/HomeBody/CategoryList';
+import CategoryList from '../components/Home/CategoryList';
 import FilterSection from '../components/Products/FilterSection';
 import MobileFilter from '../components/Products/MobileFilter';
 import ProductsList from '../components/Products/ProductsList';
