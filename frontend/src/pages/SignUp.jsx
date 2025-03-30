@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import { registerUser } from '../services/userApi'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import SignUpForm from '../components/Signup/SignupForm'
+import SignUpForm from '../components/SignUp/SignUpForm'
 
 function SignUp() {
 
