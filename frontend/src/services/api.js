@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const api = axios.create({
-    baseURL: "https://nike-clone-1hwr.onrender.com/v1/api",
+    baseURL: import.meta.env.VITE_BASE_URL,
 });
 
 api.interceptors.response.use(

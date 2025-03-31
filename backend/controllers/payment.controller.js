@@ -1,4 +1,6 @@
 import stripe from '../config/stripe.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 function capitalizeFirstLetter(val) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -25,8 +27,8 @@ export const createCheckoutSession = async (req, res) => {
             mode: 'payment',
             customer_email: email,
             line_items: lineItems,
-            success_url: 'https://turbotrek.netlify.app/success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: 'https://turbotrek.netlify.app/cart',
+            success_url: `${process.env.FRONT_END_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.FRONT_END_URL}/cart`,
         });
 
         res.json({ url: session.url });
