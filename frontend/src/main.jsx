@@ -6,16 +6,19 @@ import { FilterProvider } from './contexts/filterContext.jsx';
 import { Provider } from 'react-redux';
 import store from './store/store.js';
 import { Toaster } from 'react-hot-toast';
+import { SidebarProvider } from './contexts/DashboardSidebarContext.jsx';
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <FilterProvider>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <Toaster />
-      </QueryClientProvider>
-    </FilterProvider>
+    <SidebarProvider>
+      <FilterProvider>
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <Toaster />
+        </QueryClientProvider>
+      </FilterProvider>
+    </SidebarProvider>
   </Provider>
 )

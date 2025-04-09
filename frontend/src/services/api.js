@@ -10,10 +10,10 @@ api.interceptors.response.use(
     (error) => {
         if (error.response && error.response.status === 401) {
             const currentPath = window.location.pathname;
-            if (currentPath !== '/') {
-                window.location.replace('/');
-                toast.error("Unauthorized User");
-            }
+            // if (currentPath !== '/') {
+            //     window.location.replace('/');
+            //     toast.error("Unauthorized User");
+            // }
         }
         return Promise.reject(error);
     }

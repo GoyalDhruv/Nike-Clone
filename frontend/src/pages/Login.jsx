@@ -38,24 +38,29 @@ function Login() {
         onSuccess: async (data) => {
             toast.success("User Logged in Successfully")
             dispatch(setUserCredentials(data?.data));
+
             try {
-                const token = await waitForToken();
-                if (!token) {
-                    toast.error('Failed to load cart data');
-                }
-                else {
-                    const cartData = await getCart(token);
-                    const favoriteData = await getAllFavorites(token);
-                    dispatch(setCart(cartData?.cartItems));
-                    dispatch(setFavorite(favoriteData?.favorites))
-                    queryClient.setQueryData(['favorites'], favoriteData);
-                    queryClient.setQueryData(['cart'], cartData);
+                if (data?.data?.role === "User") {
+                    const token = await waitForToken();
+                    if (!token) {
+                        toast.error('Failed to load cart data');
+                    }
+                    else {
+                        const cartData = await getCart(token);
+                        const favoriteData = await getAllFavorites(token);
+                        dispatch(setCart(cartData?.cartItems));
+                        dispatch(setFavorite(favoriteData?.favorites))
+                        queryClient.setQueryData(['favorites'], favoriteData);
+                        queryClient.setQueryData(['cart'], cartData);
+                    }
+                    navigate('/');
+                } else {
+                    navigate('/dashboard');
                 }
             } catch (error) {
                 console.error('Error fetching cart:', error);
                 toast.error('Failed to load cart data');
             }
-            navigate('/');
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message);

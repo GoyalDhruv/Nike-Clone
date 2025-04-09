@@ -27,23 +27,6 @@ export const getAllProducts = async ({ queryKey }) => {
     }
 };
 
-export const createProduct = async (data) => {
-    try {
-        const response = await api.post(`${PRODUCT_API_END_POINT}/createProduct`, data,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-        );
-        return response.data;
-    }
-    catch (error) {
-        console.error('Error in creating the product:', error);
-        throw error;
-    }
-}
-
 export const uploadFile = async (formData, onUploadProgress) => {
     try {
         const response = await api.post(`${PRODUCT_API_END_POINT}/uploadFile`, formData, {
