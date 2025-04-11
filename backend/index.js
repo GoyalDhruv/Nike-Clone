@@ -9,6 +9,7 @@ import cartsRoute from './routes/carts.routes.js';
 import favoritesRoute from './routes/favourites.routes.js'
 import paymentRoute from './routes/payment.routes.js';
 import orderRoutes from './routes/orders.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/v1/api/cart', cartsRoute);
 app.use('/v1/api/favourite', favoritesRoute);
 app.use('/v1/api/payment', paymentRoute);
 app.use("/v1/api/orders", orderRoutes);
+app.use("/v1/api/dashboard", dashboardRoutes)
 app.get('/success', (req, res) => {
     const sessionId = req.query.session_id;
     res.send(`<h1>Payment Successful!</h1><p>Session ID: ${sessionId}</p>`);
