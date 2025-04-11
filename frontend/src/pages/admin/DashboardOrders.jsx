@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
-import ProductTable from '../../components/Dashboard/ProductTable'
-import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query';
-import { getAllDashboardProduct } from '../../services/dashboardApi';
+import { getAllDashboardOrders } from '../../services/dashboardApi';
 import Pagination from '../../components/Pagination/Pagination';
 import Loader from '../../components/Loader/Loader';
+import OrderTable from '../../components/Dashboard/OrderTable';
 
-function DashboardProducts() {
-    const navigate = useNavigate();
+function DashboardOrders() {
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 5
 
-    const { isLoading, data: { products = [], pagination = {} } = {}, } = useQuery({
-        queryKey: ['dashboardProducts', currentPage, limit],
-        queryFn: () => getAllDashboardProduct(currentPage, limit),
+    const { isLoading, data: { orders = [], pagination = {} } = {}, } = useQuery({
+        queryKey: ['DashboardOrders', currentPage, limit],
+        queryFn: () => getAllDashboardOrders(currentPage, limit),
         keepPreviousData: true,
     });
 
@@ -24,16 +22,13 @@ function DashboardProducts() {
     return (
         <>
             <div className='flex justify-between items-center'>
-                <p className='dashboard-heading'>Products</p>
-                <p>
-                    <button className='btn black-btn flex items-center gap-1' onClick={() => navigate('/dashboard/products/add')}>Add</button>
-                </p>
+                <p className='dashboard-heading'>Orders</p>
             </div>
             {isLoading ?
                 <Loader />
                 :
                 <>
-                    <ProductTable products={products} />
+                    <OrderTable orders={orders} />
                     {pagination.totalPages >= 1 && (
                         <div className="fixed bottom-5 right-5 bg-white z-50 rounded-2xl">
                             <Pagination
@@ -50,4 +45,4 @@ function DashboardProducts() {
     )
 }
 
-export default DashboardProducts
+export default DashboardOrders;

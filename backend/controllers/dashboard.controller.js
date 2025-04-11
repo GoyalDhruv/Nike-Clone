@@ -1,4 +1,6 @@
 import Product from "../models/products.model.js";
+import User from '../models/users.model.js';
+import Order from "../models/orders.model.js";
 import { paginate } from "../utils/paginate.js";
 
 function calculateDiscountedPrice(price, discount) {
@@ -14,6 +16,7 @@ export const getAllProducts = async (req, res) => {
             page: req.query.page,
             limit: req.query.limit,
             select: 'title price discountedPrice category variants',
+            resourceName: 'products',
         });
 
         res.status(200).json({
@@ -219,5 +222,51 @@ export const deleteProductById = async (req, res) => {
             status: false,
             message: error.message
         })
+    }
+}
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const { users, pagination } = await paginate(User, { role: "User" }, {
+            page: req.query.page,
+            limit: req.query.limit,
+            select: 'firstName lastName email createdAt dateOfBirth',
+            resourceName: 'users',
+        });
+
+        res.status(200).json({
+            success: true,
+            users,
+            pagination
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+export const getAllOrders = async (req, res) => {
+    try {
+        const { orders, pagination } = await paginate(Order, {}, {
+            page: req.query.page,
+            limit: req.query.limit,
+            resourceName: 'orders',
+            populate: { path: 'user', select: 'firstName lastName email' },
+            sort: { createdAt: -1 }
+        });
+
+        res.status(200).json({
+            success: true,
+            orders,
+            pagination
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
 }

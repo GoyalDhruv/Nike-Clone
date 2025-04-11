@@ -5,6 +5,7 @@ export const paginate = async (model, query = {}, options = {}) => {
         select = '',
         sort = {},
         populate = '',
+        resourceName = 'products',
     } = options;
 
     const skip = (page - 1) * limit;
@@ -18,14 +19,14 @@ export const paginate = async (model, query = {}, options = {}) => {
 
         if (populate) queryBuilder.populate(populate);
 
-        const products = await queryBuilder;
-        const totalProducts = await model.countDocuments(query);
-        const totalPages = Math.ceil(totalProducts / limit);
+        const data = await queryBuilder;
+        const totalItems = await model.countDocuments(query);
+        const totalPages = Math.ceil(totalItems / limit);
 
         return {
-            products,
+            [resourceName]: data,
             pagination: {
-                totalItems: Number(totalProducts),
+                totalItems: Number(totalItems),
                 totalPages,
                 currentPage: Number(page),
                 pageSize: Number(limit),

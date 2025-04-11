@@ -5,7 +5,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getProductById } from '../../services/productApi';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createProduct, updateProduct } from '../../services/dashboardapi';
+import { createProduct, updateProduct } from '../../services/dashboardApi';
 import Loader from '../../components/Loader/Loader';
 import AddProductForm from '../../components/Dashboard/AddProductForm';
 

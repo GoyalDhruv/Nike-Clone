@@ -22,6 +22,8 @@ const IndividualOrders = React.lazy(() => import('./pages/IndividualOrder'));
 const DashboardLayout = React.lazy(() => import('./layouts/DashboardLayout'));
 const Dashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 const DashboardProducts = React.lazy(() => import('./pages/admin/DashboardProducts'));
+const DashboardUsers = React.lazy(() => import('./pages/admin/DashboardUsers'));
+const DashboardOrders = React.lazy(() => import('./pages/admin/DashboardOrders'));
 
 function App() {
   const user = useSelector(state => state.user);
@@ -59,6 +61,16 @@ function App() {
           <Route path='/dashboard/products/edit/:id' element={
             <Suspense fallback={<Loader />}>
               <AddProduct />
+            </Suspense>
+          } />
+          <Route path='/dashboard/users' element={
+            <Suspense fallback={<Loader />}>
+              <DashboardUsers />
+            </Suspense>
+          } />
+          <Route path='/dashboard/orders' element={
+            <Suspense fallback={<Loader />}>
+              <DashboardOrders />
             </Suspense>
           } />
           <Route path="*" element={

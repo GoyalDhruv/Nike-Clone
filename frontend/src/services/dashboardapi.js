@@ -54,3 +54,32 @@ export const updateProduct = async (data) => {
     }
 }
 
+export const getAllDashboardUsers = async (page, limit) => {
+    try {
+        const response = await api.get(`${DASHBOARD_API_END_POINT}/getAllUsers?page=${page}&limit=${limit}`, {
+            headers: {
+                "Authorization": `Bearer ${getTokenFromLocalStorage()}`
+            }
+        });
+        return response?.data;
+    } catch (error) {
+        console.error('Error in fetching the details:', error);
+        throw error;
+
+    }
+};
+
+export const getAllDashboardOrders = async (page, limit) => {
+    try {
+        const response = await api.get(`${DASHBOARD_API_END_POINT}/getAllOrders?page=${page}&limit=${limit}`, {
+            headers: {
+                "Authorization": `Bearer ${getTokenFromLocalStorage()}`
+            }
+        });
+        return response?.data;
+    } catch (error) {
+        console.error('Error in fetching the details:', error);
+        throw error;
+
+    }
+};

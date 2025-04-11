@@ -25,6 +25,7 @@ export const getAllProducts = async (req, res) => {
             page: req.query.page,
             limit: req.query.limit,
             filters: query,
+            resourceName: 'products',
         });
 
         res.status(200).json({

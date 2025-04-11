@@ -37,13 +37,14 @@ TableRow.propTypes = {
     className: PropTypes.string,
 };
 
-const TableCell = ({ children, className }) => {
-    return <td className={`whitespace-nowrap font-semibold p-3 ${className}`}>{children}</td>;
+const TableCell = ({ children, className, colSpan }) => {
+    return <td colSpan={colSpan} className={`whitespace-nowrap font-semibold p-3 ${className}`}>{children}</td>;
 };
 
 TableCell.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    colSpan: PropTypes.number
 };
 
 const TableHeaderCell = ({ children, className }) => {
