@@ -13,6 +13,7 @@ import Loader from '../components/Loader/Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFilterContext } from '../contexts/filterContext';
 import { RiResetLeftLine } from "react-icons/ri";
+import Pagination from '../components/Pagination/Pagination'
 
 
 export default function Product() {
@@ -22,6 +23,8 @@ export default function Product() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
     const [showFilters, setShowFilters] = useState(true);
     const queryParams = new URLSearchParams(location.search);
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 4
 
     const {
         selectedCategory, setSelectedCategory, selectedColors, setSelectedColors, selectedSizes, setSelectedSizes,
@@ -95,12 +98,19 @@ export default function Product() {
                 selectedSports,
                 selectedKidSection,
                 selectedSort,
-                selectedStatus
+                selectedStatus,
+                currentPage,
+                limit,
             },
         ],
+        keepPreviousData: true,
         queryFn: getAllProducts,
         enabled: shouldFetch
     });
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     const handleApplyFilters = () => {
         setShouldFetch(true);
@@ -228,7 +238,21 @@ export default function Product() {
                                         }
                                     </div>
                                     {/* Product grid */}
-                                    <ProductsList showFilters={showFilters} data={productData} />
+                                    {productData && productData?.products &&
+                                        <>
+                                            <ProductsList showFilters={showFilters} data={productData.products} />
+                                            {productData.pagination.totalPages >= 1 && (
+                                                <div className="col-span-12 bg-white z-50 rounded-2xl">
+                                                    <Pagination
+                                                        currentPage={productData.pagination.currentPage}
+                                                        totalPages={productData.pagination.totalPages}
+                                                        onPageChange={handlePageChange}
+                                                        limit={limit}
+                                                    />
+                                                </div>
+                                            )}
+                                        </>
+                                    }
                                 </div>
                             </section>
                         </CustomContainer>
