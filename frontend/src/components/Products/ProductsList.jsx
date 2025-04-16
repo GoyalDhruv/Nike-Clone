@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 function ProductsList({ showFilters, data }) {
-
     return (
         <>
             <div className={`col-span-12 ${showFilters ? "lg:col-span-10" : "lg:col-span-12"}`}>
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
-                    {data?.data.map((item) => (
+                    {data?.map((item) => (
                         <div key={item._id} className='cursor-pointer'>
                             <Link to={{
                                 pathname: `/product/${item._id}`
@@ -42,7 +41,7 @@ function ProductsList({ showFilters, data }) {
 
 ProductsList.propTypes = {
     showFilters: PropTypes.bool,
-    data: PropTypes.object,
+    data: PropTypes.array,
     isLoading: PropTypes.bool,
 }
 

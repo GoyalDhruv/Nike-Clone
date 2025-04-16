@@ -16,9 +16,10 @@ export const getAllProducts = async ({ queryKey }) => {
                 status: filters.selectedStatus,
                 sort: filters.selectedSort.sort,
                 order: filters.selectedSort.order,
+                page: filters.currentPage,
+                limit: filters.limit
             },
         });
-
         return response.data;
     } catch (error) {
         console.error('Error in fetching the details:', error);

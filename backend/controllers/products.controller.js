@@ -21,7 +21,8 @@ export const getAllProducts = async (req, res) => {
     }
 
     try {
-        const { products, pagination } = await paginate(Product, sortOptions, {
+        const { products, pagination } = await paginate(Product, {}, {
+            sort: sortOptions,
             page: req.query.page,
             limit: req.query.limit,
             filters: query,

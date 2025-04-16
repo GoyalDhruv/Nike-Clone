@@ -11,7 +11,7 @@ function DashboardProducts() {
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 5
 
-    const { isLoading, data: { products = [], pagination = {} } = {}, } = useQuery({
+    const { isLoading, data: { products = [], pagination = {} } = {} } = useQuery({
         queryKey: ['dashboardProducts', currentPage, limit],
         queryFn: () => getAllDashboardProduct(currentPage, limit),
         keepPreviousData: true,
