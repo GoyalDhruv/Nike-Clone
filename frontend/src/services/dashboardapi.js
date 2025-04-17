@@ -3,6 +3,22 @@ import { getTokenFromLocalStorage } from "../utils/utils";
 import api from "./api";
 import { DASHBOARD_API_END_POINT } from './constants'
 
+export const getDashboardHome = async () => {
+    try {
+        const response = await api.get(`${DASHBOARD_API_END_POINT}/dashboardHome`, {
+            headers: {
+                "Authorization": `Bearer ${getTokenFromLocalStorage()}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error in fetching the details:', error);
+        throw error;
+
+    }
+};
+
 export const getAllDashboardProduct = async (page, limit) => {
     try {
         const response = await api.get(`${DASHBOARD_API_END_POINT}/getAllProducts?page=${page}&limit=${limit}`, {
