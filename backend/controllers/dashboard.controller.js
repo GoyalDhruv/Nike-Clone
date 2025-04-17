@@ -270,3 +270,112 @@ export const getAllOrders = async (req, res) => {
         });
     }
 }
+
+export const getDashboard = async (req, res) => {
+    try {
+        const currentDate = new Date();
+        const currentMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        const lastMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+
+        const [
+            totalUsers,
+            totalOrders,
+            currentMonthUsers,
+            lastMonthUsers,
+            currentMonthOrders,
+            lastMonthOrders,
+            totalRevenueAgg,
+            currentMonthRevenueAgg,
+            lastMonthRevenueAgg,
+            revenueAccordingToMonth,
+            topProducts
+        ] = await Promise.all([
+            User.countDocuments({ role: "User" }),
+            Order.countDocuments(),
+            User.countDocuments({ role: "User", createdAt: { $gte: currentMonthStart } }),
+            User.countDocuments({ role: "User", createdAt: { $gte: lastMonthStart, $lt: currentMonthStart } }),
+            Order.countDocuments({ createdAt: { $gte: currentMonthStart } }),
+            Order.countDocuments({ createdAt: { $gte: lastMonthStart, $lt: currentMonthStart } }),
+            Order.aggregate([{ $group: { _id: null, totalAmount: { $sum: "$totalAmount" } } }]),
+            Order.aggregate([
+                { $match: { createdAt: { $gte: currentMonthStart } } },
+                { $group: { _id: null, totalAmount: { $sum: "$totalAmount" } } }
+            ]),
+            Order.aggregate([
+                { $match: { createdAt: { $gte: lastMonthStart, $lt: currentMonthStart } } },
+                { $group: { _id: null, totalAmount: { $sum: "$totalAmount" } } }
+            ]),
+            Order.aggregate([
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+                        totalAmount: { $sum: "$totalAmount" }
+                    }
+                },
+                { $sort: { _id: 1 } }
+            ]),
+            Order.aggregate([
+                { $unwind: "$products" },
+                {
+                    $group: {
+                        _id: "$products.product",
+                        totalSold: { $sum: "$products.quantity" }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "_id",
+                        foreignField: "_id",
+                        as: "product"
+                    }
+                },
+                { $unwind: "$product" },
+                {
+                    $project: {
+                        _id: 0,
+                        name: "$product.title",
+                        totalSold: 1
+                    }
+                },
+                { $sort: { totalSold: -1 } },
+                { $limit: 5 }
+            ]),
+            Order.aggregate([
+                {
+                    $group: {
+                        _id: "$userId",
+                        firstOrderDate: { $min: "$createdAt" }
+                    }
+                }
+            ])
+        ]);
+
+        const currentRevenue = currentMonthRevenueAgg[0]?.totalAmount || 0;
+        const lastRevenue = lastMonthRevenueAgg[0]?.totalAmount || 0;
+        const totalRevenue = totalRevenueAgg[0]?.totalAmount || 0;
+
+        const userGrowth = ((currentMonthUsers - lastMonthUsers) / (lastMonthUsers || 1)) * 100;
+        const orderGrowth = ((currentMonthOrders - lastMonthOrders) / (lastMonthOrders || 1)) * 100;
+        const revenueGrowth = ((currentRevenue - lastRevenue) / (lastRevenue || 1)) * 100;
+
+        res.status(200).json({
+            success: true,
+            data: {
+                totalUsers,
+                usersGrowth: Number(userGrowth.toFixed(2)),
+                totalOrders,
+                ordersGrowth: Number(orderGrowth.toFixed(2)),
+                totalRevenue,
+                revenueGrowth: Number(revenueGrowth.toFixed(2)),
+                revenueAccordingToMonth,
+                topProducts
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
