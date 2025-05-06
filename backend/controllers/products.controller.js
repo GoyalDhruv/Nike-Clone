@@ -21,11 +21,11 @@ export const getAllProducts = async (req, res) => {
     }
 
     try {
-        const { products, pagination } = await paginate(Product, {}, {
+        const { products, pagination } = await paginate(Product, query, {
             sort: sortOptions,
             page: req.query.page,
             limit: req.query.limit,
-            filters: query,
+            // filters: query,
             resourceName: 'products',
         });
 

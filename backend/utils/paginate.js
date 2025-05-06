@@ -9,7 +9,7 @@ export const paginate = async (model, query = {}, options = {}) => {
     } = options;
 
     const skip = (page - 1) * limit;
-
+    console.log(query)
     try {
         const queryBuilder = model.find(query)
             .skip(skip)
