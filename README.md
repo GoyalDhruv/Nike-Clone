@@ -18,16 +18,16 @@ A full-stack e-commerce web application inspired by Nike's official website, bui
 <img src="frontend/src/assets/screenshot/Landing.png" alt="Homepage" width="100%" />
 
 <p><strong>🛍️ Product Listing</strong></p>
-<img src="frontend/src/assets/screenshot/Products-Listing.png" alt="Product Listing" width="100%" />
+<img src="frontend/src/assets/screenshot/Products_Listing.png" alt="Product Listing" width="100%" />
 
 <p><strong>📄 Product Details</strong></p>
-<img src="frontend/src/assets/screenshot/Product-Details.png" alt="Product Detail" width="100%" />
+<img src="frontend/src/assets/screenshot/Product_Details.png" alt="Product Detail" width="100%" />
 
 <p><strong>🛒 Shopping Cart</strong></p>
 <img src="frontend/src/assets/screenshot/Cart.png" alt="Shopping Cart" width="100%" />
 
 <p><strong>📱 Orders</strong></p>
-<img src="frontend/src/assets/screenshot/o=Orders.png" alt="Orders" width="100%" />
+<img src="frontend/src/assets/screenshot/Orders.png" alt="Orders" width="100%" />
 
 <h2>🛠️ Tech Stack</h2>
 <ul>
