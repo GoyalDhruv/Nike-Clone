@@ -154,8 +154,6 @@ export default function Product() {
         }
     }
 
-    console.log(productData && productData?.products?.length > 0)
-
     return (
         <>
             {

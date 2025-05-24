@@ -36,8 +36,8 @@ export const sendOrderConfirmationEmail = async (userEmail, orderDetails) => {
 
     try {
         await sgMail.send(msg);
-        // console.log("✅ Order confirmation email sent successfully!");
+        // console.log(" Order confirmation email sent successfully!");
     } catch (error) {
-        console.error("❌ Failed to send email:", error.response ? error.response.body : error.message);
+        console.error(" Failed to send email:", error.response ? error.response.body : error.message);
     }
 };
