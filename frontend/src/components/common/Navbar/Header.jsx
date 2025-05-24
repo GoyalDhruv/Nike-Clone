@@ -53,11 +53,11 @@ function Header() {
                     </div>
                     <input type="text" className=' bg-bgPrimary nav-icons cursor-auto placeholder:font-medium ps-10 outline-none placeholder:text-[#707076]' placeholder='Search' />
                 </div>
-                <div className='nav-icons'>
-                    <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' onClick={handleFavorite} />
+                <div className='nav-icons' onClick={handleFavorite}>
+                    <img src={Images.Favorite} alt="Favorite" className='w-6 h-6' />
                 </div>
-                <div className='nav-icons'>
-                    <img src={Images.Cart} alt="Cart" className='w-6 h-6' onClick={handleCart} />
+                <div className='nav-icons' onClick={handleCart}>
+                    <img src={Images.Cart} alt="Cart" className='w-6 h-6' />
                 </div>
                 <div className='nav-icons block md:hidden'>
                     <img src={Images.Menu} alt="Menu" className='w-6 h-6' onClick={() => setIsOpen(!isOpen)} />
