@@ -139,10 +139,12 @@ const OffCanvas = ({ isOpen, setIsOpen }) => {
                                 <img src={Images.Cart} alt="cart" className='w-6 h-6' />
                                 Bag
                             </li>
-                            <li className='flex gap-2 py-2 tracking-tight font-semibold items-center'>
-                                <img src={Images.Orders} alt="orders" className='w-6 h-6' />
-                                Orders
-                            </li>
+                            <Link to='orders'>
+                                <li className='flex gap-2 py-2 tracking-tight font-semibold items-center'>
+                                    <img src={Images.Orders} alt="orders" className='w-6 h-6' />
+                                    Orders
+                                </li>
+                            </Link>
                             <Link to='locate-store'>
                                 <li className='flex gap-2 py-2 tracking-tight font-semibold items-center'>
                                     <img src={Images.Store} alt="store" className='w-6 h-6' />

@@ -154,6 +154,8 @@ export default function Product() {
         }
     }
 
+    console.log(productData && productData?.products?.length > 0)
+
     return (
         <>
             {
@@ -208,6 +210,7 @@ export default function Product() {
                                                 { label: 'Price: Low to High', order: 'asc', sort: 'discountPrice' },
                                                 { label: 'Price: High to Low', order: 'desc', sort: 'discountPrice' },
                                             ]}
+                                            isProduct={true}
                                         />
                                     </div>
 
@@ -222,7 +225,7 @@ export default function Product() {
                                 </div>
                             </div>
 
-                            <section className="pb-24 pt-9">
+                            <section className="pb-16 pt-9">
                                 <div className="grid grid-cols-12 gap-x-8 gap-y-10">
                                     {/* Filters */}
                                     <div className={`transition-all lg:col-span-2 duration-500 ease-in-out transform ${showFilters ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
@@ -238,7 +241,7 @@ export default function Product() {
                                         }
                                     </div>
                                     {/* Product grid */}
-                                    {productData && productData?.products &&
+                                    {productData && productData?.products?.length > 0 ?
                                         <>
                                             <ProductsList showFilters={showFilters} data={productData.products} />
                                             {productData.pagination.totalPages >= 1 && (
@@ -252,6 +255,10 @@ export default function Product() {
                                                 </div>
                                             )}
                                         </>
+                                        :
+                                        <div className={`col-span-12 ${showFilters ? "lg:col-span-10" : "lg:col-span-12"} text-3xl font-bold text-textSecondary flex justify-center items-center`}>
+                                            No Products Found
+                                        </div>
                                     }
                                 </div>
                             </section>

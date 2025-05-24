@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import { setCart } from '../../../store/slices/cartSlice';
 import { setFavorite } from '../../../store/slices/favoriteSlice';
 
-const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
+const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar, isProduct = false }) => {
     const dispatch = useDispatch()
     const { selectedSort, setSelectedSort } = useFilterContext();
 
@@ -39,13 +39,20 @@ const DropdownMenu = ({ menuTitle, subTitle, items, isNavBar }) => {
                     {items.map((item, index) => (
                         item?.label != "Log Out" ?
                             <MenuItem key={index}>
-                                <div
-                                    // href={item.href || '#'}
-                                    className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
-                                    onClick={() => setSelectedSort(item)}
-                                >
-                                    {item.label}
-                                </div>
+                                {!isProduct ?
+                                    <Link to={item.href || '#'}
+                                        className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
+                                        onClick={() => setSelectedSort(item)}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                    :
+                                    <div className={`block pb-2 font-medium text-xs cursor-pointer ${item?.label === selectedSort?.label ? 'text-black' : 'text-textPrimary'} hover:text-black`}
+                                        onClick={() => setSelectedSort(item)}
+                                    >
+                                        {item.label}
+                                    </div>
+                                }
                             </MenuItem>
                             :
                             <MenuItem key={index}>
@@ -72,6 +79,7 @@ DropdownMenu.propTypes = {
     subTitle: PropTypes.string,
     items: PropTypes.array.isRequired,
     isNavBar: PropTypes.bool,
+    isProduct: PropTypes.bool
 }
 
 export default DropdownMenu;

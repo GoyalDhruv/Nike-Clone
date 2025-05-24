@@ -66,12 +66,12 @@ function TopNavBar() {
                             subTitle='Account'
                             items={[
                                 { label: 'Profile', href: '#' },
-                                { label: 'Orders', href: '#' },
-                                { label: 'Faviourites', href: '#' },
+                                { label: 'Orders', href: 'orders' },
+                                { label: 'Favorites', href: 'favorites' },
                                 { label: 'Inbox', href: '#' },
                                 { label: 'Experiences', href: '#' },
                                 { label: 'Account Settings', href: '#' },
-                                { label: 'Log Out', href: '#' },
+                                { label: 'Log Out', href: '/' },
                             ]}
                             isNavBar={true}
                         />

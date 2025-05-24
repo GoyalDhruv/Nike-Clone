@@ -27,7 +27,7 @@ function Home() {
                         <Essentials />
                         <Trending />
                         <ShopBySports />
-                        <Category />
+                        {/* <Category /> */}
                     </main>
             }
         </>

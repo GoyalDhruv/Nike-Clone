@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './Carousel.css'
 import { Link } from "react-router-dom"
-
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import TextOnImage from '../TextOnImage';
 
@@ -52,7 +50,9 @@ function Carousel({ items, slidesPerView, spaceBetween, loop, autoplay, breakpoi
                 :
                 items?.map((item, index) => (
                     <SwiperSlide key={index}>
-                        <TextOnImage item={item} />
+                        <Link to={'/products'}>
+                            <TextOnImage item={item} />
+                        </Link>
                     </SwiperSlide>
                 ))
             }
