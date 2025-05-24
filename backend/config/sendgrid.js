@@ -6,7 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 export const sendOrderConfirmationEmail = async (userEmail, orderDetails) => {
     const msg = {
         to: userEmail,
-        from: "goyal.dhruv.2016729@gmail.com",
+        from: process.env.SENDER_EMAIL,
         subject: "Order Confirmation - Nike Store",
         html: `
             <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f4f4f4; max-width: 600px; margin: 0 auto; border-radius: 8px; border: 1px solid #e2e2e2;">

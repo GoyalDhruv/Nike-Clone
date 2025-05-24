@@ -22,7 +22,7 @@ function DashboardUsers() {
     return (
         <>
             <div className='flex justify-between items-center'>
-                <p className='dashboard-heading'>Orders</p>
+                <p className='dashboard-heading'>Users</p>
             </div>
             {isLoading ?
                 <Loader />
